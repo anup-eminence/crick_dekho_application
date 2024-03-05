@@ -29,6 +29,11 @@ class CommentaryAdapter :
                 tvText.text = extractTextPart(spannedText)
                 tvBowl.text = extractNumericPart(spannedText)
 
+                if (model.runs is Double || model.runs is Float){
+                    model.runs = Math.round(model.runs as Double)
+                    println(">>>>>>>>model ${model.runs}")
+                }
+
                 if (model.opta_ball_type == "wicket" || model.runs == "W") {
                     tvRun.text = "W"
                     setTextViewStyle(tvRun, R.color.white, R.drawable.bg_circle_red)
@@ -38,17 +43,14 @@ class CommentaryAdapter :
                 } else if ((model.runs == 1 || model.runs == 2 || model.runs == 3) && model.opta_ball_type == "normal") {
                     tvRun.text = model.runs.toString()
                     setTextViewStyle(tvRun, R.color.white, R.drawable.bg_circle_blue)
-                } else if (model.runs == 4) {
-                    tvRun.text = model.runs.toString()
-                    setTextViewStyle(tvRun, R.color.white, R.drawable.bg_circle_green)
-                } else if (model.runs == 6) {
-                    tvRun.text = model.runs.toString()
-                    setTextViewStyle(tvRun, R.color.white, R.drawable.bg_circle_dark_blue)
                 } else if (model.opta_ball_type == "wide") {
                     tvRun.text = "${model.runs}wd"
                     setTextViewStyle(tvRun, R.color.white, R.drawable.bg_circle_blue)
+                } else if(model.runs != null && model.runs.toString().contains("0")){
+                    tvRun.text = model.runs.toString()
                 } else {
-                    tvRun.text = "0"
+                    if (model.runs !=null) tvRun.text = model.runs.toString()
+                    setTextViewStyle(tvRun, R.color.white, R.drawable.bg_circle_green)
                 }
 
             } else if (model.opta_ball_type == "end of over") {
