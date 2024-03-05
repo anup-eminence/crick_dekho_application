@@ -197,7 +197,6 @@ class MatchDetailsFragment : BaseFragment() {
 
     companion object {
         var matchDetailsData = MutableLiveData<ArrayList<Squad>>()
-
         @JvmStatic
         fun newInstance() = MatchDetailsFragment().apply {
             arguments = Bundle().apply {}
