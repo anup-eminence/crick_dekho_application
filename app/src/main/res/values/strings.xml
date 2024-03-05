@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">Cricdekho</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="home">Home</string>
+    <string name="video">Videos</string>
+    <string name="fantasy">Fantasy</string>
+    <string name="matches">Matches</string>
+    <string name="schedule">Schedule ></string>
+    <string name="points_table">Points Table ></string>
+    <string name="live">Live</string>
+    <string name="latest_news">Latest News</string>
+    <string name="most_popular">Most Popular</string>
+    <string name="trending">Trending</string>
+    <string name="pos">POS</string>
+    <string name="teams">Teams</string>
+    <string name="p">P</string>
+    <string name="w">W</string>
+    <string name="l">L</string>
+    <string name="d">D</string>
+    <string name="pts">PTS</string>
+    <string name="nrr">NRR</string>
+    <string name="lineups_out">Lineups out</string>
+    <string name="player">Player</string>
+    <string name="squad">Squad</string>
+    <string name="to_be_announced">To be announced</string>
+    <string name="match_details">Match Details</string>
+    <string name="toss">Toss</string>
+    <string name="match">Match</string>
+    <string name="date_time">Date &amp; Time</string>
+    <string name="venue">Venue</string>
+    <string name="umpires">Umpires</string>
+
+    <string name="total_score">Total Score</string>
+    <string name="batters">Batters</string>
+    <string name="r">R</string>
+    <string name="b">B</string>
+    <string name="_4s">4s</string>
+    <string name="_6s">6s</string>
+    <string name="sr">SR</string>
+    <string name="extras">Extras</string>
+
+    <string name="bowlers">Bowlers</string>
+    <string name="o">O</string>
+    <string name="m">M</string>
+    <string name="eco">Eco</string>
+
+    <string name="fall_of_wickets">Fall of Wickets</string>
+    <string name="score">Score</string>
+    <string name="over">Over</string>
+
+    <string name="expert_team_suggestions">Expert team suggestions</string>
+    <string name="expert_are_creating_their_teams">Experts are creating their teams, watch this place</string>
+
+    <string name="runs">Runs</string>
+
+    <string name="txt">Kyle Jamieson to Keegan Petersen, good length ball on off-stump. Petersen gets on top of it from the crease and taps it down to short cover, no run. Kyle Jamieson to Keegan Petersen, full and swinging away outside off-stump. Petersen comes forward and shoulders arms to leave it on line.</string>
+
+    <string name="bench">Bench</string>
+    <string name="c">(C)</string>
+    <string name="point_table_not_available">Point Table Not Available</string>
+
+    <string name="toss_yet_to_take_place">Toss yet to take place</string>
+    <string name="playing_xi">Playing XI</string>
+    <string name="vs">VS</string>
+    <string name="player_stats">Player Stats</string>
+
+    <string name="stats_as_per_playing_11">Stats as per playing 11</string>
+    <string name="player_stats_to_be_updated_after_toss">Player stats to be updated after toss</string>
+    <string name="most_runs">Most Runs</string>
+    <string name="most_wickets">Most Wickets</string>
+    <string name="best_strike_rate">Best Strike rate</string>
+    <string name="best_eco_rate">Best Eco rate</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="full_name">Full Name</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="age">Age</string>
+    <string name="nationality">Nationality</string>
+    <string name="birth_place">Birth Place</string>
+    <string name="height">Height</string>
+    <string name="current_team_s">Current Team(s)</string>
+    <string name="role">Role</string>
+    <string name="batting_style">Batting Style</string>
+    <string name="bowling_style">Bowling Style</string>
+    <string name="debut">Debut</string>
+    <string name="jersey_no">Jersey No.</string>
+    <string name="family">Family</string>
+    <string name="most_recent_matches">Most Recent Matches</string>
+    <string name="bf">BF</string>
+    <string name="s_r">S/R</string>
+    <string name="e_r">E/R</string>
+    <string name="batting_stats">Batting Stats</string>
+    <string name="mat">Mat</string>
+    <string name="inn">Inn</string>
+    <string name="no">NO</string>
+    <string name="avg">Avg</string>
+    <string name="_100s">100s</string>
+    <string name="_50s">50s</string>
+    <string name="h">H</string>
+    <string name="ct">Ct</string>
+    <string name="st">St</string>
+    <string name="bowling_stats">Bowling Stats</string>
+    <string name="best">Best</string>
+    <string name="_5w">5w</string>
+    <string name="_10w">10w</string>
+    <string name="game_type">Game Type</string>
+
+</resources>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.cricdekho.ui.home.HomeFragment"
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_schedulePointsFragment"
+            app:destination="@id/schedulePointsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_matchDetailsFragment"
+            app:destination="@id/matchDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_bottomSheet"
+            app:destination="@id/bottomSheet" />
+    </fragment>
+    <fragment
+        android:id="@+id/schedulePointsFragment"
+        android:name="com.example.cricdekho.ui.schedulepoints.SchedulePointsFragment"
+        android:label="SchedulePointsFragment" />
+    <fragment
+        android:id="@+id/fantasyFragment"
+        android:name="com.example.cricdekho.ui.fantasy.FantasyFragment"
+        android:label="FantasyFragment" >
+        <action
+            android:id="@+id/action_fantasyFragment_to_matchDetailsFragment"
+            app:destination="@id/matchDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/videosFragment"
+        android:name="com.example.cricdekho.ui.video.VideosFragment"
+        android:label="VideosFragment" />
+    <fragment
+        android:id="@+id/matchDetailsFragment"
+        android:name="com.example.cricdekho.ui.matchdetails.MatchDetailsFragment"
+        android:label="MatchDetailsFragment">
+        <action
+            android:id="@+id/action_matchDetailsFragment_to_schedulePointsFragment"
+            app:destination="@id/schedulePointsFragment" />
+        <action
+            android:id="@+id/action_matchDetailsFragment_to_overviewFragment"
+            app:destination="@id/overviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/matchesFragment"
+        android:name="com.example.cricdekho.ui.match.MatchesFragment"
+        android:label="MatchesFragment" >
+        <action
+            android:id="@+id/action_matchesFragment_to_matchDetailsFragment"
+            app:destination="@id/matchDetailsFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/bottomSheet"
+        android:name="com.example.cricdekho.util.BottomSheet"
+        android:label="BottomSheet" />
+    <fragment
+        android:id="@+id/overviewFragment"
+        android:name="com.example.cricdekho.ui.playerdetails.OverviewFragment"
+        android:label="OverviewFragment" />
+</navigation>

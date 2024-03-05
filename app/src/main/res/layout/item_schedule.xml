@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_square_shape"
+        android:padding="8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 Feb"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvMatch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="ACC Men's T20I Challenger Cup 2024 >"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDate" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivFlag1"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvMatch" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="South Africa"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/ivFlag1"
+            app:layout_constraintEnd_toStartOf="@id/tvRuns1"
+            app:layout_constraintStart_toEndOf="@id/ivFlag1"
+            app:layout_constraintTop_toTopOf="@id/ivFlag1" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivFlag2"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivFlag1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="New Zealand XI"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/ivFlag2"
+            app:layout_constraintEnd_toStartOf="@id/tvRuns2"
+            app:layout_constraintStart_toEndOf="@id/ivFlag2"
+            app:layout_constraintTop_toTopOf="@id/ivFlag2" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRuns1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="192/6 (20 ov)"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/ivFlag1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvTitle1"
+            app:layout_constraintTop_toTopOf="@id/ivFlag1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRuns2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="104/10 (19.3 ov)"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/ivFlag2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvTitle2"
+            app:layout_constraintTop_toTopOf="@id/ivFlag2" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDecision"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="12dp"
+            android:maxLines="2"
+            android:text="Saudi Arabia won by 88 runs"
+            android:textColor="@color/blue"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvLive"
+            app:layout_constraintTop_toBottomOf="@id/ivFlag2" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/light_grey"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="2dp"
+            android:text="@string/live"
+            android:textColor="@color/green"
+            app:layout_constraintBottom_toBottomOf="@id/tvDecision"
+            app:layout_constraintEnd_toStartOf="@id/tvDecision"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvDecision" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

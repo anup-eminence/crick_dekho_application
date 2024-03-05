@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:layout_marginTop="5dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBatters"
+            android:layout_width="155dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/batters"
+            android:textColor="@color/blue"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/batters"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/tvR"
+            app:layout_constraintStart_toStartOf="@id/tvBatters"
+            app:layout_constraintTop_toBottomOf="@id/tvBatters" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/r"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvBatters"
+            app:layout_constraintStart_toEndOf="@id/tvBatters"
+            app:layout_constraintTop_toTopOf="@id/tvBatters" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/b"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvBatters"
+            app:layout_constraintEnd_toStartOf="@id/tv4s"
+            app:layout_constraintStart_toEndOf="@id/tvR"
+            app:layout_constraintTop_toTopOf="@id/tvBatters" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv4s"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/_4s"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvBatters"
+            app:layout_constraintEnd_toStartOf="@id/tv6s"
+            app:layout_constraintStart_toEndOf="@id/tvB"
+            app:layout_constraintTop_toTopOf="@id/tvBatters" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv6s"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/_6s"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvBatters"
+            app:layout_constraintEnd_toStartOf="@id/tvSR"
+            app:layout_constraintStart_toEndOf="@id/tv4s"
+            app:layout_constraintTop_toTopOf="@id/tvBatters" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/sr"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvBatters"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv6s"
+            app:layout_constraintTop_toTopOf="@id/tvBatters" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
