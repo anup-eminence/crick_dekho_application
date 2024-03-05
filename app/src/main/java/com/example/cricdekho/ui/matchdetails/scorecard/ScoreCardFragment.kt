@@ -1,5 +1,6 @@
 package com.example.cricdekho.ui.matchdetails.scorecard
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -65,6 +66,7 @@ class ScoreCardFragment : Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setUpTabAdapter() {
         scoreCardAdapter = ScoreCardAdapter()
         val recyclerViewState = binding.recyclerViewTabs.layoutManager?.onSaveInstanceState()
