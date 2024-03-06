@@ -19,7 +19,6 @@ class MatchDetailViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: L
     @SuppressLint("NotifyDataSetChanged")
      fun setSquadList(squad: ArrayList<Squad>){
         this.squad = squad
-        notifyDataSetChanged()
     }
     override fun getItemCount(): Int {
         return 5
