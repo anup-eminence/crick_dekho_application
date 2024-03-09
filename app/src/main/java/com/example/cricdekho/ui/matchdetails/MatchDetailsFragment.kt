@@ -32,7 +32,6 @@ class MatchDetailsFragment : BaseFragment() {
     private val responseSquad = ArrayList<Squad>()
     private var countDownTimer: CountDownTimer? = null
     private var currentViewPagerItem = 0
-    private var isDataLoaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +51,10 @@ class MatchDetailsFragment : BaseFragment() {
 
     private fun initView() {
         progressBarListener.showProgressBar()
-       if (isDataLoaded) setViewPagerAdapter()
+        binding.tabLayout.getTabAt(0)?.select()
+        setViewPagerAdapter()
         fetchMatchDetail()
+
 //        view?.postDelayed({
 //            selectFirstTab()
 //        }, 100)
@@ -62,6 +63,7 @@ class MatchDetailsFragment : BaseFragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun fetchMatchDetail() {
         matchDetailViewModel = ViewModelProvider(this)[MatchDetailViewModel::class.java]
+        println(">>>>>>>>>>>>>>>>>matchId $matchId")
         matchDetailViewModel.emitSocketEvent(matchId)
 
         lifecycleScope.launch {
@@ -69,20 +71,11 @@ class MatchDetailsFragment : BaseFragment() {
                 progressBarListener.hideProgressBar()
                 if (data is Squad) {
                     responseSquad.clear()
-                    data.commentary[0].runs = Math.random().toString()
                     responseSquad.addAll(listOf(data))
-                    setToolbar()
                     setMatchData()
-                    if (!isDataLoaded){
-                        setViewPagerAdapter()
-                        isDataLoaded = true
-                    }
+                    setToolbar()
                     matchDetailsData.postValue(responseSquad)
                     matchDetailViewPagerAdapter.setSquadList(responseSquad)
-                    binding.viewPager.adapter?.notifyDataSetChanged()
-/*
-                    setViewPagerAdapter()
-*/
                 }
             }
         }
@@ -105,11 +98,18 @@ class MatchDetailsFragment : BaseFragment() {
             }
         }.attach()
 
+        binding.tabLayout.getTabAt(0)?.view?.background =
+            ContextCompat.getDrawable(
+                requireContext(), R.drawable.bg_grey_shape
+            )
+
+        binding.viewPager.offscreenPageLimit = 4
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.view?.background = ContextCompat.getDrawable(
                     requireContext(), R.drawable.bg_grey_shape
                 )
+                tab?.position?.let { binding.viewPager.currentItem = it }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -117,7 +117,10 @@ class MatchDetailsFragment : BaseFragment() {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
+                tab?.view?.background = ContextCompat.getDrawable(
+                    requireContext(), R.drawable.bg_grey_shape
+                )
+                tab?.position?.let { binding.viewPager.currentItem = it }
             }
         })
     }
@@ -132,6 +135,19 @@ class MatchDetailsFragment : BaseFragment() {
             setting = false,
             back = true,
             share = true
+        )
+    }
+
+    private fun removeToolBar() {
+        val yourActivity = activity as? HomeActivity
+        yourActivity?.showToolBarMethod(
+            title = "",
+            menu = true,
+            logo = true,
+            search = true,
+            setting = true,
+            back = false,
+            share = false
         )
     }
 
@@ -192,7 +208,9 @@ class MatchDetailsFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         countDownTimer?.cancel()
+        responseSquad.clear()
         SocketManager.removeEventListener(matchId)
+        removeToolBar()
     }
 
     companion object {

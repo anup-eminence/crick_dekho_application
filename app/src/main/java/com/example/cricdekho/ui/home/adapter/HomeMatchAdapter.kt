@@ -1,5 +1,8 @@
 package com.example.cricdekho.ui.home.adapter
 
+import android.text.TextUtils
+import android.text.method.LinkMovementMethod
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import com.bumptech.glide.Glide
 import com.example.cricdekho.R
@@ -18,6 +21,14 @@ class HomeMatchAdapter : EasyAdapter<Data, ItemHomeBinding>(R.layout.item_home) 
             tvTitle1.text = model.t1_key
             tvTitle2.text = model.t2_key
             tvTitle3.text = model.result
+            tvTitle3.isSelected = true
+            tvTitle3.ellipsize = TextUtils.TruncateAt.MARQUEE;
+            tvTitle3.setSelected(true);
+            tvTitle3.setSingleLine(true);
+            tvTitle3.setHorizontallyScrolling(true);
+            tvTitle3.marqueeRepeatLimit = 100000;
+            tvTitle3.movementMethod = ScrollingMovementMethod.getInstance()
+
 
             if (model.status.lowercase() == "live") {
                 tvLive.visibility = View.VISIBLE

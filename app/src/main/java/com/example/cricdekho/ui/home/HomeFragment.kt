@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -12,6 +13,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.SnapHelper
 import com.example.cricdekho.R
 import com.example.cricdekho.data.model.HomeExtraNewsList
 import com.example.cricdekho.data.model.HomeNewsList
@@ -25,6 +28,8 @@ import com.example.cricdekho.ui.home.adapter.HomeFeatureAdapter
 import com.example.cricdekho.ui.home.adapter.HomeMatchAdapter
 import com.example.cricdekho.ui.home.adapter.HomeNewsAdapter
 import com.example.cricdekho.ui.home.adapter.HomeTrendingAdapter
+import com.example.cricdekho.util.DotsIndicatorDecoration
+
 
 class HomeFragment : BaseFragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -58,6 +63,9 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
         setOnClickListener()
+        initDotView()
+        initMatchAdapter()
+
     }
 
     private fun initView() {
@@ -138,6 +146,18 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    private fun initMatchAdapter() {
+        val snapHelper: SnapHelper = PagerSnapHelper()
+        binding.recyclerView.onFlingListener = null;
+        snapHelper.attachToRecyclerView(binding.recyclerView)
+        binding.recyclerView.addItemDecoration(
+            DotsIndicatorDecoration(
+                colorInactive = ContextCompat.getColor(requireContext(), R.color.light_grey),
+                colorActive = ContextCompat.getColor(requireContext(), R.color.black)
+            )
+        )
+    }
+
     private fun setUpMatchAdapter() {
         homeMatchAdapter = HomeMatchAdapter()
         val recyclerViewState = binding.recyclerView.layoutManager?.onSaveInstanceState()
@@ -147,6 +167,7 @@ class HomeFragment : BaseFragment() {
         binding.recyclerView.adapter = homeMatchAdapter
         homeMatchAdapter.notifyDataSetChanged()
         binding.recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
+
 
         homeMatchAdapter.setRecyclerViewItemClick { itemView, model ->
             when (itemView.id) {
@@ -253,6 +274,9 @@ class HomeFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         SocketManager.disconnect()
+    }
+
+    private fun initDotView() {
     }
 
     companion object {

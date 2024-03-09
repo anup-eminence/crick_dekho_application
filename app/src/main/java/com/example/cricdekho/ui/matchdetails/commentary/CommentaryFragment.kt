@@ -23,6 +23,9 @@ class CommentaryFragment : Fragment() {
     private var squad = ArrayList<Squad>()
     private var commentary = ArrayList<Commentary>()
     private val matchDetailViewModel: MatchDetailViewModel by viewModels()
+    private lateinit var commentaryListAdapter: CommentaryListAdapter
+
+    private var updateList = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,26 +44,59 @@ class CommentaryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner){
+        setCommentaryAdapter()
+
+        MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 squad = it
                 initView()
+                if (squad[0].commentary.isNotEmpty()) {
+                    if (updateList) {
+                        commentary.addAll(it[0].commentary)
+                        if (it[0].now_batting.team.name.isNotEmpty()) {
+                            setData()
+                        } else {
+                            hideViews()
+                        }
+                        updateCommentry(it[0].commentary)
+                        updateList = false
+                    }
+                    if (commentaryListAdapter.oldList[0].timestamp < it[0].commentary[0].timestamp) {
+                        updateCommentry(it[0].commentary)
+                        if (it[0].now_batting.team.name.isNotEmpty()) {
+                            setData()
+                        } else {
+                            hideViews()
+                        }
+                    }
+                }
+
             }
         }
+        //setUpAdapter()
+    }
+
+    private fun updateCommentry(list: List<Commentary>) {
+        commentaryListAdapter.setCommentaryData(list)
+
     }
 
     private fun initView() {
         if (squad[0].commentary.isNotEmpty()) {
-            commentary.clear()
             commentary.addAll(squad[0].commentary)
-            setUpAdapter()
-            if (squad[0].now_batting.team.name.isNotEmpty()) {
-                setData()
-            } else {
-                hideViews()
-            }
+            // commentaryAdapter.addAll(commentary,true)
+            //  commentaryListAdapter.setCommentaryData(newlist)
         } else {
             hideViews()
+        }
+    }
+
+    private fun setCommentaryAdapter() {
+        commentaryListAdapter = CommentaryListAdapter()
+        //commentaryAdapter = CommentaryAdapter()
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = commentaryListAdapter
         }
     }
 
@@ -73,10 +109,10 @@ class CommentaryFragment : Fragment() {
             reverseLayout = true
             stackFromEnd = true
         }*/
-        commentaryAdapter.addAll(commentary, true)
+        // commentaryAdapter.addAll(commentary, true)
         binding.recyclerView.adapter = commentaryAdapter
-        commentaryAdapter.notifyDataSetChanged()
-        binding.recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
+        // commentaryAdapter.notifyDataSetChanged()
+        // binding.recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
 
 //        commentaryAdapter.setOnLoadMoreListener(
 //            binding.recyclerView,
