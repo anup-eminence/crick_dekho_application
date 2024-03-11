@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -65,7 +64,6 @@ class HomeFragment : BaseFragment() {
         setOnClickListener()
         initDotView()
         initMatchAdapter()
-
     }
 
     private fun initView() {
@@ -186,7 +184,7 @@ class HomeFragment : BaseFragment() {
                 }
 
                 R.id.clItem -> {
-                    val bundle = bundleOf("id" to model.id)
+                    val bundle = bundleOf("id" to model.id, "status" to model.status)
                     findNavController().navigate(
                         R.id.action_homeFragment_to_matchDetailsFragment, bundle
                     )

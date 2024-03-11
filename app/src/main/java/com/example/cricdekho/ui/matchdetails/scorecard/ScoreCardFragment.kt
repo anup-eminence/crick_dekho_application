@@ -114,6 +114,7 @@ class ScoreCardFragment : Fragment(), ScoreCardNewAdapter.ScoreCardListener {
 
     private fun updateDataInRecyclerView(it : List<Squad>,inningPos: Int) {
         val innings = it[0].innings
+        if (innings.isEmpty()) return
         binding.apply {
             txtTotalScore.text =
                 "${innings[inningPos].runs}/${innings[inningPos].wickets} (${innings[inningPos].overs})"

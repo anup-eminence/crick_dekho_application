@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cricdekho.data.model.getMatchDetails.Commentary
+import com.example.cricdekho.data.model.getMatchDetails.LiveMatchScoreResponse
 import com.example.cricdekho.data.model.getMatchDetails.PlayerImages
 import com.example.cricdekho.data.model.getMatchDetails.Squad
 import com.example.cricdekho.data.model.getSeriesBestEconomy.ResponseEconomyRate
@@ -39,6 +40,9 @@ class MatchDetailViewModel : ViewModel() {
 
     private val _economyRate = MutableLiveData<ResponseEconomyRate>()
     val economyRate: LiveData<ResponseEconomyRate> get() = _economyRate
+
+    private val _liveMatchScore = MutableLiveData<LiveMatchScoreResponse>()
+    val liveMatchSore: LiveData<LiveMatchScoreResponse> get() = _liveMatchScore
 
     fun emitSocketEvent(matchId: String) {
         socketManager.emitEvent("LiveScore", matchId)
@@ -153,6 +157,16 @@ class MatchDetailViewModel : ViewModel() {
                 _economyRate.value = matchDetailsRepository.getSeriesBestEconomy(tournamentSlug)
             } catch (e: Exception) {
                 Log.e("Exception", "Exception ${e.message.toString()}")
+            }
+        }
+    }
+
+    fun getLiveMatchScore(matchId: String) {
+        viewModelScope.launch {
+            try {
+                _liveMatchScore.value = matchDetailsRepository.getLiveMatchSore(matchId)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

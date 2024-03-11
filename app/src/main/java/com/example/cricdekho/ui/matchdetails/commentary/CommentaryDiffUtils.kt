@@ -14,17 +14,17 @@ class CommentaryDiffUtils(private val oldList: List<Commentary>,
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition]._id == newList[newItemPosition]._id
+        return oldList[oldItemPosition].timestamp == newList[newItemPosition].timestamp
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return  when {
-            oldList[oldItemPosition]._id != newList[newItemPosition]._id -> false
+            oldList[oldItemPosition].timestamp != newList[newItemPosition].timestamp -> false
+            oldList[oldItemPosition].comment_text != newList[newItemPosition].comment_text -> false
             oldList[oldItemPosition].batsmen != newList[newItemPosition].batsmen -> false
             oldList[oldItemPosition].bowler != newList[newItemPosition].bowler -> false
             oldList[oldItemPosition].bowlers != newList[newItemPosition].bowlers -> false
             oldList[oldItemPosition].comment_edited != newList[newItemPosition].comment_edited -> false
-            oldList[oldItemPosition].comment_text != newList[newItemPosition].comment_text -> false
             oldList[oldItemPosition].comment_type != newList[newItemPosition].comment_type -> false
             oldList[oldItemPosition].inning_number != newList[newItemPosition].inning_number -> false
             oldList[oldItemPosition].opta_ball_type != newList[newItemPosition].opta_ball_type -> false

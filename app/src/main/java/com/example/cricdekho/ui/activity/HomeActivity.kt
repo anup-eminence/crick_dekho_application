@@ -2,12 +2,20 @@ package com.example.cricdekho.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.cricdekho.R
 import com.example.cricdekho.databinding.ActivityHomeBinding
+import com.example.cricdekho.ui.home.navigation_drawer.NavUtils
+import com.example.cricdekho.ui.home.navigation_drawer.NavigationItem
+import com.example.cricdekho.ui.home.navigation_drawer.adapter.NavigationDrawerAdapter
 import com.example.cricdekho.util.ProgressbarListener
 import com.example.cricdekho.util.ToolbarListener
 
@@ -22,6 +30,24 @@ class HomeActivity : AppCompatActivity(), ToolbarListener, ProgressbarListener {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setBottomNavigation()
+        showSideDrawer()
+    }
+
+    private fun showSideDrawer() {
+        val inflater = LayoutInflater.from(this)
+        val customDrawerView = inflater.inflate(R.layout.drawer_layout, binding.sideNavigation, false)
+        val rv = customDrawerView.findViewById<RecyclerView>(R.id.rv_menu)
+        val navAdapter = NavigationDrawerAdapter()
+        rv.apply {
+            layoutManager = LinearLayoutManager(this@HomeActivity)
+            adapter = navAdapter
+            navAdapter.submitList(NavUtils.provideNavigationList(this@HomeActivity))
+
+        }
+        binding.sideNavigation.addView(customDrawerView)
+        binding.layoutToolbar.ivMenu.setOnClickListener {
+            binding.drawerLayout.openDrawer(GravityCompat.START)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -36,8 +62,7 @@ class HomeActivity : AppCompatActivity(), ToolbarListener, ProgressbarListener {
                 }
 
                 R.id.nav_video -> {
-                    navController.navigate(R.id.overviewFragment)
-                    //navController.navigate(R.id.videosFragment)
+                    navController.navigate(R.id.videosFragment)
                 }
 
                 R.id.nav_fantasy -> {

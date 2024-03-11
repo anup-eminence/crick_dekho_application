@@ -1,5 +1,6 @@
 package com.example.cricdekho.data.repository
 
+import com.example.cricdekho.data.model.getMatchDetails.LiveMatchScoreResponse
 import com.example.cricdekho.data.model.getSeriesBestEconomy.ResponseEconomyRate
 import com.example.cricdekho.data.model.getSeriesHighestStrikeRate.ResponseStrikeRate
 import com.example.cricdekho.data.model.getSeriesMostRuns.ResponseMostRuns
@@ -32,5 +33,9 @@ class MatchDetailsRepository {
 
     suspend fun getSeriesBestEconomy(tournamentSlug: String): ResponseEconomyRate {
         return apiService.getSeriesBestEconomy(tournamentSlug)
+    }
+
+    suspend fun getLiveMatchSore(matchId : String) : LiveMatchScoreResponse {
+        return apiService.getLiveCricketScore(matchId)
     }
 }

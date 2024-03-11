@@ -19,6 +19,7 @@ import com.example.cricdekho.data.remote.SocketManager
 import com.example.cricdekho.databinding.FragmentMatchDetailsBinding
 import com.example.cricdekho.ui.activity.HomeActivity
 import com.example.cricdekho.ui.home.BaseFragment
+import com.example.cricdekho.util.MatchStatus
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
@@ -29,6 +30,7 @@ class MatchDetailsFragment : BaseFragment() {
     private lateinit var matchDetailViewPagerAdapter: MatchDetailViewPagerAdapter
     private lateinit var matchDetailViewModel: MatchDetailViewModel
     private lateinit var matchId: String
+    private lateinit var matchStatus: String
     private val responseSquad = ArrayList<Squad>()
     private var countDownTimer: CountDownTimer? = null
     private var currentViewPagerItem = 0
@@ -36,6 +38,7 @@ class MatchDetailsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         matchId = arguments?.getString("id").toString()
+        matchStatus = arguments?.getString("status").toString()
     }
 
     override fun onCreateView(
@@ -64,21 +67,36 @@ class MatchDetailsFragment : BaseFragment() {
     private fun fetchMatchDetail() {
         matchDetailViewModel = ViewModelProvider(this)[MatchDetailViewModel::class.java]
         println(">>>>>>>>>>>>>>>>>matchId $matchId")
-        matchDetailViewModel.emitSocketEvent(matchId)
+        println(">>>>>>>>>>>>>>>>>matchStatus $matchStatus")
 
-        lifecycleScope.launch {
-            matchDetailViewModel.observeLiveData.observe(viewLifecycleOwner) { data ->
+        if (matchStatus != null && matchId != null && (matchStatus == MatchStatus.PRE.status || matchStatus == MatchStatus.POST.status)) {
+            matchDetailViewModel.liveMatchSore.observe(viewLifecycleOwner) {
+                setMatchData(it.data)
                 progressBarListener.hideProgressBar()
-                if (data is Squad) {
-                    responseSquad.clear()
-                    responseSquad.addAll(listOf(data))
-                    setMatchData()
-                    setToolbar()
-                    matchDetailsData.postValue(responseSquad)
-                    matchDetailViewPagerAdapter.setSquadList(responseSquad)
+                println(">>>>>>datamatch ${it.data}")
+            }
+            matchDetailViewModel.getLiveMatchScore(matchId)
+        } else {
+            matchDetailViewModel.emitSocketEvent(matchId)
+
+            lifecycleScope.launch {
+                matchDetailViewModel.observeLiveData.observe(viewLifecycleOwner) { data ->
+                    progressBarListener.hideProgressBar()
+                    if (data is Squad) {
+                        setMatchData(data)
+                    }
                 }
             }
         }
+    }
+
+    private fun setMatchData(squad: Squad){
+        responseSquad.clear()
+        responseSquad.addAll(listOf(squad))
+        setMatchData()
+        setToolbar()
+        matchDetailsData.postValue(responseSquad)
+        matchDetailViewPagerAdapter.setSquadList(responseSquad)
     }
 
     private fun setViewPagerAdapter() {
