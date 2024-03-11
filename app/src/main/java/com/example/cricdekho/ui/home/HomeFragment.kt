@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -96,6 +97,7 @@ class HomeFragment : BaseFragment() {
         })
 
         homeFeatureViewModel.dataMatch.observe(viewLifecycleOwner, Observer {
+            binding.clMain.isVisible = true
             progressBarListener.hideProgressBar()
             responseHomeMatch.clear()
             responseMatch.clear()

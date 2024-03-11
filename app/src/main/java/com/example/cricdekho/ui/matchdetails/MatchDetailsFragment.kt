@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -72,6 +73,7 @@ class MatchDetailsFragment : BaseFragment() {
         if (matchStatus != null && matchId != null && (matchStatus == MatchStatus.PRE.status || matchStatus == MatchStatus.POST.status)) {
             matchDetailViewModel.liveMatchSore.observe(viewLifecycleOwner) {
                 setMatchData(it.data)
+                binding.clMain.isVisible = true
                 progressBarListener.hideProgressBar()
                 println(">>>>>>datamatch ${it.data}")
             }
@@ -81,6 +83,7 @@ class MatchDetailsFragment : BaseFragment() {
 
             lifecycleScope.launch {
                 matchDetailViewModel.observeLiveData.observe(viewLifecycleOwner) { data ->
+                    binding.clMain.isVisible = true
                     progressBarListener.hideProgressBar()
                     if (data is Squad) {
                         setMatchData(data)

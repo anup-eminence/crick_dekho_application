@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -71,6 +72,7 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
             if (it.isNotEmpty()) {
                 squad = it
                 initView()
+                binding.clMain.isVisible = true
                 println(">>>>>>>>>>>>>>>>>.printdata")
             }
         }
