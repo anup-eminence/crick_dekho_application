@@ -1,6 +1,7 @@
 package com.example.cricdekho.data.model.getMatchDetails
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
@@ -42,6 +43,8 @@ data class Squad(
     val short_title: String,
     val stumps: Boolean,
     val title: String,
+    @SerializedName("player_images")
+    val player_images: Map<String, String>?,
     val topic_slug: String,
     val umpires: String,
     val venue: String,

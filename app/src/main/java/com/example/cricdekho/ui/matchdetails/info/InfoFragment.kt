@@ -126,8 +126,10 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
                     tvLineup.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
                 }
             }
-            setUpBenchTeam1Adapter()
-            setUpBenchTeam2Adapter()
+            /*setUpBenchTeam1Adapter()
+            setUpBenchTeam2Adapter()*/
+            listAdapter3.setData(squadX[0].bench_players)
+            listAdapter4.setData(squadX[1].bench_players)
         }
     }
 

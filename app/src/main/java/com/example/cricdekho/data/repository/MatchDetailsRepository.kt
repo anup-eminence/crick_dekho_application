@@ -7,6 +7,7 @@ import com.example.cricdekho.data.model.getSeriesMostRuns.ResponseMostRuns
 import com.example.cricdekho.data.model.getSeriesMostWickets.ResponseMostWickets
 import com.example.cricdekho.util.RetrofitClient
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Response
 
 class MatchDetailsRepository {
@@ -35,7 +36,8 @@ class MatchDetailsRepository {
         return apiService.getSeriesBestEconomy(tournamentSlug)
     }
 
-    suspend fun getLiveMatchSore(matchId : String) : LiveMatchScoreResponse {
+    suspend fun getLiveScoreData(matchId : String) : LiveMatchScoreResponse {
         return apiService.getLiveCricketScore(matchId)
     }
+
 }

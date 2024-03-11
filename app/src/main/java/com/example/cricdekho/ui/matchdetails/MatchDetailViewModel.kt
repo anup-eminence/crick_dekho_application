@@ -13,11 +13,16 @@ import com.example.cricdekho.data.model.getSeriesBestEconomy.ResponseEconomyRate
 import com.example.cricdekho.data.model.getSeriesHighestStrikeRate.ResponseStrikeRate
 import com.example.cricdekho.data.model.getSeriesMostRuns.ResponseMostRuns
 import com.example.cricdekho.data.model.getSeriesMostWickets.ResponseMostWickets
+import com.example.cricdekho.data.remote.ApiService
 import com.example.cricdekho.data.remote.SocketManager
 import com.example.cricdekho.data.repository.MatchDetailsRepository
+import com.example.cricdekho.util.RetrofitClient
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MatchDetailViewModel : ViewModel() {
     private val socketManager = SocketManager
@@ -162,9 +167,18 @@ class MatchDetailViewModel : ViewModel() {
     }
 
     fun getLiveMatchScore(matchId: String) {
+        val playerImages: MutableList<PlayerImages> = mutableListOf()
+
         viewModelScope.launch {
             try {
-                _liveMatchScore.value = matchDetailsRepository.getLiveMatchSore(matchId)
+             //   _liveMatchScore.value = matchDetailsRepository.getLiveMatchSore(matchId)
+               val data  = matchDetailsRepository.getLiveScoreData(matchId)
+                data.data.player_images?.forEach {
+                    playerImages.add(PlayerImages(it.key,it.value))
+                }
+                data.data.squad[0].playerImages = playerImages
+                _liveMatchScore.value = data
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }
