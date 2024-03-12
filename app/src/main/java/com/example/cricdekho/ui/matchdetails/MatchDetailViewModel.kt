@@ -6,22 +6,30 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cricdekho.data.model.getMatchDetails.Commentary
+import com.example.cricdekho.data.model.getMatchDetails.LiveMatchScoreResponse
 import com.example.cricdekho.data.model.getMatchDetails.PlayerImages
 import com.example.cricdekho.data.model.getMatchDetails.Squad
 import com.example.cricdekho.data.model.getSeriesBestEconomy.ResponseEconomyRate
 import com.example.cricdekho.data.model.getSeriesHighestStrikeRate.ResponseStrikeRate
 import com.example.cricdekho.data.model.getSeriesMostRuns.ResponseMostRuns
 import com.example.cricdekho.data.model.getSeriesMostWickets.ResponseMostWickets
+import com.example.cricdekho.data.remote.ApiService
 import com.example.cricdekho.data.remote.SocketManager
 import com.example.cricdekho.data.repository.MatchDetailsRepository
+import com.example.cricdekho.util.RetrofitClient
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MatchDetailViewModel : ViewModel() {
     private val socketManager = SocketManager
     private val _socketData = MutableLiveData<Any>()
     val observeLiveData: LiveData<Any> get() = _socketData
+
+    var errorCaught = MutableLiveData<Boolean>()
 
     private val matchDetailsRepository = MatchDetailsRepository()
 
@@ -39,6 +47,9 @@ class MatchDetailViewModel : ViewModel() {
 
     private val _economyRate = MutableLiveData<ResponseEconomyRate>()
     val economyRate: LiveData<ResponseEconomyRate> get() = _economyRate
+
+    private val _liveMatchScore = MutableLiveData<LiveMatchScoreResponse>()
+    val liveMatchSore: LiveData<LiveMatchScoreResponse> get() = _liveMatchScore
 
     fun emitSocketEvent(matchId: String) {
         socketManager.emitEvent("LiveScore", matchId)
@@ -83,19 +94,24 @@ class MatchDetailViewModel : ViewModel() {
 
                                 } catch (e: Exception) {
                                     Log.e("SquadData", "Error parsing squad data: ${e.message}")
+                                    errorCaught.postValue(true)
                                 }
 
                             } else {
                                 Log.e("SocketData", "Unexpected type for the first element")
+                                errorCaught.postValue(true)
                             }
                         } else {
                             Log.e("SocketData", "Empty args array")
+                            errorCaught.postValue(true)
                         }
                     } catch (e: Exception) {
                         Log.e("SocketData", "Error accessing array length: ${e.message}")
+                        errorCaught.postValue(true)
                     }
                 } else {
                     Log.e("SocketData", "Null args")
+                    errorCaught.postValue(true)
                 }
             }
         }
@@ -153,6 +169,25 @@ class MatchDetailViewModel : ViewModel() {
                 _economyRate.value = matchDetailsRepository.getSeriesBestEconomy(tournamentSlug)
             } catch (e: Exception) {
                 Log.e("Exception", "Exception ${e.message.toString()}")
+            }
+        }
+    }
+
+    fun getLiveMatchScore(matchId: String) {
+        val playerImages: MutableList<PlayerImages> = mutableListOf()
+
+        viewModelScope.launch {
+            try {
+             //   _liveMatchScore.value = matchDetailsRepository.getLiveMatchSore(matchId)
+               val data  = matchDetailsRepository.getLiveScoreData(matchId)
+                data.data.player_images?.forEach {
+                    playerImages.add(PlayerImages(it.key,it.value))
+                }
+                data.data.squad[0].playerImages = playerImages
+                _liveMatchScore.value = data
+
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

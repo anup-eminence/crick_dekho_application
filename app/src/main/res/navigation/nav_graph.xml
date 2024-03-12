@@ -20,7 +20,11 @@
     <fragment
         android:id="@+id/schedulePointsFragment"
         android:name="com.example.cricdekho.ui.schedulepoints.SchedulePointsFragment"
-        android:label="SchedulePointsFragment" />
+        android:label="SchedulePointsFragment" >
+        <action
+            android:id="@+id/action_schedulePointsFragment_to_matchDetailsFragment"
+            app:destination="@id/matchDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/fantasyFragment"
         android:name="com.example.cricdekho.ui.fantasy.FantasyFragment"

@@ -2,20 +2,27 @@ package com.example.cricdekho.ui.matchdetails.info
 
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.cricdekho.R
+import com.example.cricdekho.data.model.getMatchDetails.BenchPlayer
+import com.example.cricdekho.data.model.getMatchDetails.Player
 import com.example.cricdekho.data.model.getMatchDetails.Squad
 import com.example.cricdekho.data.model.getMatchDetails.SquadX
 import com.example.cricdekho.databinding.FragmentInfoBinding
+import com.example.cricdekho.ui.BenchPlayerListAdapter
+import com.example.cricdekho.ui.InfoAdapter
 import com.example.cricdekho.ui.matchdetails.MatchDetailsFragment
 import com.example.cricdekho.ui.matchdetails.info.adapter.BenchTeam1Adapter
 import com.example.cricdekho.ui.matchdetails.info.adapter.BenchTeam2Adapter
@@ -27,7 +34,8 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class InfoFragment : Fragment() {
+class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
+    BenchPlayerListAdapter.BenchPlayerAdapterListener {
     private lateinit var binding: FragmentInfoBinding
     private lateinit var infoTeam1Adapter: InfoTeam1Adapter
     private lateinit var infoTeam2Adapter: InfoTeam2Adapter
@@ -35,6 +43,13 @@ class InfoFragment : Fragment() {
     private lateinit var benchTeam2Adapter: BenchTeam2Adapter
     private var squad = ArrayList<Squad>()
     private var squadX = ArrayList<SquadX>()
+    private var playerList = ArrayList<Player>()
+    private var playerList2 = ArrayList<Player>()
+
+    private lateinit var listAdapter: InfoAdapter
+    private lateinit var listAdapter2: InfoAdapter
+    private lateinit var listAdapter3: BenchPlayerListAdapter
+    private lateinit var listAdapter4: BenchPlayerListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,10 +67,13 @@ class InfoFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner){
+        setUpadpater()
+        MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 squad = it
                 initView()
+                binding.clMain.isVisible = true
+                println(">>>>>>>>>>>>>>>>>.printdata")
             }
         }
         setOnClickListener()
@@ -82,10 +100,16 @@ class InfoFragment : Fragment() {
             tvTeam2.text = squadX[1].team_shortname
         }
         if (squad[0].match_status != "pre") {
-            setUpTeam1Adapter()
-            setUpTeam2Adapter()
-            setUpBenchTeam1Adapter()
-            setUpBenchTeam2Adapter()
+            playerList.clear()
+            playerList.addAll(squadX[0].players)
+            listAdapter.setData(playerList)
+            listAdapter2.setData(squadX[1].players)
+            listAdapter3.setData(squadX[0].bench_players)
+            listAdapter4.setData(squadX[1].bench_players)
+            /*setUpTeam1Adapter()*/
+            /* setUpTeam2Adapter()
+             setUpBenchTeam1Adapter()
+             setUpBenchTeam2Adapter()*/
         } else {
             binding.apply {
                 if (!squadX[0].players.isNullOrEmpty() || !squadX[0].bench_players.isNullOrEmpty()) {
@@ -104,8 +128,10 @@ class InfoFragment : Fragment() {
                     tvLineup.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
                 }
             }
-            setUpBenchTeam1Adapter()
-            setUpBenchTeam2Adapter()
+            /*setUpBenchTeam1Adapter()
+            setUpBenchTeam2Adapter()*/
+            listAdapter3.setData(squadX[0].bench_players)
+            listAdapter4.setData(squadX[1].bench_players)
         }
     }
 
@@ -122,15 +148,37 @@ class InfoFragment : Fragment() {
     private fun setPlayerImages(squad: SquadX) {
         squad.players.forEach { player ->
             val matchingPlayerImage =
-                squadX[0].playerImages.find { it.playerName == player.sk_slug }
+                squadX[0]?.playerImages?.find { it.playerName == player.sk_slug }
             player.playerImages = matchingPlayerImage?.playerImageURL.toString()
         }
 
         squad.bench_players.forEach { benchPlayer ->
             val matchingPlayerImage =
-                squadX[0].playerImages.find { it.playerName == benchPlayer.sk_slug }
+                squadX[0]?.playerImages?.find { it.playerName == benchPlayer.sk_slug }
             benchPlayer.playerImages = matchingPlayerImage?.playerImageURL.toString()
         }
+    }
+
+
+    private fun setUpadpater() {
+        listAdapter = InfoAdapter()
+        listAdapter.setInfoAdapterListener(this@InfoFragment)
+        listAdapter2 = InfoAdapter()
+        listAdapter2.setInfoAdapterListener(this@InfoFragment)
+        listAdapter3 = BenchPlayerListAdapter()
+        listAdapter3.setBenchAdapterListener(this@InfoFragment)
+        listAdapter4 = BenchPlayerListAdapter()
+        listAdapter4.setBenchAdapterListener(this@InfoFragment)
+
+        binding.recyclerViewTeam1.adapter = listAdapter
+        binding.recyclerViewTeam2.adapter = listAdapter2
+        binding.recyclerViewBenchTeam1.adapter = listAdapter3
+        binding.recyclerViewBenchTeam2.adapter = listAdapter4
+
+        binding.recyclerViewTeam1.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewTeam2.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewBenchTeam1.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewBenchTeam2.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun setUpTeam1Adapter() {
@@ -226,6 +274,7 @@ class InfoFragment : Fragment() {
         return formatter.format(zonedDateTime)
     }
 
+
     companion object {
         @JvmStatic
         fun newInstance(squad: ArrayList<Squad>) = InfoFragment().apply {
@@ -233,5 +282,19 @@ class InfoFragment : Fragment() {
                 putParcelableArrayList("squad", ArrayList(squad))
             }
         }
+    }
+
+    override fun onAdapterItemClick(player: Player) {
+        val bundle = bundleOf("sk_slug" to player.sk_slug, "name" to player.name)
+        findNavController().navigate(
+            R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+        )
+    }
+
+    override fun onBenchPlayerClick(player: BenchPlayer) {
+        val bundle = bundleOf("sk_slug" to player.sk_slug, "name" to player.name)
+        findNavController().navigate(
+            R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+        )
     }
 }

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +20,8 @@ import com.example.cricdekho.data.remote.SocketManager
 import com.example.cricdekho.databinding.FragmentMatchDetailsBinding
 import com.example.cricdekho.ui.activity.HomeActivity
 import com.example.cricdekho.ui.home.BaseFragment
+import com.example.cricdekho.util.MatchStatus
+import com.example.cricdekho.util.showToast
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
@@ -29,14 +32,15 @@ class MatchDetailsFragment : BaseFragment() {
     private lateinit var matchDetailViewPagerAdapter: MatchDetailViewPagerAdapter
     private lateinit var matchDetailViewModel: MatchDetailViewModel
     private lateinit var matchId: String
+    private lateinit var matchStatus: String
     private val responseSquad = ArrayList<Squad>()
     private var countDownTimer: CountDownTimer? = null
     private var currentViewPagerItem = 0
-    private var isDataLoaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         matchId = arguments?.getString("id").toString()
+        matchStatus = arguments?.getString("status").toString()
     }
 
     override fun onCreateView(
@@ -48,12 +52,22 @@ class MatchDetailsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
+
+        matchDetailViewModel.errorCaught.observe(viewLifecycleOwner){
+            if (it){
+                progressBarListener.hideProgressBar()
+                requireContext().showToast("Something Went Wrong!")
+            }
+        }
+
     }
 
     private fun initView() {
         progressBarListener.showProgressBar()
-       if (isDataLoaded) setViewPagerAdapter()
+        binding.tabLayout.getTabAt(0)?.select()
+        setViewPagerAdapter()
         fetchMatchDetail()
+
 //        view?.postDelayed({
 //            selectFirstTab()
 //        }, 100)
@@ -62,30 +76,39 @@ class MatchDetailsFragment : BaseFragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun fetchMatchDetail() {
         matchDetailViewModel = ViewModelProvider(this)[MatchDetailViewModel::class.java]
-        matchDetailViewModel.emitSocketEvent(matchId)
+        println(">>>>>>>>>>>>>>>>>matchId $matchId")
+        println(">>>>>>>>>>>>>>>>>matchStatus $matchStatus")
 
-        lifecycleScope.launch {
-            matchDetailViewModel.observeLiveData.observe(viewLifecycleOwner) { data ->
+        if (matchStatus != null && matchId != null && (matchStatus == MatchStatus.PRE.status || matchStatus == MatchStatus.POST.status)) {
+            matchDetailViewModel.liveMatchSore.observe(viewLifecycleOwner) {
+                setMatchData(it.data)
+                binding.clMain.isVisible = true
                 progressBarListener.hideProgressBar()
-                if (data is Squad) {
-                    responseSquad.clear()
-                    data.commentary[0].runs = Math.random().toString()
-                    responseSquad.addAll(listOf(data))
-                    setToolbar()
-                    setMatchData()
-                    if (!isDataLoaded){
-                        setViewPagerAdapter()
-                        isDataLoaded = true
+                println(">>>>>>datamatch ${it.data}")
+            }
+            matchDetailViewModel.getLiveMatchScore(matchId)
+        } else {
+            matchDetailViewModel.emitSocketEvent(matchId)
+
+            lifecycleScope.launch {
+                matchDetailViewModel.observeLiveData.observe(viewLifecycleOwner) { data ->
+                    binding.clMain.isVisible = true
+                    progressBarListener.hideProgressBar()
+                    if (data is Squad) {
+                        setMatchData(data)
                     }
-                    matchDetailsData.postValue(responseSquad)
-                    matchDetailViewPagerAdapter.setSquadList(responseSquad)
-                    binding.viewPager.adapter?.notifyDataSetChanged()
-/*
-                    setViewPagerAdapter()
-*/
                 }
             }
         }
+    }
+
+    private fun setMatchData(squad: Squad){
+        responseSquad.clear()
+        responseSquad.addAll(listOf(squad))
+        setMatchData()
+        setToolbar()
+        matchDetailsData.postValue(responseSquad)
+        matchDetailViewPagerAdapter.setSquadList(responseSquad)
     }
 
     private fun setViewPagerAdapter() {
@@ -105,11 +128,18 @@ class MatchDetailsFragment : BaseFragment() {
             }
         }.attach()
 
+        binding.tabLayout.getTabAt(0)?.view?.background =
+            ContextCompat.getDrawable(
+                requireContext(), R.drawable.bg_grey_shape
+            )
+
+        binding.viewPager.offscreenPageLimit = 4
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.view?.background = ContextCompat.getDrawable(
                     requireContext(), R.drawable.bg_grey_shape
                 )
+                tab?.position?.let { binding.viewPager.currentItem = it }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -117,7 +147,10 @@ class MatchDetailsFragment : BaseFragment() {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
+                tab?.view?.background = ContextCompat.getDrawable(
+                    requireContext(), R.drawable.bg_grey_shape
+                )
+                tab?.position?.let { binding.viewPager.currentItem = it }
             }
         })
     }
@@ -132,6 +165,19 @@ class MatchDetailsFragment : BaseFragment() {
             setting = false,
             back = true,
             share = true
+        )
+    }
+
+    private fun removeToolBar() {
+        val yourActivity = activity as? HomeActivity
+        yourActivity?.showToolBarMethod(
+            title = "",
+            menu = true,
+            logo = true,
+            search = true,
+            setting = true,
+            back = false,
+            share = false
         )
     }
 
@@ -192,7 +238,9 @@ class MatchDetailsFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         countDownTimer?.cancel()
+        responseSquad.clear()
         SocketManager.removeEventListener(matchId)
+        removeToolBar()
     }
 
     companion object {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -66,7 +67,8 @@ class ScheduleFragment : BaseFragment() {
         upcomingAdapter.setRecyclerViewItemClick { itemView, model ->
             when (itemView.id) {
                 R.id.clItem -> {
-                    findNavController().navigate(R.id.action_matchesFragment_to_matchDetailsFragment)
+                    val bundle = bundleOf("id" to model.id, "status" to model.status)
+                    findNavController().navigate(R.id.action_schedulePointsFragment_to_matchDetailsFragment, bundle)
                 }
             }
         }

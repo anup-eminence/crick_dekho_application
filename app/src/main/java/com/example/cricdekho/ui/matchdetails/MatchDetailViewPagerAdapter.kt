@@ -16,7 +16,6 @@ class MatchDetailViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: L
 
     private var squad : ArrayList<Squad> = arrayListOf()
 
-    @SuppressLint("NotifyDataSetChanged")
      fun setSquadList(squad: ArrayList<Squad>){
         this.squad = squad
     }

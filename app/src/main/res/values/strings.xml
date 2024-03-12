@@ -104,4 +104,12 @@
     <string name="_10w">10w</string>
     <string name="game_type">Game Type</string>
 
+
+    <!--Side Nav Item-->
+
+    <string name="about">About</string>
+    <string name="notification">Notification</string>
+    <string name="editorial">Editorial Board</string>
+    <string name="setting">Settings</string>
+
 </resources>

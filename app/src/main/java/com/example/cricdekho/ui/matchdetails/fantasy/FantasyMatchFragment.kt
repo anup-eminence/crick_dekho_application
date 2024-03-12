@@ -5,11 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.cricdekho.R
+import com.example.cricdekho.data.model.getMatchDetails.BenchPlayer
+import com.example.cricdekho.data.model.getMatchDetails.Player
 import com.example.cricdekho.data.model.getMatchDetails.Squad
 import com.example.cricdekho.data.model.getMatchDetails.SquadX
 import com.example.cricdekho.data.model.getSeriesBestEconomy.ResponseEconomyRate
@@ -18,6 +22,8 @@ import com.example.cricdekho.data.model.getSeriesMostRuns.ResponseMostRuns
 import com.example.cricdekho.data.model.getSeriesMostWickets.ResponseMostWickets
 import com.example.cricdekho.data.model.getUpcomingMatches.Tab
 import com.example.cricdekho.databinding.FragmentFantasyMatchBinding
+import com.example.cricdekho.ui.BenchPlayerListAdapter
+import com.example.cricdekho.ui.InfoAdapter
 import com.example.cricdekho.ui.home.BaseFragment
 import com.example.cricdekho.ui.match.upcoming.TabsAdapter
 import com.example.cricdekho.ui.matchdetails.MatchDetailViewModel
@@ -31,7 +37,8 @@ import com.example.cricdekho.ui.matchdetails.info.adapter.BenchTeam2Adapter
 import com.example.cricdekho.ui.matchdetails.info.adapter.InfoTeam1Adapter
 import com.example.cricdekho.ui.matchdetails.info.adapter.InfoTeam2Adapter
 
-class FantasyMatchFragment : BaseFragment() {
+class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerAdapterListener,
+    InfoAdapter.InfoAdapterClickListener {
     private lateinit var binding: FragmentFantasyMatchBinding
     private lateinit var infoTeam1Adapter: InfoTeam1Adapter
     private lateinit var infoTeam2Adapter: InfoTeam2Adapter
@@ -52,6 +59,11 @@ class FantasyMatchFragment : BaseFragment() {
     private var squadX = ArrayList<SquadX>()
     private var tournamentSlug: String = ""
 
+    private lateinit var listAdapter : InfoAdapter
+    private lateinit var listAdapter2 : InfoAdapter
+    private lateinit var listAdapter3 : BenchPlayerListAdapter
+    private lateinit var listAdapter4 : BenchPlayerListAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         /*arguments?.let {
@@ -67,6 +79,8 @@ class FantasyMatchFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setUpadpater()
+        initTabAdapter()
         MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner){
             if (it.isNotEmpty()) {
                 squad = it
@@ -74,6 +88,28 @@ class FantasyMatchFragment : BaseFragment() {
             }
         }
     }
+
+    private fun setUpadpater() {
+        listAdapter = InfoAdapter()
+        listAdapter.setInfoAdapterListener(this@FantasyMatchFragment)
+        listAdapter2 = InfoAdapter()
+        listAdapter2.setInfoAdapterListener(this@FantasyMatchFragment)
+        listAdapter3 = BenchPlayerListAdapter()
+        listAdapter3.setBenchAdapterListener(this@FantasyMatchFragment)
+        listAdapter4 = BenchPlayerListAdapter()
+        listAdapter4.setBenchAdapterListener(this@FantasyMatchFragment)
+
+        binding.recyclerViewTeam1.adapter = listAdapter
+        binding.recyclerViewTeam2.adapter = listAdapter2
+        binding.recyclerViewBenchTeam1.adapter = listAdapter3
+        binding.recyclerViewBenchTeam2.adapter = listAdapter4
+
+        binding.recyclerViewTeam1.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewTeam2.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewBenchTeam1.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewBenchTeam2.layoutManager = LinearLayoutManager(requireContext())
+    }
+
 
     private fun initView() {
         squadX.clear()
@@ -90,10 +126,14 @@ class FantasyMatchFragment : BaseFragment() {
             tvTeam2.text = squadX[1].team_shortname
         }
         if (squad[0].match_status != "pre") {
-            setUpTeam1Adapter()
+            listAdapter.setData(squadX[0].players)
+            listAdapter2.setData(squadX[1].players)
+            listAdapter3.setData(squadX[0].bench_players)
+            listAdapter4.setData(squadX[1].bench_players)
+           /* setUpTeam1Adapter()
             setUpTeam2Adapter()
             setUpBenchTeam1Adapter()
-            setUpBenchTeam2Adapter()
+            setUpBenchTeam2Adapter()*/
         } else {
             binding.apply {
                 clTeams.visibility = View.GONE
@@ -101,28 +141,31 @@ class FantasyMatchFragment : BaseFragment() {
                 tvText.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
             }
         }
-        tabsList.clear()
-        tabsList.addAll(
-            listOf(
-                Tab("Most Runs", ""),
-                Tab("Most Wickets", ""),
-                Tab("Best Strike rate", ""),
-                Tab("Best Eco rate", "")
-            )
-        )
-        setUpTabAdapter()
+
+    }
+
+   private fun initTabAdapter() {
+       tabsList.addAll(
+           listOf(
+               Tab("Most Runs", ""),
+               Tab("Most Wickets", ""),
+               Tab("Best Strike rate", ""),
+               Tab("Best Eco rate", "")
+           )
+       )
+       setUpTabAdapter()
     }
 
     private fun setPlayerImages(squad: SquadX) {
         squad.players.forEach { player ->
             val matchingPlayerImage =
-                squadX[0].playerImages.find { it.playerName == player.sk_slug }
+                squadX[0]?.playerImages?.find { it.playerName == player.sk_slug }
             player.playerImages = matchingPlayerImage?.playerImageURL.toString()
         }
 
         squad.bench_players.forEach { benchPlayer ->
             val matchingPlayerImage =
-                squadX[0].playerImages.find { it.playerName == benchPlayer.sk_slug }
+                squadX[0]?.playerImages?.find { it.playerName == benchPlayer.sk_slug }
             benchPlayer.playerImages = matchingPlayerImage?.playerImageURL.toString()
         }
     }
@@ -175,7 +218,6 @@ class FantasyMatchFragment : BaseFragment() {
 
         tabsAdapter.addAll(tabsList, true)
         binding.recyclerViewTabs.adapter = tabsAdapter
-        tabsAdapter.notifyDataSetChanged()
         binding.recyclerViewTabs.layoutManager?.onRestoreInstanceState(recyclerViewState)
 
         tabsAdapter.setRecyclerViewItemClick { itemView, model ->
@@ -271,5 +313,19 @@ class FantasyMatchFragment : BaseFragment() {
                 putParcelableArrayList("squad", ArrayList(squad))
             }
         }
+    }
+
+    override fun onAdapterItemClick(player: Player) {
+        val bundle = bundleOf("sk_slug" to player.sk_slug, "name" to player.name)
+        findNavController().navigate(
+            R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+        )
+    }
+
+    override fun onBenchPlayerClick(player: BenchPlayer) {
+        val bundle = bundleOf("sk_slug" to player.sk_slug, "name" to player.name)
+        findNavController().navigate(
+            R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+        )
     }
 }
