@@ -29,6 +29,8 @@ class MatchDetailViewModel : ViewModel() {
     private val _socketData = MutableLiveData<Any>()
     val observeLiveData: LiveData<Any> get() = _socketData
 
+    var errorCaught = MutableLiveData<Boolean>()
+
     private val matchDetailsRepository = MatchDetailsRepository()
 
     private val _dataCommentary = MutableLiveData<List<Commentary>>()
@@ -92,19 +94,24 @@ class MatchDetailViewModel : ViewModel() {
 
                                 } catch (e: Exception) {
                                     Log.e("SquadData", "Error parsing squad data: ${e.message}")
+                                    errorCaught.postValue(true)
                                 }
 
                             } else {
                                 Log.e("SocketData", "Unexpected type for the first element")
+                                errorCaught.postValue(true)
                             }
                         } else {
                             Log.e("SocketData", "Empty args array")
+                            errorCaught.postValue(true)
                         }
                     } catch (e: Exception) {
                         Log.e("SocketData", "Error accessing array length: ${e.message}")
+                        errorCaught.postValue(true)
                     }
                 } else {
                     Log.e("SocketData", "Null args")
+                    errorCaught.postValue(true)
                 }
             }
         }

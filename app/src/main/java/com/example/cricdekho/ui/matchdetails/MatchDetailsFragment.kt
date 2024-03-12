@@ -21,6 +21,7 @@ import com.example.cricdekho.databinding.FragmentMatchDetailsBinding
 import com.example.cricdekho.ui.activity.HomeActivity
 import com.example.cricdekho.ui.home.BaseFragment
 import com.example.cricdekho.util.MatchStatus
+import com.example.cricdekho.util.showToast
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
@@ -51,6 +52,14 @@ class MatchDetailsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
+
+        matchDetailViewModel.errorCaught.observe(viewLifecycleOwner){
+            if (it){
+                progressBarListener.hideProgressBar()
+                requireContext().showToast("Something Went Wrong!")
+            }
+        }
+
     }
 
     private fun initView() {
