@@ -17,15 +17,22 @@ import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getMatchDetails.Commentary
 import com.example.cricdekho.databinding.ItemCommentaryBinding
 import org.xml.sax.XMLReader
+import kotlin.math.roundToInt
 
 class CommentaryListAdapter : RecyclerView.Adapter<CommentaryListAdapter.CommentaryVH>() {
 
     var oldList = emptyList<Commentary>()
 
-    class CommentaryVH(val  binding : ItemCommentaryBinding) : RecyclerView.ViewHolder(binding.root)
+    class CommentaryVH(val binding: ItemCommentaryBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentaryVH {
-        return CommentaryVH(ItemCommentaryBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return CommentaryVH(
+            ItemCommentaryBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
@@ -33,13 +40,13 @@ class CommentaryListAdapter : RecyclerView.Adapter<CommentaryListAdapter.Comment
     }
 
     override fun onBindViewHolder(holder: CommentaryVH, position: Int) {
-       bindItem(holder,position)
+        bindItem(holder, position)
     }
 
-    private fun bindItem(holder: CommentaryVH,position: Int){
+    private fun bindItem(holder: CommentaryVH, position: Int) {
         val model = oldList[position]
         holder.binding.apply {
-            if (model.opta_ball_type == "wicket" || model.opta_ball_type == "normal" || model.opta_ball_type == "leg_bye" || model.opta_ball_type == "wide") {
+            if (model.opta_ball_type == "wicket" || model.opta_ball_type == "normal" || model.opta_ball_type == "leg_bye" || model.opta_ball_type == "wide" || model.opta_ball_type == "bye") {
                 tvBowl.visibility = View.VISIBLE
                 tvRun.visibility = View.VISIBLE
                 tvText.visibility = View.VISIBLE
@@ -49,8 +56,8 @@ class CommentaryListAdapter : RecyclerView.Adapter<CommentaryListAdapter.Comment
                 tvText.text = extractTextPart(spannedText)
                 tvBowl.text = extractNumericPart(spannedText)
 
-                if (model.runs is Double || model.runs is Float){
-                    model.runs = Math.round(model.runs as Double)
+                if (model.runs is Double || model.runs is Float) {
+                    model.runs = (model.runs as Double).roundToInt()
                 }
 
                 if (model.opta_ball_type == "wicket" || model.runs == "W") {
@@ -62,17 +69,20 @@ class CommentaryListAdapter : RecyclerView.Adapter<CommentaryListAdapter.Comment
                 } else if ((model.runs == 1 || model.runs == 2 || model.runs == 3) && model.opta_ball_type == "normal") {
                     tvRun.text = model.runs.toString()
                     setTextViewStyle(tvRun, R.color.white, R.drawable.bg_circle_blue)
+                } else if ((model.runs == 1 || model.runs == 2 || model.runs == 3 || model.runs == 4) && model.opta_ball_type == "bye") {
+                    tvRun.text = "${model.runs}b"
+                    setTextViewStyle(tvRun, R.color.white, R.drawable.bg_circle_blue)
                 } else if (model.opta_ball_type == "wide") {
                     tvRun.text = "${model.runs}wd"
                     setTextViewStyle(tvRun, R.color.white, R.drawable.bg_circle_blue)
-                } else if(model.runs != null && model.runs.toString().contains("0")){
+                } else if (model.runs != null && model.runs.toString().contains("0")) {
                     tvRun.text = model.runs.toString()
                 } else {
                     if (model.runs != null) {
                         if (model.runs.toString().contains("4")) {
                             setTextViewStyle(tvRun, R.color.white, R.drawable.bg_circle_green)
 
-                        } else if (model.runs.toString().contains("6")){
+                        } else if (model.runs.toString().contains("6")) {
                             setTextViewStyle(tvRun, R.color.white, R.drawable.bg_circle_dark_blue)
 
                         } else {
@@ -124,7 +134,7 @@ class CommentaryListAdapter : RecyclerView.Adapter<CommentaryListAdapter.Comment
         }
     }
 
-    fun setCommentaryData(newList: List<Commentary>){
+    fun setCommentaryData(newList: List<Commentary>) {
         val diffUtil = CommentaryDiffUtils(oldList, newList)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
         oldList = newList
@@ -176,29 +186,34 @@ class CommentaryListAdapter : RecyclerView.Adapter<CommentaryListAdapter.Comment
     }
 
     private fun setTextViewWithCondition(textView: AppCompatTextView, value: String) {
-        when (value) {
-            "1", "2", "3", "1lb", "2lb", "1nb", "1wd" -> {
-                textView.text = value
-                setTextViewStyle(textView, R.color.white, R.drawable.bg_circle_blue)
-            }
+        if (value.contains("lb") || value.contains("wd") || value.contains("b")) {
+            textView.text = value
+            setTextViewStyle(textView, R.color.white, R.drawable.bg_circle_blue)
+        } else {
+            when (value) {
+                "1", "2", "3" -> {
+                    textView.text = value
+                    setTextViewStyle(textView, R.color.white, R.drawable.bg_circle_blue)
+                }
 
-            "4" -> {
-                textView.text = value
-                setTextViewStyle(textView, R.color.white, R.drawable.bg_circle_green)
-            }
+                "4" -> {
+                    textView.text = value
+                    setTextViewStyle(textView, R.color.white, R.drawable.bg_circle_green)
+                }
 
-            "6" -> {
-                textView.text = value
-                setTextViewStyle(textView, R.color.white, R.drawable.bg_circle_dark_blue)
-            }
+                "6" -> {
+                    textView.text = value
+                    setTextViewStyle(textView, R.color.white, R.drawable.bg_circle_dark_blue)
+                }
 
-            "W", "w" -> {
-                textView.text = value
-                setTextViewStyle(textView, R.color.white, R.drawable.bg_circle_red)
-            }
+                "W", "w" -> {
+                    textView.text = value
+                    setTextViewStyle(textView, R.color.white, R.drawable.bg_circle_red)
+                }
 
-            else -> {
-                textView.text = value
+                else -> {
+                    textView.text = value
+                }
             }
         }
     }

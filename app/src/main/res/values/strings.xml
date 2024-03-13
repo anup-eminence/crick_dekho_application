@@ -103,7 +103,7 @@
     <string name="_5w">5w</string>
     <string name="_10w">10w</string>
     <string name="game_type">Game Type</string>
-
+    <string name="view_all">View All ></string>
 
     <!--Side Nav Item-->
 
@@ -111,5 +111,7 @@
     <string name="notification">Notification</string>
     <string name="editorial">Editorial Board</string>
     <string name="setting">Settings</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -9,10 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getMatchDetails.Squad
@@ -52,6 +54,7 @@ class MatchDetailsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
+        setOnClickListener()
 
         matchDetailViewModel.errorCaught.observe(viewLifecycleOwner){
             if (it){
@@ -71,6 +74,22 @@ class MatchDetailsFragment : BaseFragment() {
 //        view?.postDelayed({
 //            selectFirstTab()
 //        }, 100)
+    }
+
+    private fun setOnClickListener() {
+        binding.tvTitle1.setOnClickListener {
+            val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip[0].slug)
+            findNavController().navigate(
+                R.id.action_matchDetailsFragment_to_teamInfoFragment, bundle
+            )
+        }
+
+        binding.tvTitle2.setOnClickListener {
+            val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip[1].slug)
+            findNavController().navigate(
+                R.id.action_matchDetailsFragment_to_teamInfoFragment, bundle
+            )
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -237,6 +256,13 @@ class MatchDetailsFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        countDownTimer?.cancel()
+        responseSquad.clear()
+        SocketManager.removeEventListener(matchId)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         countDownTimer?.cancel()
         responseSquad.clear()
         SocketManager.removeEventListener(matchId)

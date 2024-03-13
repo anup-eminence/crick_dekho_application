@@ -318,14 +318,14 @@ class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerA
     override fun onAdapterItemClick(player: Player) {
         val bundle = bundleOf("sk_slug" to player.sk_slug, "name" to player.name)
         findNavController().navigate(
-            R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+            R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
         )
     }
 
     override fun onBenchPlayerClick(player: BenchPlayer) {
         val bundle = bundleOf("sk_slug" to player.sk_slug, "name" to player.name)
         findNavController().navigate(
-            R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+            R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
         )
     }
 }
