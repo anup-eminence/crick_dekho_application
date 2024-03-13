@@ -119,4 +119,7 @@
     <string name="team_owner_s">Team Owner(S)</string>
     <string name="prominent_players">Prominent Players</string>
 
+
+    <string name="batting_performance">Batting Performance</string>
+
 </resources>

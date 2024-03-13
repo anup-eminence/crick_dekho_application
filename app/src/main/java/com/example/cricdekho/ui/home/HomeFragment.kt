@@ -71,7 +71,6 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
 
     private fun initView() {
         progressBarListener.showProgressBar()
-        SocketManager.connect()
         homeViewModel = ViewModelProvider(this)[HomeFeatureViewModel::class.java]
 
         callMatchApi()
@@ -121,6 +120,7 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
 
         homeViewModel.observeLiveData.observe(viewLifecycleOwner) { data ->
             progressBarListener.hideProgressBar()
+            println(">>>>>>>>>>>>>>.datacaught $data")
             if (data is ResponseHomeMatch) {
                 responseHomeMatch.clear()
                 responseHomeMatch.addAll(listOf(data))
@@ -157,6 +157,10 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
         homeFeatureAdapter.setRecyclerViewItemClick { itemView, model ->
             when (itemView.id) {
                 R.id.tvText -> {
+                    println(">>>>>>>>slug $tournamentSlug")
+                    SocketManager.removeEventListener(tournamentSlug)
+                    tournamentSlug = model.slug
+                    println(">>>>>>>>>>>>newslug $tournamentSlug>>")
                     fetchSocketData(model.slug)
                     progressBarListener.showProgressBar()
                 }
@@ -176,15 +180,19 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        SocketManager.connect()
+    }
+
     private fun setUpMatchAdapter() {
         homeMatchAdapter = HomeMatchAdapter()
-        val recyclerViewState = binding.recyclerView.layoutManager?.onSaveInstanceState()
         binding.recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        homeMatchAdapter.clear(true)
         homeMatchAdapter.addAll(responseMatch, true)
         binding.recyclerView.adapter = homeMatchAdapter
         homeMatchAdapter.notifyDataSetChanged()
-        binding.recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
 
 
         homeMatchAdapter.setRecyclerViewItemClick { itemView, model ->
@@ -205,13 +213,12 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
 
                 R.id.clItem -> {
                     val bundle = bundleOf("id" to model.id, "status" to model.status)
+                    SocketManager.removeEventListener(tournamentSlug)
                     findNavController().navigate(
                         R.id.action_homeFragment_to_matchDetailsFragment, bundle
                     )
-                    SocketManager.removeEventListener(tournamentSlug)
                 }
             }
-            fetchSocketData("featured")
         }
     }
 
@@ -274,6 +281,13 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
             textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             textView.setBackgroundResource(R.drawable.bg_grey_shape)
         }
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        SocketManager.disconnect()
+        println(">>>>>>>>>>>onpausecalled ")
     }
 
     override fun onDestroy() {

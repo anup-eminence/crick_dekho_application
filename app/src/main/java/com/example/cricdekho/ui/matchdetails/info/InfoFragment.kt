@@ -2,8 +2,6 @@ package com.example.cricdekho.ui.matchdetails.info
 
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,7 +71,6 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
                 squad = it
                 initView()
                 binding.clMain.isVisible = true
-                println(">>>>>>>>>>>>>>>>>.printdata")
             }
         }
         setOnClickListener()

@@ -10,6 +10,7 @@ import com.example.cricdekho.ui.matchdetails.commentary.CommentaryFragment
 import com.example.cricdekho.ui.matchdetails.fantasy.FantasyMatchFragment
 import com.example.cricdekho.ui.matchdetails.info.InfoFragment
 import com.example.cricdekho.ui.matchdetails.scorecard.ScoreCardFragment
+import com.example.cricdekho.ui.playerdetails.stat.PlayerStat
 
 class MatchDetailViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle,
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
@@ -26,7 +27,7 @@ class MatchDetailViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: L
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> InfoFragment.newInstance(squad)
-            1 -> FantasyMatchFragment.newInstance(squad)
+            1 -> PlayerStat()
             2 -> CommentaryFragment.newInstance(squad)
             3 -> ScoreCardFragment.newInstance(squad)
             4 -> TrendingFragment()
