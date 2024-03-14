@@ -21,17 +21,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="vs"
-            android:textColor="@color/grey"
-            android:textSize="15sp"/>
-
         <ImageView
             android:id="@+id/country_img"
             android:layout_width="20dp"
             android:layout_height="10dp"
+            android:visibility="gone"
             android:layout_marginStart="10dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_image"
@@ -39,7 +33,7 @@
 
         <TextView
             android:id="@+id/country_name"
-            android:layout_width="60dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="India Hindus"
             android:ellipsize="end"

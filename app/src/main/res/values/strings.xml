@@ -121,5 +121,9 @@
 
 
     <string name="batting_performance">Batting Performance</string>
+    <string name="bowling_performance">Bowling Performance</string>
+    <string name="tournament_stats">Tournament Stats</string>
+    <string name="batting_statistics">Batting Statistics</string>
+    <string name="tournament">Tournament</string>
 
 </resources>

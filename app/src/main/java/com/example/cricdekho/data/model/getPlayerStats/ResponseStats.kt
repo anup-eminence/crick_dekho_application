@@ -14,7 +14,7 @@ data class ResponseStats(
 data class MostRecentMatchesItem(
 
 	@field:SerializedName("tables")
-	val tables: List<TablesItem?>? = null
+	val tables: List<TablesItem?>
 )
 
 data class TablesItem(
@@ -170,7 +170,7 @@ data class DataItem(
 data class TournamentStatsItem(
 
 	@field:SerializedName("tables")
-	val tables: List<TablesItem?>? = null,
+	val tables: List<TablesItem?>,
 
 	@field:SerializedName("title")
 	val title: String? = null

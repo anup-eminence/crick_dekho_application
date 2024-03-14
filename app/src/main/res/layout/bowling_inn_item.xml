@@ -23,7 +23,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/no"
+            android:id="@+id/b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1"
@@ -41,7 +41,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/bf"
+            android:id="@+id/w"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="43"
@@ -50,7 +50,7 @@
         android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/t_100s"
+            android:id="@+id/er"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1"
@@ -59,7 +59,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/t_50s"
+            android:id="@+id/dots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="50"
@@ -68,7 +68,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/t_4s"
+            android:id="@+id/mdns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="4"
@@ -77,7 +77,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/t_6s"
+            android:id="@+id/t_4w"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="6"
@@ -86,7 +86,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/sr"
+            android:id="@+id/t_5w"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1"
@@ -95,7 +95,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/avg"
+            android:id="@+id/t_10w"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3"
@@ -104,7 +104,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/h"
+            android:id="@+id/avg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="100"

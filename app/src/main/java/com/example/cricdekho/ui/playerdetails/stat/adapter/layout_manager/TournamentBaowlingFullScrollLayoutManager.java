@@ -1,20 +1,22 @@
-package com.example.cricdekho.ui.playerdetails.stat;
+package com.example.cricdekho.ui.playerdetails.stat.adapter.layout_manager;
+
 import android.content.Context;
 import android.view.View;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class FullScrollLayoutManager extends LinearLayoutManager {
+public class TournamentBaowlingFullScrollLayoutManager extends LinearLayoutManager {
     private int offset;
     private int maxOffset;
 
-    public ScrollListener scrollListener;
+    public ScrollListenerTournamentBowling scrollListener;
 
-    public FullScrollLayoutManager(Context context) {
+    public TournamentBaowlingFullScrollLayoutManager(Context context) {
         super(context);
     }
 
-    public FullScrollLayoutManager(Context context,ScrollListener scrollListener) {
+    public TournamentBaowlingFullScrollLayoutManager(Context context, ScrollListenerTournamentBowling scrollListener) {
         super(context);
         this.scrollListener = scrollListener;
     }
@@ -49,13 +51,13 @@ public class FullScrollLayoutManager extends LinearLayoutManager {
         }
         offsetChildrenHorizontal(-dx);
         offset += dx;
-        scrollListener.scrollBy(offset);
+        scrollListener.scrollTournamentBowlingBy(offset);
         return dx;
     }
 
 
-    public interface ScrollListener {
-        void scrollBy(int dx);
+    public interface ScrollListenerTournamentBowling {
+        void scrollTournamentBowlingBy(int dx);
     }
 
 }

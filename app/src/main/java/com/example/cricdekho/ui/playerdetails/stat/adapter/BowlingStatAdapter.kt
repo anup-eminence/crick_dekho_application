@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cricdekho.data.model.getPlayerStats.DataItem
+import com.example.cricdekho.databinding.BowlingInnItemBinding
 import com.example.cricdekho.databinding.InnItemBinding
 
-class BattingStatAdapter : RecyclerView.Adapter<BattingStatAdapter.BattingStatVH>() {
+class BowlingStatAdapter : RecyclerView.Adapter<BowlingStatAdapter.BattingStatVH>() {
 
     private var battingList = emptyList<DataItem?>()
 
@@ -18,11 +19,11 @@ class BattingStatAdapter : RecyclerView.Adapter<BattingStatAdapter.BattingStatVH
         notifyDataSetChanged()
     }
 
-    class BattingStatVH(val binding: InnItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class BattingStatVH(val binding: BowlingInnItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BattingStatVH {
         return BattingStatVH(
-            InnItemBinding.inflate(
+            BowlingInnItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -38,16 +39,16 @@ class BattingStatAdapter : RecyclerView.Adapter<BattingStatAdapter.BattingStatVH
         val item = battingList[position]
         holder.binding.apply {
             inn.text = item?.inn ?: "0"
-            no.text = item?.nO ?: "0"
+            b.text = item?.b ?: "0"
             r.text = item?.r ?: "0"
-            bf.text = item?.bF ?: "0"
-            t100s.text = item?.jsonMember100s ?: "0"
-            t50s.text = item?.jsonMember50s ?: "0"
-            t4s.text = item?.jsonMember4s ?: "0"
-            t6s.text = item?.jsonMember6s ?: "0"
-            sr.text = item?.sR ?: "0"
+            w.text = item?.w ?: "0"
+            er.text = item?.eR ?: "0"
+            dots.text = item?.dots ?: "0"
+            mdns.text = item?.mdns ?: "0"
+            t4w.text = item?.jsonMember4w ?: "0"
+            t5w.text = item?.jsonMember5w ?: "0"
+            t10w.text = item?.jsonMember10w ?: "0"
             avg.text = item?.avg ?: "0"
-            h.text = item?.h ?: "0"
 
         }
     }

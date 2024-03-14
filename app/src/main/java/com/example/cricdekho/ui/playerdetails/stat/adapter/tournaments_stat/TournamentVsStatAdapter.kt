@@ -1,4 +1,4 @@
-package com.example.cricdekho.ui.playerdetails.stat.adapter
+package com.example.cricdekho.ui.playerdetails.stat.adapter.tournaments_stat
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -10,12 +10,12 @@ import com.example.cricdekho.data.model.getPlayerStats.VSTeamStatsItem
 import com.example.cricdekho.databinding.InnItemBinding
 import com.example.cricdekho.databinding.VsLayoutBinding
 
-class VsStatAdapter : RecyclerView.Adapter<VsStatAdapter.BattingStatVH>() {
+class TournamentVsStatAdapter : RecyclerView.Adapter<TournamentVsStatAdapter.BattingStatVH>() {
 
-    private var vsTeamList = emptyList<DataItem?>()
+    private var vsTeamList = emptyList<TablesItem?>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(list: List<DataItem?>){
+    fun setData(list: List<TablesItem?>){
         println(">>>>>>>>>>>>>>>>>>>>>>datacaught $list")
         vsTeamList = list
         notifyDataSetChanged()
@@ -34,7 +34,7 @@ class VsStatAdapter : RecyclerView.Adapter<VsStatAdapter.BattingStatVH>() {
     override fun onBindViewHolder(holder: BattingStatVH, position: Int) {
         val item = vsTeamList[position]
         holder.binding.apply {
-            countryName.text = item?.jsonMember
+            countryName.text = item?.tournament
 
         }
 
