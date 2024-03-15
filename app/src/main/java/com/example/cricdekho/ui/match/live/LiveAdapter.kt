@@ -11,8 +11,8 @@ class LiveAdapter : EasyAdapter<CricketMatch, ItemScheduleBinding>(R.layout.item
     override fun onBind(binding: ItemScheduleBinding, model: CricketMatch) {
 
         binding.apply {
-            Glide.with(root.context).load(model.t1_flag).into(ivFlag1)
-            Glide.with(root.context).load(model.t2_flag).into(ivFlag2)
+            Glide.with(root.context).load(model.t1_flag).placeholder(R.drawable.ic_team_default).into(ivFlag1)
+            Glide.with(root.context).load(model.t2_flag).placeholder(R.drawable.ic_team_default).into(ivFlag2)
             tvTitle1.text = model.t1_key
             tvTitle2.text = model.t2_key
             tvRuns1.text = model.t1_score

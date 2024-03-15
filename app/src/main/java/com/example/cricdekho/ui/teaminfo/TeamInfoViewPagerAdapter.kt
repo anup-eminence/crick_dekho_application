@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.cricdekho.ui.matchdetails.TrendingFragment
+import com.example.cricdekho.ui.teaminfo.about.AboutTeamFragment
 import com.example.cricdekho.ui.teaminfo.squad.SquadFragment
 
 class TeamInfoViewPagerAdapter(
@@ -17,7 +18,7 @@ class TeamInfoViewPagerAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> TrendingFragment()
+            0 -> AboutTeamFragment.newInstance(tournamentSlug)
             1 -> TrendingFragment()
             2 -> SquadFragment.newInstance(tournamentSlug)
             else -> throw IndexOutOfBoundsException("Invalid position $position")

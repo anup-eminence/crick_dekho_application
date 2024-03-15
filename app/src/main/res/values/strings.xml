@@ -113,5 +113,10 @@
     <string name="setting">Settings</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nick_name">Nick Name</string>
+    <string name="founded">Founded</string>
+    <string name="ground">Ground</string>
+    <string name="team_owner_s">Team Owner(S)</string>
+    <string name="prominent_players">Prominent Players</string>
 
 </resources>

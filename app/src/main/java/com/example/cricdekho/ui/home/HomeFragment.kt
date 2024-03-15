@@ -15,12 +15,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.SnapHelper
+import com.bumptech.glide.Glide
 import com.example.cricdekho.R
-import com.example.cricdekho.data.model.HomeExtraNewsList
-import com.example.cricdekho.data.model.HomeNewsList
 import com.example.cricdekho.data.model.HomeTrendingList
 import com.example.cricdekho.data.model.getCricketMatches.Data
 import com.example.cricdekho.data.model.getCricketMatches.ResponseHomeMatch
+import com.example.cricdekho.data.model.getLatestNews.DataItem
+import com.example.cricdekho.data.model.getLatestNews.ResponseLatestNews
 import com.example.cricdekho.data.remote.SocketManager
 import com.example.cricdekho.databinding.FragmentHomeBinding
 import com.example.cricdekho.ui.home.adapter.HomeExtraNewsAdapter
@@ -31,7 +32,7 @@ import com.example.cricdekho.ui.home.adapter.HomeTrendingAdapter
 import com.example.cricdekho.util.DotsIndicatorDecoration
 
 
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, HomeExtraNewsAdapter.ExtraNewsAdapterClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeFeatureAdapter: HomeFeatureAdapter
     private lateinit var homeMatchAdapter: HomeMatchAdapter
@@ -48,6 +49,7 @@ class HomeFragment : BaseFragment() {
     private val responseHomeMatch = ArrayList<ResponseHomeMatch>()
     private val responseMatch = ArrayList<Data>()
     private val tournamentSlug = "featured"
+    private val responseLatestNews = ArrayList<ResponseLatestNews>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,9 +75,7 @@ class HomeFragment : BaseFragment() {
         homeViewModel = ViewModelProvider(this)[HomeFeatureViewModel::class.java]
 
         callMatchApi()
-        setUpNewsAdapter()
         setUpTrendingAdapter()
-        setUpExtraNewsAdapter()
         selectTextView(binding.tvLatestNews)
     }
 
@@ -106,6 +106,14 @@ class HomeFragment : BaseFragment() {
             setUpMatchAdapter()
             fetchSocketData(tournamentSlug)
         })
+
+        homeFeatureViewModel.dataLatestNews.observe(viewLifecycleOwner, Observer {
+            responseLatestNews.clear()
+            responseLatestNews.addAll(listOf(it))
+            setData()
+            setUpNewsAdapter()
+            setUpExtraNewsAdapter()
+        })
     }
 
     private fun fetchSocketData(tournamentSlug: String) {
@@ -123,15 +131,25 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    private fun setData() {
+        binding.apply {
+            Glide.with(requireContext()).load(responseLatestNews[0].data?.get(0)?.img).into(ivImage)
+            tvImage.text = responseLatestNews[0].data?.get(0)?.p
+            tvTime.text = responseLatestNews[0].data?.get(0)?.time
+
+            ivImage.setOnClickListener {
+                val bundle = bundleOf("link" to responseLatestNews[0].data?.get(0)?.link)
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_newsDetailFragment, bundle
+                )
+            }
+        }
+    }
+
     private fun setUpFeatureAdapter() {
         homeFeatureAdapter = HomeFeatureAdapter()
         binding.recyclerViewFeatures.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-//        homeFeatureAdapter.addAll(responseHomeFeature[0].data, false)
-//        binding.recyclerViewFeatures.adapter = homeFeatureAdapter
-//        homeFeatureAdapter.notifyDataSetChanged()
-
         homeFeatureAdapter.addAll(responseHomeFeature, true)
         binding.recyclerViewFeatures.adapter = homeFeatureAdapter
         homeFeatureAdapter.notifyDataSetChanged()
@@ -198,20 +216,17 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setUpNewsAdapter() {
-        homeNewsAdapter = HomeNewsAdapter()
         binding.recyclerViewNews.layoutManager = LinearLayoutManager(requireContext())
-        val homeNewsList = ArrayList<HomeNewsList>()
-        for (i in 1..5) {
-            homeNewsList.add(
-                HomeNewsList(
-                    "$i",
-                    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content."
-                )
-            )
-        }
-        homeNewsAdapter.addAll(homeNewsList, true)
+        homeNewsAdapter = HomeNewsAdapter(responseLatestNews[0].data?.take(5))
+        homeNewsAdapter.setNewsAdapterListener(this@HomeFragment)
         binding.recyclerViewNews.adapter = homeNewsAdapter
-        homeNewsAdapter.notifyDataSetChanged()
+    }
+
+    override fun onNewsAdapterItemClick(item: DataItem) {
+        val bundle = bundleOf("link" to item.link)
+        findNavController().navigate(
+            R.id.action_homeFragment_to_newsDetailFragment, bundle
+        )
     }
 
     private fun setUpTrendingAdapter() {
@@ -236,27 +251,17 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setUpExtraNewsAdapter() {
-        homeExtraNewsAdapter = HomeExtraNewsAdapter()
         binding.recyclerViewExtraNews.layoutManager = LinearLayoutManager(requireContext())
-        val homeExtraNewsList = ArrayList<HomeExtraNewsList>()
-        for (i in 1..30) {
-            homeExtraNewsList.add(
-                HomeExtraNewsList(
-                    R.drawable.ic_image,
-                    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.",
-                    "35 minutes ago",
-                    R.drawable.ic_image,
-                    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.",
-                    "35 minutes ago",
-                    R.drawable.ic_image,
-                    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.",
-                    "35 minutes ago"
-                )
-            )
-        }
-        homeExtraNewsAdapter.addAll(homeExtraNewsList, false)
+        homeExtraNewsAdapter = HomeExtraNewsAdapter(responseLatestNews[0].data)
+        homeExtraNewsAdapter.setExtraNewsAdapterListener(this@HomeFragment)
         binding.recyclerViewExtraNews.adapter = homeExtraNewsAdapter
-        homeExtraNewsAdapter.notifyDataSetChanged()
+    }
+
+    override fun onAdapterItemClick(item: DataItem) {
+        val bundle = bundleOf("link" to item.link)
+        findNavController().navigate(
+            R.id.action_homeFragment_to_newsDetailFragment, bundle
+        )
     }
 
     private fun selectTextView(textView: TextView) {

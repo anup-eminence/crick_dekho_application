@@ -88,7 +88,7 @@ class OverviewFragment : BaseFragment() {
             txtNation.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.nationality
             txtBirthPlace.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.birthPlace
             txtHeight.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.height
-            txtCurrentTeam.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.currentTeamS
+            txtCurrentTeam.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.currentTeamS?.replace("\n\n\n", "\n")
             txtRole.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.role
             txtBattingStyle.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.battingStyle
             txtBowlingStyle.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.bowlingStyle

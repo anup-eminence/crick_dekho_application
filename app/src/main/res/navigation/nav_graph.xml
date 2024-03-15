@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_bottomSheet"
             app:destination="@id/bottomSheet" />
+        <action
+            android:id="@+id/action_homeFragment_to_newsDetailFragment"
+            app:destination="@id/newsDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/schedulePointsFragment"
@@ -83,4 +86,8 @@
             android:id="@+id/action_teamInfoFragment_to_playerDetailsFragment"
             app:destination="@id/playerDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/newsDetailFragment"
+        android:name="com.example.cricdekho.ui.newsdetails.NewsDetailFragment"
+        android:label="NewsDetailFragment" />
 </navigation>

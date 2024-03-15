@@ -2,6 +2,8 @@ package com.example.cricdekho.data.remote
 
 import com.example.cricdekho.data.model.getCricketMainTabs.ResponseHomeFeature
 import com.example.cricdekho.data.model.getCricketMatches.ResponseHomeMatch
+import com.example.cricdekho.data.model.getCricketNews.ResponseCricketNews
+import com.example.cricdekho.data.model.getLatestNews.ResponseLatestNews
 import com.example.cricdekho.data.model.getMatchDetails.LiveMatchScoreResponse
 import com.example.cricdekho.data.model.getPlayerInfo.ResponsePlayerInfo
 import com.example.cricdekho.data.model.getPlayerStats.ResponseStats
@@ -62,4 +64,10 @@ interface ApiService {
 
     @GET("getTeamInfo/{tournament_slug}")
     suspend fun getTeamInfo(@Path("tournament_slug") tournamentSlug: String): ResponseTeamInfo
+
+    @GET("getLatestNews")
+    suspend fun getLatestNews(): ResponseLatestNews
+
+    @GET("getCricketNews")
+    suspend fun getCricketNews(@Query("id") link: String): ResponseCricketNews
 }

@@ -14,8 +14,8 @@ class ResultAdapter :
     EasyAdapter<ResponseResultMatch, ItemScheduleBinding>(R.layout.item_schedule) {
     override fun onBind(binding: ItemScheduleBinding, model: ResponseResultMatch) {
         binding.apply {
-            Glide.with(root.context).load(model.t1_flag).into(ivFlag1)
-            Glide.with(root.context).load(model.t2_flag).into(ivFlag2)
+            Glide.with(root.context).load(model.t1_flag).placeholder(R.drawable.ic_team_default).into(ivFlag1)
+            Glide.with(root.context).load(model.t2_flag).placeholder(R.drawable.ic_team_default).into(ivFlag2)
             tvDate.text = convertDateFormat(model.date)
             tvMatch.text = model.event
             tvTitle1.text = model.t1

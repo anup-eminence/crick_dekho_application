@@ -146,16 +146,20 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
     }
 
     private fun setPlayerImages(squad: SquadX) {
-        squad.players.forEach { player ->
-            val matchingPlayerImage =
-                squadX[0]?.playerImages?.find { it.playerName == player.sk_slug }
-            player.playerImages = matchingPlayerImage?.playerImageURL.toString()
+        if (!squad.players.isNullOrEmpty()) {
+            squad.players.forEach { player ->
+                val matchingPlayerImage =
+                    squadX[0]?.playerImages?.find { it.playerName == player.sk_slug }
+                player.playerImages = matchingPlayerImage?.playerImageURL.toString()
+            }
         }
 
-        squad.bench_players.forEach { benchPlayer ->
-            val matchingPlayerImage =
-                squadX[0]?.playerImages?.find { it.playerName == benchPlayer.sk_slug }
-            benchPlayer.playerImages = matchingPlayerImage?.playerImageURL.toString()
+        if (!squad.bench_players.isNullOrEmpty()) {
+            squad.bench_players.forEach { benchPlayer ->
+                val matchingPlayerImage =
+                    squadX[0]?.playerImages?.find { it.playerName == benchPlayer.sk_slug }
+                benchPlayer.playerImages = matchingPlayerImage?.playerImageURL.toString()
+            }
         }
     }
 

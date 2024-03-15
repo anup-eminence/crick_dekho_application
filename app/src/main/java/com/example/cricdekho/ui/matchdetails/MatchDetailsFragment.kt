@@ -205,11 +205,11 @@ class MatchDetailsFragment : BaseFragment() {
             tvTitle1.text = responseSquad[0].score_strip[0].name
             tvRuns1.text = responseSquad[0].score_strip[0].score
             Glide.with(requireContext()).load(responseSquad[0].score_strip[0].team_flag)
-                .into(ivFlag1)
+                .placeholder(R.drawable.ic_team_default).into(ivFlag1)
             tvTitle2.text = responseSquad[0].score_strip[1].name
             tvRuns2.text = responseSquad[0].score_strip[1].score
             Glide.with(requireContext()).load(responseSquad[0].score_strip[1].team_flag)
-                .into(ivFlag2)
+                .placeholder(R.drawable.ic_team_default).into(ivFlag2)
             if (responseSquad[0].match_status != "pre") {
                 tvDecision.text = responseSquad[0].info
                 if (responseSquad[0].player_of_match.player_name.isNotEmpty()) {
