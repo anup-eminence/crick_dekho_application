@@ -48,7 +48,7 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
         ArrayList<com.example.cricdekho.data.model.getCricketMainTabs.Data>()
     private val responseHomeMatch = ArrayList<ResponseHomeMatch>()
     private val responseMatch = ArrayList<Data>()
-    private val tournamentSlug = "featured"
+    private var tournamentSlug = "featured"
     private val responseLatestNews = ArrayList<ResponseLatestNews>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
