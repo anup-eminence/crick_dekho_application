@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.teaminfo.about.AboutTeamFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivTeam"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedImageView50" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clTeamInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@drawable/bg_square_shape"
+                android:padding="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivTeam">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvFullName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/full_name"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/txtFullName"
+                    app:layout_constraintEnd_toEndOf="@id/guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txtFullName" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtFullName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/TvNickName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nick_name"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/txtNickName"
+                    app:layout_constraintEnd_toEndOf="@id/guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txtNickName" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtNickName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
+                    app:layout_constraintTop_toBottomOf="@id/txtFullName" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvFounded"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/founded"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/txtFounded"
+                    app:layout_constraintEnd_toEndOf="@id/guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txtFounded" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtFounded"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
+                    app:layout_constraintTop_toBottomOf="@id/txtNickName" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvGround"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ground"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/txtGround"
+                    app:layout_constraintEnd_toEndOf="@id/guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txtGround" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtGround"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
+                    app:layout_constraintTop_toBottomOf="@id/txtFounded" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTeamOwner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/team_owner_s"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/txtTeamOwner"
+                    app:layout_constraintEnd_toEndOf="@id/guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txtTeamOwner" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtTeamOwner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
+                    app:layout_constraintTop_toBottomOf="@id/txtGround" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvProminentPlayers"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prominent_players"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/txtProminentPLayers"
+                    app:layout_constraintEnd_toEndOf="@id/guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txtProminentPLayers" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtProminentPLayers"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline"
+                    app:layout_constraintTop_toBottomOf="@id/txtTeamOwner" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

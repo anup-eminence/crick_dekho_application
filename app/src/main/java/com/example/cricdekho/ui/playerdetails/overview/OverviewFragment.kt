@@ -1,9 +1,10 @@
-package com.example.cricdekho.ui.playerdetails
+package com.example.cricdekho.ui.playerdetails.overview
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,11 +12,11 @@ import com.bumptech.glide.Glide
 import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getPlayerInfo.ResponsePlayerInfo
 import com.example.cricdekho.databinding.FragmentOverviewBinding
-import com.example.cricdekho.ui.activity.HomeActivity
 import com.example.cricdekho.ui.home.BaseFragment
-import com.example.cricdekho.ui.playerdetails.adapter.BattingStatsAdapter
-import com.example.cricdekho.ui.playerdetails.adapter.BowlingStatsAdapter
-import com.example.cricdekho.ui.playerdetails.adapter.MostRecentMatchesAdapter
+import com.example.cricdekho.ui.playerdetails.PlayerInfoViewModel
+import com.example.cricdekho.ui.playerdetails.overview.adapter.BattingStatsAdapter
+import com.example.cricdekho.ui.playerdetails.overview.adapter.BowlingStatsAdapter
+import com.example.cricdekho.ui.playerdetails.overview.adapter.MostRecentMatchesAdapter
 
 class OverviewFragment : BaseFragment() {
     private lateinit var binding: FragmentOverviewBinding
@@ -25,13 +26,11 @@ class OverviewFragment : BaseFragment() {
     private val playerInfoViewModel: PlayerInfoViewModel by viewModels()
     private var responsePlayerInfo: ArrayList<ResponsePlayerInfo>? = ArrayList()
     private lateinit var playerSlug: String
-    private lateinit var playerName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             playerSlug = it.getString("sk_slug").toString()
-            playerName = it.getString("name").toString()
         }
     }
 
@@ -46,11 +45,20 @@ class OverviewFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        setOnClickListener()
     }
 
     private fun initView() {
         progressBarListener.showProgressBar()
         getPlayerInfo()
+    }
+
+    private fun setOnClickListener() {
+        binding.apply {
+            viewAll1.setOnClickListener {  }
+            viewAll2.setOnClickListener {  }
+            viewAll3.setOnClickListener {  }
+        }
     }
 
     private fun getPlayerInfo() {
@@ -59,26 +67,13 @@ class OverviewFragment : BaseFragment() {
         playerInfoViewModel.playerInfo.observe(viewLifecycleOwner, Observer {
             responsePlayerInfo?.clear()
             responsePlayerInfo?.addAll(listOf(it))
-            setToolBar()
+            binding.clMain.isVisible = true
             setData()
             setMostRecentMatchesAdapter()
             setBattingStatsAdapter()
             setBowlingStatsAdapter()
             progressBarListener.hideProgressBar()
         })
-    }
-
-    private fun setToolBar() {
-        val yourActivity = activity as? HomeActivity
-        yourActivity?.showToolBarMethod(
-            title = playerName,
-            menu = false,
-            logo = false,
-            search = false,
-            setting = false,
-            back = true,
-            share = false
-        )
     }
 
     private fun setData() {
@@ -93,7 +88,7 @@ class OverviewFragment : BaseFragment() {
             txtNation.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.nationality
             txtBirthPlace.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.birthPlace
             txtHeight.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.height
-            txtCurrentTeam.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.currentTeamS
+            txtCurrentTeam.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.currentTeamS?.replace("\n\n\n", "\n")
             txtRole.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.role
             txtBattingStyle.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.battingStyle
             txtBowlingStyle.text = responsePlayerInfo?.get(0)?.data?.personalInfo?.bowlingStyle
@@ -104,6 +99,14 @@ class OverviewFragment : BaseFragment() {
     }
 
     private fun setMostRecentMatchesAdapter() {
+        if (responsePlayerInfo?.get(0)?.data?.tables?.get(0)?.data?.isNotEmpty() == true) {
+            binding.apply {
+                tvMostRecentMatches.isVisible = true
+                scrollView1.isVisible = true
+                view1.isVisible = true
+                viewAll1.isVisible = true
+            }
+        }
         mostRecentMatchesAdapter = MostRecentMatchesAdapter()
         binding.recyclerViewRecentMatch.layoutManager = LinearLayoutManager(requireContext())
         mostRecentMatchesAdapter.addAll(
@@ -115,6 +118,14 @@ class OverviewFragment : BaseFragment() {
     }
 
     private fun setBattingStatsAdapter() {
+        if (responsePlayerInfo?.get(0)?.data?.tables?.get(1)?.data?.isNotEmpty() == true) {
+            binding.apply {
+                tvBattingStats.isVisible = true
+                scrollView2.isVisible = true
+                view2.isVisible = true
+                viewAll2.isVisible = true
+            }
+        }
         battingStatsAdapter = BattingStatsAdapter()
         binding.recyclerViewBattingStats.layoutManager = LinearLayoutManager(requireContext())
         battingStatsAdapter.addAll(
@@ -125,6 +136,14 @@ class OverviewFragment : BaseFragment() {
     }
 
     private fun setBowlingStatsAdapter() {
+        if (responsePlayerInfo?.get(0)?.data?.tables?.get(2)?.data?.isNotEmpty() == true) {
+            binding.apply {
+                tvBowlingStats.isVisible = true
+                scrollView3.isVisible = true
+                view3.isVisible = true
+                viewAll3.isVisible = true
+            }
+        }
         bowlingStatsAdapter = BowlingStatsAdapter()
         binding.recyclerViewBowlingStats.layoutManager = LinearLayoutManager(requireContext())
         bowlingStatsAdapter.addAll(
@@ -136,10 +155,10 @@ class OverviewFragment : BaseFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() =
-            OverviewFragment().apply {
-                arguments = Bundle().apply {
-                }
+        fun newInstance(playerSlug: String) = OverviewFragment().apply {
+            arguments = Bundle().apply {
+                putString("sk_slug", playerSlug)
             }
+        }
     }
 }

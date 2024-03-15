@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_bottomSheet"
             app:destination="@id/bottomSheet" />
+        <action
+            android:id="@+id/action_homeFragment_to_newsDetailFragment"
+            app:destination="@id/newsDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/schedulePointsFragment"
@@ -45,8 +48,11 @@
             android:id="@+id/action_matchDetailsFragment_to_schedulePointsFragment"
             app:destination="@id/schedulePointsFragment" />
         <action
-            android:id="@+id/action_matchDetailsFragment_to_overviewFragment"
-            app:destination="@id/overviewFragment" />
+            android:id="@+id/action_matchDetailsFragment_to_playerDetailsFragment"
+            app:destination="@id/playerDetailsFragment" />
+        <action
+            android:id="@+id/action_matchDetailsFragment_to_teamInfoFragment"
+            app:destination="@id/teamInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/matchesFragment"
@@ -62,6 +68,26 @@
         android:label="BottomSheet" />
     <fragment
         android:id="@+id/overviewFragment"
-        android:name="com.example.cricdekho.ui.playerdetails.OverviewFragment"
+        android:name="com.example.cricdekho.ui.playerdetails.overview.OverviewFragment"
         android:label="OverviewFragment" />
+    <fragment
+        android:id="@+id/playerDetailsFragment"
+        android:name="com.example.cricdekho.ui.playerdetails.PlayerDetailsFragment"
+        android:label="PlayerDetailsFragment" />
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="com.example.cricdekho.ui.playerdetails.stats.StatsFragment"
+        android:label="StatsFragment" />
+    <fragment
+        android:id="@+id/teamInfoFragment"
+        android:name="com.example.cricdekho.ui.teaminfo.TeamInfoFragment"
+        android:label="TeamInfoFragment" >
+        <action
+            android:id="@+id/action_teamInfoFragment_to_playerDetailsFragment"
+            app:destination="@id/playerDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newsDetailFragment"
+        android:name="com.example.cricdekho.ui.newsdetails.NewsDetailFragment"
+        android:label="NewsDetailFragment" />
 </navigation>

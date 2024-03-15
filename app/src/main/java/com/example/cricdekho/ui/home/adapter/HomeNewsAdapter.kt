@@ -1,20 +1,51 @@
 package com.example.cricdekho.ui.home.adapter
 
-import com.example.cricdekho.R
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.example.cricdekho.data.model.getLatestNews.DataItem
 import com.example.cricdekho.databinding.ItemHomeNewsBinding
-import com.example.cricdekho.data.model.HomeNewsList
-import easyadapter.dc.com.library.EasyAdapter
 
-class HomeNewsAdapter : EasyAdapter<HomeNewsList, ItemHomeNewsBinding>(R.layout.item_home_news) {
-    override fun onBind(binding: ItemHomeNewsBinding, model: HomeNewsList) {
-        binding.apply {
-            tvNumber.text = model.number
-            tvNews.text = model.news
+class HomeNewsAdapter(private var newsItem: List<DataItem?>?) :
+    RecyclerView.Adapter<HomeNewsAdapter.ViewHolder>() {
+
+    private var newsAdapterClickListener: NewsAdapterClickListener? = null
+
+    fun setNewsAdapterListener(newsAdapterClickListener: NewsAdapterClickListener) {
+        this.newsAdapterClickListener = newsAdapterClickListener
+    }
+
+    class ViewHolder(val binding: ItemHomeNewsBinding) : RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding =
+            ItemHomeNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
+    }
+
+    override fun getItemCount(): Int {
+        return newsItem?.size ?: 0
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        bind(holder, position)
+    }
+
+    private fun bind(holder: ViewHolder, position: Int) {
+        val item = newsItem?.get(position)
+        holder.binding.apply {
+            if (item != null) {
+                tvNumber.text = (position + 1).toString()
+                tvNews.text = item.p
+            }
+        }
+
+        holder.binding.root.setOnClickListener {
+            newsAdapterClickListener?.onNewsAdapterItemClick(item!!)
         }
     }
 
-    override fun onCreatingHolder(binding: ItemHomeNewsBinding, easyHolder: EasyHolder) {
-        super.onCreatingHolder(binding, easyHolder)
-        binding.root.setOnClickListener(easyHolder.clickListener)
+    interface NewsAdapterClickListener {
+        fun onNewsAdapterItemClick(item: DataItem)
     }
 }

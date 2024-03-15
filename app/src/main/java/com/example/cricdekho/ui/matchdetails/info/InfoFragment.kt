@@ -2,8 +2,6 @@ package com.example.cricdekho.ui.matchdetails.info
 
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,7 +71,6 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
                 squad = it
                 initView()
                 binding.clMain.isVisible = true
-                println(">>>>>>>>>>>>>>>>>.printdata")
             }
         }
         setOnClickListener()
@@ -146,16 +143,20 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
     }
 
     private fun setPlayerImages(squad: SquadX) {
-        squad.players.forEach { player ->
-            val matchingPlayerImage =
-                squadX[0]?.playerImages?.find { it.playerName == player.sk_slug }
-            player.playerImages = matchingPlayerImage?.playerImageURL.toString()
+        if (!squad.players.isNullOrEmpty()) {
+            squad.players.forEach { player ->
+                val matchingPlayerImage =
+                    squadX[0]?.playerImages?.find { it.playerName == player.sk_slug }
+                player.playerImages = matchingPlayerImage?.playerImageURL.toString()
+            }
         }
 
-        squad.bench_players.forEach { benchPlayer ->
-            val matchingPlayerImage =
-                squadX[0]?.playerImages?.find { it.playerName == benchPlayer.sk_slug }
-            benchPlayer.playerImages = matchingPlayerImage?.playerImageURL.toString()
+        if (!squad.bench_players.isNullOrEmpty()) {
+            squad.bench_players.forEach { benchPlayer ->
+                val matchingPlayerImage =
+                    squadX[0]?.playerImages?.find { it.playerName == benchPlayer.sk_slug }
+                benchPlayer.playerImages = matchingPlayerImage?.playerImageURL.toString()
+            }
         }
     }
 
@@ -195,7 +196,7 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
                 R.id.clItem -> {
                     val bundle = bundleOf("sk_slug" to model.sk_slug, "name" to model.name)
                     findNavController().navigate(
-                        R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+                        R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
                     )
                 }
             }
@@ -216,7 +217,7 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
                 R.id.clItem -> {
                     val bundle = bundleOf("sk_slug" to model.sk_slug, "name" to model.name)
                     findNavController().navigate(
-                        R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+                        R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
                     )
                 }
             }
@@ -237,7 +238,7 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
                 R.id.clItem -> {
                     val bundle = bundleOf("sk_slug" to model.sk_slug, "name" to model.name)
                     findNavController().navigate(
-                        R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+                        R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
                     )
                 }
             }
@@ -258,7 +259,7 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
                 R.id.clItem -> {
                     val bundle = bundleOf("sk_slug" to model.sk_slug, "name" to model.name)
                     findNavController().navigate(
-                        R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+                        R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
                     )
                 }
             }
@@ -287,14 +288,14 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
     override fun onAdapterItemClick(player: Player) {
         val bundle = bundleOf("sk_slug" to player.sk_slug, "name" to player.name)
         findNavController().navigate(
-            R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+            R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
         )
     }
 
     override fun onBenchPlayerClick(player: BenchPlayer) {
         val bundle = bundleOf("sk_slug" to player.sk_slug, "name" to player.name)
         findNavController().navigate(
-            R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+            R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.example.cricdekho.ui.playerdetails.adapter
+package com.example.cricdekho.ui.playerdetails.overview.adapter
 
 import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getPlayerInfo.DataItem

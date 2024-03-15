@@ -157,16 +157,20 @@ class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerA
     }
 
     private fun setPlayerImages(squad: SquadX) {
-        squad.players.forEach { player ->
-            val matchingPlayerImage =
-                squadX[0]?.playerImages?.find { it.playerName == player.sk_slug }
-            player.playerImages = matchingPlayerImage?.playerImageURL.toString()
+        if (!squad.players.isNullOrEmpty()) {
+            squad.players.forEach { player ->
+                val matchingPlayerImage =
+                    squadX[0]?.playerImages?.find { it.playerName == player.sk_slug }
+                player.playerImages = matchingPlayerImage?.playerImageURL.toString()
+            }
         }
 
-        squad.bench_players.forEach { benchPlayer ->
-            val matchingPlayerImage =
-                squadX[0]?.playerImages?.find { it.playerName == benchPlayer.sk_slug }
-            benchPlayer.playerImages = matchingPlayerImage?.playerImageURL.toString()
+        if (!squad.bench_players.isNullOrEmpty()) {
+            squad.bench_players.forEach { benchPlayer ->
+                val matchingPlayerImage =
+                    squadX[0]?.playerImages?.find { it.playerName == benchPlayer.sk_slug }
+                benchPlayer.playerImages = matchingPlayerImage?.playerImageURL.toString()
+            }
         }
     }
 
@@ -318,14 +322,14 @@ class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerA
     override fun onAdapterItemClick(player: Player) {
         val bundle = bundleOf("sk_slug" to player.sk_slug, "name" to player.name)
         findNavController().navigate(
-            R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+            R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
         )
     }
 
     override fun onBenchPlayerClick(player: BenchPlayer) {
         val bundle = bundleOf("sk_slug" to player.sk_slug, "name" to player.name)
         findNavController().navigate(
-            R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+            R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
         )
     }
 }

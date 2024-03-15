@@ -62,6 +62,7 @@
             android:layout_marginTop="12dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_image"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/ivPost1"
             app:layout_constraintTop_toBottomOf="@id/view1"
             app:shapeAppearanceOverlay="@style/roundedImageView8" />
@@ -76,6 +77,7 @@
             android:text="In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content."
             android:textColor="@color/black"
             android:textSize="14sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivPost2"
             app:layout_constraintTop_toTopOf="@id/ivPost2" />
@@ -88,6 +90,7 @@
             android:text="25 minutes ago"
             android:textColor="@color/grey"
             android:textSize="14sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/ivPost2"
             app:layout_constraintStart_toStartOf="@id/tvText2"
             app:layout_constraintTop_toBottomOf="@id/tvText2" />
@@ -98,6 +101,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
             android:background="@color/light_grey"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@id/ivPost1"
             app:layout_constraintStart_toStartOf="@id/ivPost1"
             app:layout_constraintTop_toBottomOf="@id/ivPost2" />
@@ -109,6 +113,7 @@
             android:layout_marginTop="12dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_image"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/ivPost1"
             app:layout_constraintTop_toBottomOf="@id/view2"
             app:shapeAppearanceOverlay="@style/roundedImageView8" />
@@ -123,6 +128,7 @@
             android:text="In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content."
             android:textColor="@color/black"
             android:textSize="14sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivPost3"
             app:layout_constraintTop_toTopOf="@id/ivPost3" />
@@ -135,6 +141,7 @@
             android:text="25 minutes ago"
             android:textColor="@color/grey"
             android:textSize="14sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/ivPost3"
             app:layout_constraintStart_toStartOf="@id/tvText3"
             app:layout_constraintTop_toBottomOf="@id/tvText3" />
@@ -145,6 +152,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
             android:background="@color/light_grey"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@id/ivPost1"
             app:layout_constraintStart_toStartOf="@id/ivPost1"
             app:layout_constraintTop_toBottomOf="@id/ivPost3" />

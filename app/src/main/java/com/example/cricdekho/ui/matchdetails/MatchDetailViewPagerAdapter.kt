@@ -10,6 +10,7 @@ import com.example.cricdekho.ui.matchdetails.commentary.CommentaryFragment
 import com.example.cricdekho.ui.matchdetails.fantasy.FantasyMatchFragment
 import com.example.cricdekho.ui.matchdetails.info.InfoFragment
 import com.example.cricdekho.ui.matchdetails.scorecard.ScoreCardFragment
+import com.example.cricdekho.ui.playerdetails.stat.PlayerStat
 
 class MatchDetailViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle,
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
