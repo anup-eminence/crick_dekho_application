@@ -5,13 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getMatchDetails.Commentary
 import com.example.cricdekho.data.model.getMatchDetails.Squad
 import com.example.cricdekho.databinding.FragmentCommentaryBinding
@@ -152,8 +156,62 @@ class CommentaryFragment : BaseFragment() {
         Log.e("params", "$eventSlug,    $timestampOfComment")
     }
 
+    private fun navigateToProfielDetails(sk_slug : String,name : String){
+        val bundle = bundleOf("sk_slug" to sk_slug, "name" to name)
+        findNavController().navigate(
+            R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
+        )
+    }
+
     private fun setData() {
         binding.apply {
+
+            if (squad[0]?.now_batting?.b1?.slug?.isNullOrEmpty() == true) {
+                tvPlayer1.setTextColor(ContextCompat.getColor(
+                    requireContext(),
+                    R.color.black
+                ))
+            } else {
+                tvPlayer1.setOnClickListener {
+                    navigateToProfielDetails(squad[0]?.now_batting?.b1?.slug?:"",squad[0]?.now_batting?.b1?.name?:"")
+                }
+            }
+
+            if (squad[0]?.now_batting?.b2?.slug?.isNullOrEmpty() == true) {
+                tvPlayer2.setTextColor(ContextCompat.getColor(
+                    requireContext(),
+                    R.color.black
+                ))
+            }else {
+                tvPlayer2.setOnClickListener {
+                    navigateToProfielDetails(squad[0]?.now_batting?.b2?.slug?:"",squad[0]?.now_batting?.b2?.name?:"")
+
+                }
+            }
+
+            if (squad[0]?.now_bowling?.b1?.slug?.isNullOrEmpty() == true) {
+                tvBowlers1.setTextColor(ContextCompat.getColor(
+                    requireContext(),
+                    R.color.black
+                ))
+            }else {
+                tvBowlers1.setOnClickListener {
+                    navigateToProfielDetails(squad[0]?.now_bowling?.b1?.slug?:"",squad[0]?.now_bowling?.b1?.name?:"")
+
+                }
+            }
+
+            if (squad[0]?.now_bowling?.b2?.slug?.isNullOrEmpty() == true) {
+                tvBowlers2.setTextColor(ContextCompat.getColor(
+                    requireContext(),
+                    R.color.black
+                ))
+            }else {
+                tvBowlers2.setOnClickListener {
+                    navigateToProfielDetails(squad[0]?.now_bowling?.b2?.slug?:"",squad[0]?.now_bowling?.b2?.name?:"")
+                }
+            }
+
             tvPlayer1.text = squad[0].now_batting.b1.name
             tvR1.text = squad[0].now_batting.b1.stats.runs
             tvB1.text = squad[0].now_batting.b1.stats.balls

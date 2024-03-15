@@ -56,7 +56,6 @@ class MatchDetailsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
-        setOnClickListener()
 
         matchDetailViewModel.errorCaught.observe(viewLifecycleOwner){
             if (it){
@@ -64,6 +63,8 @@ class MatchDetailsFragment : BaseFragment() {
                 requireContext().showToast("Something Went Wrong!")
             }
         }
+
+        setOnClickListener()
 
     }
 
@@ -78,19 +79,32 @@ class MatchDetailsFragment : BaseFragment() {
 //        }, 100)
     }
 
+    override fun onResume() {
+        setOnClickListener()
+        super.onResume()
+    }
+
     private fun setOnClickListener() {
-        binding.tvTitle1.setOnClickListener {
-            val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip[0].slug)
-            findNavController().navigate(
-                R.id.action_matchDetailsFragment_to_teamInfoFragment, bundle
-            )
+        println(">>>>>>>>>>....dfklnlmf;ldkf")
+        if (responseSquad.isEmpty()) return
+        if (responseSquad[0].score_strip[0].slug.isNullOrEmpty().not()) {
+            binding.tvTitle1.setOnClickListener {
+                val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip[0].slug)
+                findNavController().navigate(
+                    R.id.action_matchDetailsFragment_to_teamInfoFragment, bundle
+                )
+            }
         }
 
-        binding.tvTitle2.setOnClickListener {
-            val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip[1].slug)
-            findNavController().navigate(
-                R.id.action_matchDetailsFragment_to_teamInfoFragment, bundle
-            )
+        println(">>>>>>>>>..jnfkjn ${responseSquad[0].score_strip[1].slug}")
+
+        if (responseSquad[0].score_strip[1].slug.isNullOrEmpty().not()) {
+            binding.tvTitle2.setOnClickListener {
+                val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip[1].slug)
+                findNavController().navigate(
+                    R.id.action_matchDetailsFragment_to_teamInfoFragment, bundle
+                )
+            }
         }
     }
 
@@ -99,7 +113,6 @@ class MatchDetailsFragment : BaseFragment() {
             setMatchData(it.data)
             binding.clMain.isVisible = true
             progressBarListener.hideProgressBar()
-            println(">>>>>>datamatch ${it.data}")
         }
         matchDetailViewModel.getLiveMatchScore(matchId)
     }
@@ -107,8 +120,6 @@ class MatchDetailsFragment : BaseFragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun fetchMatchDetail() {
         matchDetailViewModel = ViewModelProvider(this)[MatchDetailViewModel::class.java]
-        println(">>>>>>>>>>>>>>>>>matchId $matchId")
-        println(">>>>>>>>>>>>>>>>>matchStatus $matchStatus")
 
         if (matchStatus != null && matchId != null && (matchStatus == MatchStatus.PRE.status || matchStatus == MatchStatus.POST.status)) {
             fetchDataFromApi()
@@ -137,6 +148,7 @@ class MatchDetailsFragment : BaseFragment() {
         setToolbar()
         matchDetailsData.postValue(responseSquad)
         matchDetailViewPagerAdapter.setSquadList(responseSquad)
+        setOnClickListener()
     }
 
     private fun setViewPagerAdapter() {
@@ -212,10 +224,18 @@ class MatchDetailsFragment : BaseFragment() {
     private fun setMatchData() {
         binding.apply {
             tvTitle1.text = responseSquad[0].score_strip[0].name
+            tvTitle2.text = responseSquad[0].score_strip[1].name
+
+            if( responseSquad[0].score_strip[0].slug.isNullOrEmpty()){
+                tvTitle1.setTextColor(ContextCompat.getColor(requireContext(),R.color.black))
+            }
+
+            if( responseSquad[0].score_strip[1].slug.isNullOrEmpty()){
+                tvTitle2.setTextColor(ContextCompat.getColor(requireContext(),R.color.black))
+            }
             tvRuns1.text = responseSquad[0].score_strip[0].score
             Glide.with(requireContext()).load(responseSquad[0].score_strip[0].team_flag)
                 .placeholder(R.drawable.ic_team_default).into(ivFlag1)
-            tvTitle2.text = responseSquad[0].score_strip[1].name
             tvRuns2.text = responseSquad[0].score_strip[1].score
             Glide.with(requireContext()).load(responseSquad[0].score_strip[1].team_flag)
                 .placeholder(R.drawable.ic_team_default).into(ivFlag2)
