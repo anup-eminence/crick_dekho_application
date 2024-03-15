@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -92,6 +94,16 @@ class MatchDetailsFragment : BaseFragment() {
         }
     }
 
+    private fun fetchDataFromApi() {
+        matchDetailViewModel.liveMatchSore.observe(viewLifecycleOwner) {
+            setMatchData(it.data)
+            binding.clMain.isVisible = true
+            progressBarListener.hideProgressBar()
+            println(">>>>>>datamatch ${it.data}")
+        }
+        matchDetailViewModel.getLiveMatchScore(matchId)
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun fetchMatchDetail() {
         matchDetailViewModel = ViewModelProvider(this)[MatchDetailViewModel::class.java]
@@ -99,15 +111,12 @@ class MatchDetailsFragment : BaseFragment() {
         println(">>>>>>>>>>>>>>>>>matchStatus $matchStatus")
 
         if (matchStatus != null && matchId != null && (matchStatus == MatchStatus.PRE.status || matchStatus == MatchStatus.POST.status)) {
-            matchDetailViewModel.liveMatchSore.observe(viewLifecycleOwner) {
-                setMatchData(it.data)
-                binding.clMain.isVisible = true
-                progressBarListener.hideProgressBar()
-                println(">>>>>>datamatch ${it.data}")
-            }
-            matchDetailViewModel.getLiveMatchScore(matchId)
+            fetchDataFromApi()
         } else {
-            matchDetailViewModel.emitSocketEvent(matchId)
+            fetchDataFromApi()
+            Handler(Looper.getMainLooper()).postDelayed({
+                matchDetailViewModel.emitSocketEvent(matchId)
+            },20000)
 
             lifecycleScope.launch {
                 matchDetailViewModel.observeLiveData.observe(viewLifecycleOwner) { data ->

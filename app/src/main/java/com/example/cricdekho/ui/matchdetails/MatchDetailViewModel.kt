@@ -54,6 +54,7 @@ class MatchDetailViewModel : ViewModel() {
     fun emitSocketEvent(matchId: String) {
         socketManager.emitEvent("LiveScore", matchId)
         socketManager.setEventListener("Score/$matchId") { args ->
+            println(">>>>>>>>>>>>>>showddddbbb")
             viewModelScope.launch {
                 if (args != null) {
                     try {
