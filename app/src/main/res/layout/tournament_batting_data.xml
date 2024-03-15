@@ -9,11 +9,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:layout_marginTop="11dp">
 
         <TextView
             android:id="@+id/mat"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="1"
             android:textColor="@color/black"
@@ -21,101 +24,117 @@
 
         <TextView
             android:id="@+id/inn"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="20"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/no"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="2"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/r"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="10"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/bf"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="0"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/t_100s"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="40"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/t_50s"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="5"
-            android:layout_marginStart="25dp"
+            android:singleLine="true"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/t_4s"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:text="4"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/t_6s"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:text="6"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/sr"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="30"
             android:singleLine="true"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/avg"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:text="12"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/h"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:text="4"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 

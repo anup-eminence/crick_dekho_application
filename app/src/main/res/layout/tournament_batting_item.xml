@@ -12,98 +12,110 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="Mat"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="inn"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="NO"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="R"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="BF"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="100s"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="50s"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="4s"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="6s"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="S/R"
             android:singleLine="true"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="Avg"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="H"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 

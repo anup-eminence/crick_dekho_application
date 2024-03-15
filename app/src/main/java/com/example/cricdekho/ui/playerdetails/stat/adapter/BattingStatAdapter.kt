@@ -13,7 +13,7 @@ class BattingStatAdapter : RecyclerView.Adapter<BattingStatAdapter.BattingStatVH
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(list: List<DataItem?>) {
-        println(">>>>>>>>>>>>>>>>>>>>>>datacaught $list")
+        println(">>>>>>>>>>>>>>>>>>>>>>jfjfjjfjf $list")
         battingList = list
         notifyDataSetChanged()
     }

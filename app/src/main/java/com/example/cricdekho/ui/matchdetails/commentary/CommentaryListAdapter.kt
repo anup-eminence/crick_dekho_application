@@ -21,7 +21,7 @@ import kotlin.math.roundToInt
 
 class CommentaryListAdapter : RecyclerView.Adapter<CommentaryListAdapter.CommentaryVH>() {
 
-    var oldList = emptyList<Commentary>()
+    var oldList = ArrayList<Commentary>()
 
     class CommentaryVH(val binding: ItemCommentaryBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -134,10 +134,17 @@ class CommentaryListAdapter : RecyclerView.Adapter<CommentaryListAdapter.Comment
         }
     }
 
+    fun updateData(list: List<Commentary>){
+        val lastindex = oldList.lastIndex
+        oldList.addAll(list as ArrayList<Commentary>)
+        notifyDataSetChanged()
+
+    }
+
     fun setCommentaryData(newList: List<Commentary>) {
         val diffUtil = CommentaryDiffUtils(oldList, newList)
         val diffResult = DiffUtil.calculateDiff(diffUtil)
-        oldList = newList
+        oldList = newList as ArrayList<Commentary>
         diffResult.dispatchUpdatesTo(this)
     }
 

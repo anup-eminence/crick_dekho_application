@@ -19,90 +19,99 @@
 
         <TextView
             android:id="@+id/runs"
-            android:layout_width="50dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="100"
+            android:singleLine="true"
             android:gravity="center"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/bf"
-            android:layout_width="50dp"
+            android:layout_width="100dp"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:text="1"
-            android:layout_marginStart="25dp"
+            android:singleLine="true"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/t_4s"
-            android:layout_width="50dp"
+            android:layout_width="100dp"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:text="34"
-            android:layout_marginStart="25dp"
+            android:singleLine="true"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/t_6s"
-            android:layout_width="50dp"
+            android:layout_width="100dp"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:text="4"
-            android:layout_marginStart="25dp"
+            android:singleLine="true"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/sr"
-            android:layout_width="50dp"
+            android:layout_width="100dp"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:text="23"
-            android:layout_marginStart="25dp"
+            android:singleLine="true"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/o"
-            android:layout_width="50dp"
+            android:layout_width="100dp"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:text="2"
-            android:layout_marginStart="25dp"
+            android:singleLine="true"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/r"
-            android:layout_width="50dp"
+            android:layout_width="100dp"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:text="3"
-            android:layout_marginStart="25dp"
+            android:singleLine="true"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/w"
-            android:layout_width="50dp"
+            android:layout_width="100dp"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:text="3"
-            android:layout_marginStart="25dp"
+            android:singleLine="true"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/er"
-            android:layout_width="50dp"
+            android:layout_width="100dp"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:text="45"
-            android:layout_marginStart="25dp"
+            android:singleLine="true"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 

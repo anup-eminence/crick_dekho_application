@@ -6,10 +6,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.cricdekho.ui.matchdetails.TrendingFragment
 import com.example.cricdekho.ui.playerdetails.overview.OverviewFragment
+import com.example.cricdekho.ui.playerdetails.stat.PlayerStat
 import com.example.cricdekho.ui.playerdetails.stats.StatsFragment
 
 class PDViewPagerAdapter(
-    fragmentManager: FragmentManager, lifecycle: Lifecycle, private val playerSlug: String
+    fragmentManager: FragmentManager, lifecycle: Lifecycle,
+    private val playerSlug: String,
+    private val playerName: String
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     override fun getItemCount(): Int {
@@ -19,7 +22,7 @@ class PDViewPagerAdapter(
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> OverviewFragment.newInstance(playerSlug)
-            1 -> StatsFragment.newInstance(playerSlug)
+            1 -> PlayerStat.newInstance(playerSlug,playerName)
             2 -> TrendingFragment()
             else -> throw IndexOutOfBoundsException("Invalid position $position")
         }

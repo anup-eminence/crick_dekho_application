@@ -27,7 +27,7 @@ class MatchDetailViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: L
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> InfoFragment.newInstance(squad)
-            1 -> PlayerStat()
+            1 -> FantasyMatchFragment.newInstance(squad)
             2 -> CommentaryFragment.newInstance(squad)
             3 -> ScoreCardFragment.newInstance(squad)
             4 -> TrendingFragment()

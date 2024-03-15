@@ -17,6 +17,7 @@ class StatsFragment : BaseFragment() {
     private var responseStats: ArrayList<ResponseStats>? = ArrayList()
     private lateinit var playerSlug: String
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {

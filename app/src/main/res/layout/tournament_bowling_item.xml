@@ -15,90 +15,101 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="Mat"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="Inn"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="Ov"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="B"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="R"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="W"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="E/R"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="Dots"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="Mdns"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="Avg"
             android:singleLine="true"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:text="S/R"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="15dp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 

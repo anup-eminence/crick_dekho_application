@@ -62,7 +62,7 @@ class PlayerDetailsFragment : BaseFragment() {
     private fun setViewPagerAdapter() {
         pdViewPagerAdapter = PDViewPagerAdapter(
             requireActivity().supportFragmentManager,
-            lifecycle, playerSlug
+            lifecycle, playerSlug,playerName
         )
         binding.viewPager.adapter = pdViewPagerAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->

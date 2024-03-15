@@ -51,7 +51,7 @@
                     android:id="@+id/top_inn_layout_data"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    layout="@layout/inn_item"
+                    layout="@layout/bowling_inn_item"
                     android:layout_marginTop="10dp"
                     app:layout_constraintStart_toStartOf="@+id/top_inn_layout"
                     app:layout_constraintTop_toBottomOf="@+id/top_inn_layout"

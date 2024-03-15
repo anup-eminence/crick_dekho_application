@@ -35,7 +35,7 @@
                     android:id="@+id/stat_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="VS Team Stats"
+                    android:text="VS Team Stats"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:layout_marginTop="15dp"
@@ -73,7 +73,7 @@
                                 android:paddingHorizontal="20dp"
                                 android:textSize="15sp"
                                 android:textColor="@color/black"
-                                tools:text="T20i"/>
+                                android:text="T20I"/>
 
 
                         </androidx.cardview.widget.CardView>
@@ -103,7 +103,7 @@
                                 android:paddingHorizontal="20dp"
                                 android:textSize="15sp"
                                 android:textColor="@color/black"
-                                tools:text="T20i"/>
+                                android:text="ODI"/>
 
 
                         </androidx.cardview.widget.CardView>
@@ -133,7 +133,7 @@
                                 android:paddingHorizontal="20dp"
                                 android:textSize="15sp"
                                 android:textColor="@color/black"
-                                tools:text="T20i"/>
+                                android:text="Test"/>
 
 
                         </androidx.cardview.widget.CardView>
@@ -164,6 +164,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tournament_stats"
+                android:layout_marginTop="20dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="20sp"

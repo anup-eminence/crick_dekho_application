@@ -120,7 +120,6 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
 
         homeViewModel.observeLiveData.observe(viewLifecycleOwner) { data ->
             progressBarListener.hideProgressBar()
-            println(">>>>>>>>>>>>>>.datacaught $data")
             if (data is ResponseHomeMatch) {
                 responseHomeMatch.clear()
                 responseHomeMatch.addAll(listOf(data))
@@ -170,6 +169,10 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
 
     private fun initMatchAdapter() {
         val snapHelper: SnapHelper = PagerSnapHelper()
+        homeMatchAdapter = HomeMatchAdapter()
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerView.adapter = homeMatchAdapter
         binding.recyclerView.onFlingListener = null;
         snapHelper.attachToRecyclerView(binding.recyclerView)
         binding.recyclerView.addItemDecoration(
@@ -186,14 +189,9 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
     }
 
     private fun setUpMatchAdapter() {
-        homeMatchAdapter = HomeMatchAdapter()
-        binding.recyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         homeMatchAdapter.clear(true)
         homeMatchAdapter.addAll(responseMatch, true)
-        binding.recyclerView.adapter = homeMatchAdapter
         homeMatchAdapter.notifyDataSetChanged()
-
 
         homeMatchAdapter.setRecyclerViewItemClick { itemView, model ->
             when (itemView.id) {

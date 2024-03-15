@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -13,17 +15,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cricdekho.data.model.getMatchDetails.Commentary
 import com.example.cricdekho.data.model.getMatchDetails.Squad
 import com.example.cricdekho.databinding.FragmentCommentaryBinding
+import com.example.cricdekho.ui.home.BaseFragment
 import com.example.cricdekho.ui.matchdetails.MatchDetailViewModel
 import com.example.cricdekho.ui.matchdetails.MatchDetailsFragment
-import easyadapter.dc.com.library.EasyAdapter
 
-class CommentaryFragment : Fragment() {
+
+class CommentaryFragment : BaseFragment() {
     private lateinit var binding: FragmentCommentaryBinding
     private lateinit var commentaryAdapter: CommentaryAdapter
     private var squad = ArrayList<Squad>()
     private var commentary = ArrayList<Commentary>()
     private val matchDetailViewModel: MatchDetailViewModel by viewModels()
     private lateinit var commentaryListAdapter: CommentaryListAdapter
+
+    private var apiCallInProgress = false
+
+    private lateinit var commentaryLayoutManager: LinearLayoutManager
 
     private var updateList = true
 
@@ -43,8 +50,13 @@ class CommentaryFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         setCommentaryAdapter()
+        initPaginationCommentary()
+        intiObserver()
+        //setUpAdapter()
+    }
+
+    private fun intiObserver() {
 
         MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
@@ -58,6 +70,7 @@ class CommentaryFragment : Fragment() {
                         } else {
                             hideViews()
                         }
+                        println(">>>>>>>>>>>>>>>>>.....data ${it[0].commentary.lastIndex}")
                         updateCommentry(it[0].commentary)
                         updateList = false
                     }
@@ -73,7 +86,35 @@ class CommentaryFragment : Fragment() {
 
             }
         }
-        //setUpAdapter()
+
+        matchDetailViewModel.dataCommentary.observe(viewLifecycleOwner, Observer {
+            commentary.addAll(it)
+            commentaryListAdapter.updateData(it)
+            apiCallInProgress = false
+            progressBarListener.hideProgressBar()
+        })
+    }
+
+    private fun initPaginationCommentary() {
+        binding.nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+            if (v.getChildAt(v.childCount - 1) != null) {
+                if (scrollY >= v.getChildAt(v.childCount - 1)
+                        .measuredHeight - v.measuredHeight &&
+                    scrollY > oldScrollY
+                ) {
+                    //code to fetch more data for endless scrolling
+                    if (!apiCallInProgress) {
+                         progressBarListener.showProgressBar()
+                         apiCallInProgress = true
+                        callCommentaryApi(
+                            eventSlug = squad[0].topic_slug,
+                            timestampOfComment = commentaryListAdapter.oldList.last().timestamp.toString()
+                        )
+                    }
+
+                }
+            }
+        }
     }
 
     private fun updateCommentry(list: List<Commentary>) {
@@ -92,51 +133,22 @@ class CommentaryFragment : Fragment() {
     }
 
     private fun setCommentaryAdapter() {
+        commentaryLayoutManager = LinearLayoutManager(requireContext())
         commentaryListAdapter = CommentaryListAdapter()
         //commentaryAdapter = CommentaryAdapter()
         binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = commentaryLayoutManager
             adapter = commentaryListAdapter
+            ViewCompat.setNestedScrollingEnabled(this, false);
+            isNestedScrollingEnabled = false
+            layoutManager?.isAutoMeasureEnabled = true;
+            hasFixedSize()
         }
     }
 
-    private fun setUpAdapter() {
-        commentaryAdapter = CommentaryAdapter()
-        val recyclerViewState = binding.recyclerView.layoutManager?.onSaveInstanceState()
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        /*binding.recyclerView.layoutManager = LinearLayoutManager(requireContext()).apply {
-            reverseLayout = true
-            stackFromEnd = true
-        }*/
-        // commentaryAdapter.addAll(commentary, true)
-        binding.recyclerView.adapter = commentaryAdapter
-        // commentaryAdapter.notifyDataSetChanged()
-        // binding.recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
-
-//        commentaryAdapter.setOnLoadMoreListener(
-//            binding.recyclerView,
-//            EasyAdapter.OnLoadMoreListener {
-//                val lastVisibleItemPosition =
-//                    (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-//                if (lastVisibleItemPosition == commentary.size - 1) {
-//                    val timestampOfComment =
-//                        commentary[lastVisibleItemPosition].timestamp.toString()
-//                    callCommentaryApi(squad[0].topic_slug, timestampOfComment) //Your Method
-//                    return@OnLoadMoreListener true // Returns True if you have more data
-//                }
-//                return@OnLoadMoreListener false // Return false if you don't have more data
-//            })
-
-    }
 
     private fun callCommentaryApi(eventSlug: String, timestampOfComment: String) {
         matchDetailViewModel.getCommentary(eventSlug, timestampOfComment)
-
-        matchDetailViewModel.dataCommentary.observe(viewLifecycleOwner, Observer {
-            commentary.addAll(it)
-            setUpAdapter()
-        })
         Log.e("params", "$eventSlug,    $timestampOfComment")
     }
 

@@ -77,7 +77,7 @@ data class TablesItem(
 	val dots: String? = null,
 
 	@field:SerializedName("data")
-	val data: List<DataItem?>? = null,
+	val data: List<DataItem?>,
 
 	@field:SerializedName("type")
 	val type: String? = null,
