@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getCricketNews.ResponseCricketNews
 import com.example.cricdekho.databinding.FragmentNewsDetailBinding
+import com.example.cricdekho.ui.activity.HomeActivity
 import com.example.cricdekho.ui.home.BaseFragment
 import com.example.cricdekho.ui.home.HomeFeatureViewModel
 
@@ -40,6 +42,7 @@ class NewsDetailFragment : BaseFragment() {
 
     private fun initView() {
         progressBarListener.showProgressBar()
+        setToolbar()
         getCricketNews()
     }
 
@@ -64,6 +67,37 @@ class NewsDetailFragment : BaseFragment() {
             }
             tvText.text = content
         }
+    }
+
+    private fun setToolbar() {
+        val yourActivity = activity as? HomeActivity
+        yourActivity?.showToolBarMethod(
+            title = getString(R.string.app_name),
+            menu = false,
+            logo = false,
+            search = false,
+            setting = false,
+            back = true,
+            share = false
+        )
+    }
+
+    private fun removeToolBar() {
+        val yourActivity = activity as? HomeActivity
+        yourActivity?.showToolBarMethod(
+            title = "",
+            menu = true,
+            logo = true,
+            search = true,
+            setting = true,
+            back = false,
+            share = false
+        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        removeToolBar()
     }
 
     companion object {
