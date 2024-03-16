@@ -43,6 +43,15 @@ class LiveFragment : BaseFragment() {
         initView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        matchesViewModel.connectSocket()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        matchesViewModel.disConnectSocket()
+    }
     private fun initView() {
         progressBarListener.showProgressBar()
         matchesViewModel = ViewModelProvider(this)[MatchesViewModel::class.java]

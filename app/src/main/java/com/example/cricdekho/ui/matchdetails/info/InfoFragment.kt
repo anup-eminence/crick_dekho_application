@@ -78,6 +78,8 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initView() {
+        if (squad[0].squad.isNullOrEmpty()) return
+        println(">>>>>>>>>>>>>>>.squadd ${squad[0]}")
         squadX.addAll(squad[0].squad)
         if (squadX.isNotEmpty()) {
             setPlayerImages(squadX[0])

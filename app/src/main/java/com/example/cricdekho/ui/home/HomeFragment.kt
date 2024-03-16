@@ -28,11 +28,15 @@ import com.example.cricdekho.ui.home.adapter.HomeExtraNewsAdapter
 import com.example.cricdekho.ui.home.adapter.HomeFeatureAdapter
 import com.example.cricdekho.ui.home.adapter.HomeMatchAdapter
 import com.example.cricdekho.ui.home.adapter.HomeNewsAdapter
+import com.example.cricdekho.ui.home.adapter.HomeTabAdapter
 import com.example.cricdekho.ui.home.adapter.HomeTrendingAdapter
 import com.example.cricdekho.util.DotsIndicatorDecoration
+import com.example.cricdekho.util.hide
+import com.example.cricdekho.util.show
 
 
-class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, HomeExtraNewsAdapter.ExtraNewsAdapterClickListener {
+class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, HomeExtraNewsAdapter.ExtraNewsAdapterClickListener,
+    HomeTabAdapter.OnFeatureItemClick {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeFeatureAdapter: HomeFeatureAdapter
     private lateinit var homeMatchAdapter: HomeMatchAdapter
@@ -51,6 +55,8 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
     private var tournamentSlug = "featured"
     private val responseLatestNews = ArrayList<ResponseLatestNews>()
 
+    private lateinit var homeTabAdapter : HomeTabAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -67,6 +73,7 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
         setOnClickListener()
         initDotView()
         initMatchAdapter()
+        setUpHomeTabAdapter()
     }
 
     private fun initView() {
@@ -92,7 +99,8 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
         homeFeatureViewModel.dataTab.observe(viewLifecycleOwner, Observer {
             responseHomeFeature.clear()
             responseHomeFeature.addAll(it.data)
-            setUpFeatureAdapter()
+           // setUpFeatureAdapter()
+            homeTabAdapter.setData(it.data)
         })
 
         homeFeatureViewModel.dataMatch.observe(viewLifecycleOwner, Observer {
@@ -145,6 +153,15 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
         }
     }
 
+    private fun setUpHomeTabAdapter() {
+        homeTabAdapter = HomeTabAdapter()
+        homeTabAdapter.setOnTabItemClick(this@HomeFragment)
+        binding.recyclerViewFeatures.apply {
+            layoutManager =  LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = homeTabAdapter
+        }
+    }
+
     private fun setUpFeatureAdapter() {
         homeFeatureAdapter = HomeFeatureAdapter()
         binding.recyclerViewFeatures.layoutManager =
@@ -191,6 +208,7 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
     private fun setUpMatchAdapter() {
         homeMatchAdapter.clear(true)
         homeMatchAdapter.addAll(responseMatch, true)
+        binding.matchFeatureProgress.hide()
         homeMatchAdapter.notifyDataSetChanged()
 
         homeMatchAdapter.setRecyclerViewItemClick { itemView, model ->
@@ -301,5 +319,15 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
         fun newInstance() = HomeFragment().apply {
             arguments = Bundle().apply {}
         }
+    }
+
+    override fun onTabItemClick(model: com.example.cricdekho.data.model.getCricketMainTabs.Data) {
+        println(">>>>>>>>slug $tournamentSlug")
+        binding.matchFeatureProgress.show()
+        SocketManager.removeEventListener(tournamentSlug)
+        tournamentSlug = model.slug
+        println(">>>>>>>>>>>>newslug $tournamentSlug>>")
+        fetchSocketData(model.slug)
+        progressBarListener.showProgressBar(progressColor = R.color.red)
     }
 }

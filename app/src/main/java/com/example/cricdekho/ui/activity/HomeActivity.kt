@@ -1,6 +1,8 @@
 package com.example.cricdekho.ui.activity
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -16,11 +18,15 @@ import com.example.cricdekho.databinding.ActivityHomeBinding
 import com.example.cricdekho.ui.home.navigation_drawer.NavUtils
 import com.example.cricdekho.ui.home.navigation_drawer.NavigationItem
 import com.example.cricdekho.ui.home.navigation_drawer.adapter.NavigationDrawerAdapter
+import com.example.cricdekho.ui.settings.SettingUI
 import com.example.cricdekho.util.ProgressbarListener
 import com.example.cricdekho.util.ToolbarListener
+import com.example.cricdekho.util.showToast
 
-class HomeActivity : AppCompatActivity(), ToolbarListener, ProgressbarListener {
+class HomeActivity : AppCompatActivity(), ToolbarListener, ProgressbarListener,
+    SettingUI.ThemeChangeListener {
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var settingDialog: SettingUI
     private val navController: NavController by lazy {
         Navigation.findNavController(this, R.id.nav_host_fragment)
     }
@@ -31,6 +37,11 @@ class HomeActivity : AppCompatActivity(), ToolbarListener, ProgressbarListener {
         setContentView(binding.root)
         setBottomNavigation()
         showSideDrawer()
+        settingDialog = SettingUI()
+        settingDialog.setLister(this@HomeActivity)
+        binding.layoutToolbar.ivSetting.setOnClickListener {
+            settingDialog.show(supportFragmentManager,"dialog")
+        }
     }
 
     private fun showSideDrawer() {
@@ -123,11 +134,22 @@ class HomeActivity : AppCompatActivity(), ToolbarListener, ProgressbarListener {
         }
     }
 
-    override fun showProgressBar() {
+    override fun showProgressBar(progressColor: Int?) {
+        if (progressColor != null){
+            binding.progressBar.setProgressTintList(ColorStateList.valueOf(progressColor));
+        }
         binding.progressBar.visibility = View.VISIBLE
     }
 
     override fun hideProgressBar() {
         binding.progressBar.visibility = View.GONE
+    }
+
+    override fun changeTheme(theme: String) {
+        if (theme == "Dark"){
+            this.showToast("Dark Mode")
+            setTheme(R.style.Dark_Theme_Cricdekho)
+            recreate()
+        }
     }
 }

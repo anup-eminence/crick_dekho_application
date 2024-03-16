@@ -184,7 +184,9 @@ class MatchDetailViewModel : ViewModel() {
                 data.data.player_images?.forEach {
                     playerImages.add(PlayerImages(it.key,it.value))
                 }
-                data.data.squad[0].playerImages = playerImages
+                if (data.data.squad.isNullOrEmpty().not()) {
+                    data.data.squad[0].playerImages = playerImages
+                }
                 _liveMatchScore.value = data
 
             } catch (e: Exception) {
