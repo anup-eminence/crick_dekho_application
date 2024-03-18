@@ -22,6 +22,7 @@ import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getMatchDetails.Squad
 import com.example.cricdekho.data.remote.SocketManager
 import com.example.cricdekho.databinding.FragmentMatchDetailsBinding
+import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.activity.HomeActivity
 import com.example.cricdekho.ui.home.BaseFragment
 import com.example.cricdekho.util.MatchStatus
@@ -227,12 +228,17 @@ class MatchDetailsFragment : BaseFragment() {
             tvTitle2.text = responseSquad[0].score_strip[1].name
 
             if( responseSquad[0].score_strip[0].slug.isNullOrEmpty()){
-                tvTitle1.setTextColor(ContextCompat.getColor(requireContext(),R.color.black))
+                CurrentTheme.changeTextColor(tvTitle1,requireContext())
             }
 
             if( responseSquad[0].score_strip[1].slug.isNullOrEmpty()){
-                tvTitle2.setTextColor(ContextCompat.getColor(requireContext(),R.color.black))
+                CurrentTheme.changeTextColor(tvTitle2,requireContext())
             }
+            CurrentTheme.changeTextColor(tvRuns1,requireContext())
+            CurrentTheme.changeTextColor(tvRuns2,requireContext())
+            CurrentTheme.changeTextColor(tvDecision,requireContext())
+            CurrentTheme.changeTextColor(tvPlayer,requireContext())
+
             tvRuns1.text = responseSquad[0].score_strip[0].score
             Glide.with(requireContext()).load(responseSquad[0].score_strip[0].team_flag)
                 .placeholder(R.drawable.ic_team_default).into(ivFlag1)

@@ -19,6 +19,7 @@ import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getMatchDetails.Commentary
 import com.example.cricdekho.data.model.getMatchDetails.Squad
 import com.example.cricdekho.databinding.FragmentCommentaryBinding
+import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.home.BaseFragment
 import com.example.cricdekho.ui.matchdetails.MatchDetailViewModel
 import com.example.cricdekho.ui.matchdetails.MatchDetailsFragment
@@ -57,7 +58,43 @@ class CommentaryFragment : BaseFragment() {
         setCommentaryAdapter()
         initPaginationCommentary()
         intiObserver()
+        initThemeChange()
         //setUpAdapter()
+    }
+
+    private fun initThemeChange() {
+        CurrentTheme.changeTextColor(binding.tvBatters,requireContext())
+        CurrentTheme.changeTextColor(binding.tvR,requireContext())
+        CurrentTheme.changeTextColor(binding.tvB,requireContext())
+        CurrentTheme.changeTextColor(binding.tv4s,requireContext())
+        CurrentTheme.changeTextColor(binding.tv6s,requireContext())
+        CurrentTheme.changeTextColor(binding.tvSR,requireContext())
+        CurrentTheme.changeTextColor(binding.tvR1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvB1,requireContext())
+        CurrentTheme.changeTextColor(binding.tv4s1,requireContext())
+        CurrentTheme.changeTextColor(binding.tv6s1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvSR1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvR2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvB2,requireContext())
+        CurrentTheme.changeTextColor(binding.tv4s2,requireContext())
+        CurrentTheme.changeTextColor(binding.tv6s2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvSR2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvBowlers,requireContext())
+        CurrentTheme.changeTextColor(binding.tvO,requireContext())
+        CurrentTheme.changeTextColor(binding.tvM,requireContext())
+        CurrentTheme.changeTextColor(binding.tvRBowler,requireContext())
+        CurrentTheme.changeTextColor(binding.tvW,requireContext())
+        CurrentTheme.changeTextColor(binding.tvEco,requireContext())
+        CurrentTheme.changeTextColor(binding.tvO1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvM1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvRBowler1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvW1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvEco1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvO2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvM2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvRBowler2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvW2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvEco2,requireContext())
     }
 
     private fun intiObserver() {

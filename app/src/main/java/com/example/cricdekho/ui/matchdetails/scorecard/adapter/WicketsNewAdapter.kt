@@ -11,6 +11,7 @@ import com.example.cricdekho.data.model.getMatchDetails.FallOfWicketsArray
 import com.example.cricdekho.databinding.ItemBowlersBinding
 import com.example.cricdekho.databinding.ItemTotalScoreBinding
 import com.example.cricdekho.databinding.ItemWicketsBinding
+import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.matchdetails.scorecard.diffutil.BowlingDiffUtils
 import com.example.cricdekho.ui.matchdetails.scorecard.diffutil.TotalScoreDiffUtils
 import com.example.cricdekho.ui.matchdetails.scorecard.diffutil.WicketsDiffUtils
@@ -36,6 +37,9 @@ class WicketsNewAdapter : RecyclerView.Adapter<WicketsNewAdapter.TotalScoreVH>()
     private fun bindItem(holder: TotalScoreVH, position: Int) {
         val model = oldList[position]
         holder.binding.apply {
+            CurrentTheme.changeTextColor(tvOver,holder.binding.root.context)
+            CurrentTheme.changeTextColor(tvScore,holder.binding.root.context)
+            CurrentTheme.changeTextColor(tvScore,holder.binding.root.context)
             tvBattersWicket.text = model.batsman_name
             tvText.text = model.how_out
             tvScore.text = "${model.number} - ${model.score}"

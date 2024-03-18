@@ -10,8 +10,8 @@
     <color name="red">#FF0000</color>
     <color name="blue_light">#0D6EFD</color>
 
-    <color name="text_color_black">#FF000000</color>
-    <color name="background_color_screen">#FFFFFFFF</color>
+    <color name="text_color_black">#FFFFFFFF</color>
+    <color name="background_color_screen">#FF000000</color>
 
 
 </resources>

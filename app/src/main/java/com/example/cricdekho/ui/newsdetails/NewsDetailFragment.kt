@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getCricketNews.ResponseCricketNews
 import com.example.cricdekho.databinding.FragmentNewsDetailBinding
+import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.activity.HomeActivity
 import com.example.cricdekho.ui.home.BaseFragment
 import com.example.cricdekho.ui.home.HomeFeatureViewModel
@@ -38,6 +39,10 @@ class NewsDetailFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        CurrentTheme.changeTextColor(binding.tvTitle,requireContext())
+        CurrentTheme.changeTextColor(binding.tvTime,requireContext())
+        CurrentTheme.changeTextColor(binding.tvText,requireContext())
+
     }
 
     private fun initView() {

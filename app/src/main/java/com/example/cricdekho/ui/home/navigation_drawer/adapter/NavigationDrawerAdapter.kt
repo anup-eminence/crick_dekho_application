@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cricdekho.databinding.DrawerMenuBinding
+import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.home.navigation_drawer.NavigationItem
 
 class NavigationDrawerAdapter : ListAdapter<NavigationItem, NavigationDrawerAdapter.NavDrawerVH>(NavDrawerDiffUtil()) {
@@ -21,6 +22,9 @@ class NavigationDrawerAdapter : ListAdapter<NavigationItem, NavigationDrawerAdap
         holder.binding.apply {
             itemImage.setImageDrawable(item.image)
             itemName.text = item.name
+            CurrentTheme.changeTextColor(itemName,holder.binding.root.context)
+            CurrentTheme.changeIconColor(itemImage,holder.binding.root.context)
+
         }
     }
 

@@ -22,6 +22,7 @@ import com.example.cricdekho.data.model.getSeriesMostRuns.ResponseMostRuns
 import com.example.cricdekho.data.model.getSeriesMostWickets.ResponseMostWickets
 import com.example.cricdekho.data.model.getUpcomingMatches.Tab
 import com.example.cricdekho.databinding.FragmentFantasyMatchBinding
+import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.BenchPlayerListAdapter
 import com.example.cricdekho.ui.InfoAdapter
 import com.example.cricdekho.ui.home.BaseFragment
@@ -81,12 +82,24 @@ class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerA
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setUpadpater()
         initTabAdapter()
+        initTextColor()
         MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner){
             if (it.isNotEmpty()) {
                 squad = it
                 initView()
             }
         }
+    }
+
+    private fun initTextColor() {
+        CurrentTheme.changeTextColor(binding.tvPlaying,requireContext())
+        CurrentTheme.changeTextColor(binding.tvTeam1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvTeam2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvBench,requireContext())
+        CurrentTheme.changeTextColor(binding.tvSuggestion,requireContext())
+        CurrentTheme.changeTextColor(binding.tvSuggestionText,requireContext())
+        CurrentTheme.changeTextColor(binding.tvPlayerStats,requireContext())
+
     }
 
     private fun setUpadpater() {

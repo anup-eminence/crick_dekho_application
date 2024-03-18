@@ -75,4 +75,7 @@ dependencies {
 
     implementation("com.google.code.gson:gson:2.10")
 
+    //Theme
+    implementation ("com.dolatkia:animated-theme-manager:1.1.4")
+
 }

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getMatchDetails.Player
 import com.example.cricdekho.databinding.ItemInfoTeam1Binding
+import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.matchdetails.info.PlayerDiffUtils
 
 class InfoAdapter : RecyclerView.Adapter<InfoAdapter.InfoListViewHolder>() {
@@ -63,12 +64,7 @@ class InfoAdapter : RecyclerView.Adapter<InfoAdapter.InfoListViewHolder>() {
                 infoAdapterClickListener?.onAdapterItemClick(item)
             }
         } else {
-            holder.binding.tvName.setTextColor(
-                ContextCompat.getColor(
-                    holder.binding.root.context,
-                    R.color.black
-                )
-            )
+            CurrentTheme.changeTextColor(holder.binding.tvName,holder.binding.root.context)
         }
 
     }

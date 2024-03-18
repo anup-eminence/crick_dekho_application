@@ -4,10 +4,12 @@ import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.method.ScrollingMovementMethod
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getCricketMatches.Data
 import com.example.cricdekho.databinding.ItemHomeBinding
+import com.example.cricdekho.theme.CurrentTheme
 import easyadapter.dc.com.library.EasyAdapter
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -54,6 +56,14 @@ class HomeMatchAdapter : EasyAdapter<Data, ItemHomeBinding>(R.layout.item_home) 
             } else {
                 tvPoints.visibility = View.VISIBLE
             }
+
+            CurrentTheme.changeTextColor(tvTitle1,root.context)
+            CurrentTheme.changeTextColor(tvTitle2,root.context)
+            CurrentTheme.changeTextColor(tvSchedule,root.context)
+            CurrentTheme.changeTextColor(tvPoints,root.context)
+            CurrentTheme.changeTextColor(tvRuns2,root.context)
+            CurrentTheme.changeTextColor(tvRuns1,root.context)
+
         }
     }
 

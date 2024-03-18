@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getMatchDetails.Commentary
 import com.example.cricdekho.databinding.ItemCommentaryBinding
+import com.example.cricdekho.theme.CurrentTheme
 import org.xml.sax.XMLReader
 import kotlin.math.roundToInt
 
@@ -45,6 +46,27 @@ class CommentaryListAdapter : RecyclerView.Adapter<CommentaryListAdapter.Comment
 
     private fun bindItem(holder: CommentaryVH, position: Int) {
         val model = oldList[position]
+        CurrentTheme.changeTextColor(holder.binding.tvComment,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.txtScore,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvScore,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.txtOver,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvOver,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvR1,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvR2,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvR3,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvR4,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvR5,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvR6,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvR7,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvBatter1,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvBatter2,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvBowler,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvRuns,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvBatterRun1,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvBatterRun2,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvBowlersBall,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvRun,holder.binding.root.context)
+        CurrentTheme.changeTextColor(holder.binding.tvText,holder.binding.root.context)
         holder.binding.apply {
             if (model.opta_ball_type == "wicket" || model.opta_ball_type == "normal" || model.opta_ball_type == "leg_bye" || model.opta_ball_type == "wide" || model.opta_ball_type == "bye") {
                 tvBowl.visibility = View.VISIBLE

@@ -1,5 +1,6 @@
 package com.example.cricdekho.ui.activity
 
+import MySharedPreferences
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -8,28 +9,53 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dolatkia.animatedThemeManager.AppTheme
+import com.dolatkia.animatedThemeManager.ThemeActivity
+import com.dolatkia.animatedThemeManager.ThemeManager
 import com.example.cricdekho.R
 import com.example.cricdekho.databinding.ActivityHomeBinding
+import com.example.cricdekho.theme.CurrentTheme
+import com.example.cricdekho.theme.DarkTheme
+import com.example.cricdekho.theme.LightTheme
+import com.example.cricdekho.theme.MyAppTheme
+import com.example.cricdekho.theme.SystemDefaultTheme
 import com.example.cricdekho.ui.home.navigation_drawer.NavUtils
 import com.example.cricdekho.ui.home.navigation_drawer.NavigationItem
 import com.example.cricdekho.ui.home.navigation_drawer.adapter.NavigationDrawerAdapter
 import com.example.cricdekho.ui.settings.SettingUI
+import com.example.cricdekho.ui.settings.ThemeType
+import com.example.cricdekho.util.Constants
 import com.example.cricdekho.util.ProgressbarListener
 import com.example.cricdekho.util.ToolbarListener
 import com.example.cricdekho.util.showToast
 
-class HomeActivity : AppCompatActivity(), ToolbarListener, ProgressbarListener,
+class HomeActivity : ThemeActivity(), ToolbarListener, ProgressbarListener,
     SettingUI.ThemeChangeListener {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var settingDialog: SettingUI
     private val navController: NavController by lazy {
         Navigation.findNavController(this, R.id.nav_host_fragment)
     }
+
+    private var show = false
+
+    override fun getStartTheme(): AppTheme {
+        val themeId = MySharedPreferences.readInt(Constants.PrefConstantas.THEME_ID, 0)
+        return if (themeId == 1) {
+            DarkTheme()
+        }  else if(themeId == 2){
+            SystemDefaultTheme()
+        }else {
+            LightTheme()
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,14 +66,18 @@ class HomeActivity : AppCompatActivity(), ToolbarListener, ProgressbarListener,
         settingDialog = SettingUI()
         settingDialog.setLister(this@HomeActivity)
         binding.layoutToolbar.ivSetting.setOnClickListener {
-            settingDialog.show(supportFragmentManager,"dialog")
+            show = true
+            settingDialog.show(supportFragmentManager, "dialog")
         }
     }
 
     private fun showSideDrawer() {
         val inflater = LayoutInflater.from(this)
-        val customDrawerView = inflater.inflate(R.layout.drawer_layout, binding.sideNavigation, false)
+        val customDrawerView =
+            inflater.inflate(R.layout.drawer_layout, binding.sideNavigation, false)
         val rv = customDrawerView.findViewById<RecyclerView>(R.id.rv_menu)
+        val root_layot  = customDrawerView.findViewById<ConstraintLayout>(R.id.root)
+        CurrentTheme.changeBackgroundColor(root_layot,root_layot.context)
         val navAdapter = NavigationDrawerAdapter()
         rv.apply {
             layoutManager = LinearLayoutManager(this@HomeActivity)
@@ -63,6 +93,26 @@ class HomeActivity : AppCompatActivity(), ToolbarListener, ProgressbarListener,
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    override fun syncTheme(appTheme: AppTheme) {
+        val myAppTheme = appTheme as MyAppTheme
+        binding.root.setBackgroundColor(myAppTheme.activityBackgroundColor(this))
+        CurrentTheme.setCurrentTheme(
+            myAppTheme.activityTextColor(this@HomeActivity),
+            myAppTheme.id()
+        )
+        binding.layoutToolbar.apply {
+            this.ivSearch.setColorFilter(myAppTheme.activityIconColor(this@HomeActivity))
+            this.ivLogo.setColorFilter(myAppTheme.activityIconColor(this@HomeActivity))
+            this.ivMenu.setColorFilter(myAppTheme.activityIconColor(this@HomeActivity))
+            this.ivSetting.setColorFilter(myAppTheme.activityIconColor(this@HomeActivity))
+            this.ivLogo.setColorFilter(myAppTheme.activityIconColor(this@HomeActivity))
+            this.tvTitle.setTextColor(myAppTheme.activityTextColor(this@HomeActivity))
+            this.ivShare.setColorFilter(myAppTheme.activityIconColor(this@HomeActivity))
+            this.ivBack.setColorFilter(myAppTheme.activityIconColor(this@HomeActivity))
+        }
+        println(">>>>>>>>>>>>>>>>>>>>.daadadada")
     }
 
     private fun setBottomNavigation() {
@@ -135,7 +185,7 @@ class HomeActivity : AppCompatActivity(), ToolbarListener, ProgressbarListener,
     }
 
     override fun showProgressBar(progressColor: Int?) {
-        if (progressColor != null){
+        if (progressColor != null) {
             binding.progressBar.setProgressTintList(ColorStateList.valueOf(progressColor));
         }
         binding.progressBar.visibility = View.VISIBLE
@@ -145,11 +195,37 @@ class HomeActivity : AppCompatActivity(), ToolbarListener, ProgressbarListener,
         binding.progressBar.visibility = View.GONE
     }
 
-    override fun changeTheme(theme: String) {
-        if (theme == "Dark"){
-            this.showToast("Dark Mode")
-            setTheme(R.style.Dark_Theme_Cricdekho)
-            recreate()
+    override fun changeTheme(theme: ThemeType) {
+        println(">>>>>>>>>>>>>>>>>fffffffff")
+        when (theme) {
+            ThemeType.LIGHT -> {
+                ThemeManager.instance.changeTheme(LightTheme(), binding.progressBar)
+            }
+
+            ThemeType.DARK -> {
+                ThemeManager.instance.changeTheme(DarkTheme(), binding.progressBar)
+            }
+
+            ThemeType.SYSTEM_DEFAULT -> {
+                ThemeManager.instance.changeTheme(SystemDefaultTheme(), binding.progressBar)
+            }
+
+            ThemeType.DEFAULT -> {
+                ThemeManager.instance.changeTheme(LightTheme(), binding.progressBar)
+
+            }
+
+            ThemeType.CLASSIC -> {
+                ThemeManager.instance.changeTheme(LightTheme(), binding.progressBar)
+
+            }
+
+            ThemeType.SPORTY -> {
+                ThemeManager.instance.changeTheme(LightTheme(), binding.progressBar)
+            }
+
         }
+        settingDialog?.dismiss()
+        recreate()
     }
 }

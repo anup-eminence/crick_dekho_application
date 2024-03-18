@@ -8,6 +8,7 @@ import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getLatestNews.DataItem
 import com.example.cricdekho.databinding.ItemExtraNewsBinding
 import com.example.cricdekho.databinding.ItemHomeNewsBinding
+import com.example.cricdekho.theme.CurrentTheme
 import easyadapter.dc.com.library.EasyAdapter
 
 class HomeExtraNewsAdapter(private var newsItem: List<DataItem?>?) :
@@ -38,6 +39,9 @@ class HomeExtraNewsAdapter(private var newsItem: List<DataItem?>?) :
     private fun bind(holder: ViewHolder, position: Int) {
         val item = newsItem?.get(position)
         holder.binding.apply {
+            CurrentTheme.changeTextColor(this.tvText1,root.context)
+            CurrentTheme.changeTextColor(this.tvTime1,root.context)
+
             if (item != null) {
                 Glide.with(root.context).load(item.img).into(ivPost1)
                 tvText1.text = item.p
