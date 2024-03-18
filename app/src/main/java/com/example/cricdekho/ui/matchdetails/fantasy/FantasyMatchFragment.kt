@@ -113,6 +113,7 @@ class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerA
 
     private fun initView() {
         squadX.clear()
+        if (squad[0].squad.isNullOrEmpty()) return
         squadX.addAll(squad[0].squad)
         if (squadX.isNotEmpty()) {
             setPlayerImages(squadX[0])

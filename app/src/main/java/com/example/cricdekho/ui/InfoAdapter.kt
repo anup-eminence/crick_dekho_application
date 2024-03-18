@@ -3,6 +3,7 @@ package com.example.cricdekho.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DiffUtil.DiffResult
 import androidx.recyclerview.widget.ListAdapter
@@ -51,9 +52,25 @@ class InfoAdapter : RecyclerView.Adapter<InfoAdapter.InfoListViewHolder>() {
             }
         }
 
-        holder.binding.root.setOnClickListener {
-            infoAdapterClickListener?.onAdapterItemClick(item)
+        if (item?.sk_slug.isNullOrEmpty().not()) {
+            holder.binding.tvName.setTextColor(
+                ContextCompat.getColor(
+                    holder.binding.root.context,
+                    R.color.blue
+                )
+            )
+            holder.binding.root.setOnClickListener {
+                infoAdapterClickListener?.onAdapterItemClick(item)
+            }
+        } else {
+            holder.binding.tvName.setTextColor(
+                ContextCompat.getColor(
+                    holder.binding.root.context,
+                    R.color.black
+                )
+            )
         }
+
     }
 
     fun setData(newList: List<Player>){

@@ -78,6 +78,8 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initView() {
+        if (squad[0].squad.isNullOrEmpty()) return
+        println(">>>>>>>>>>>>>>>.squadd ${squad[0]}")
         squadX.addAll(squad[0].squad)
         if (squadX.isNotEmpty()) {
             setPlayerImages(squadX[0])
@@ -98,11 +100,13 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
         }
         if (squad[0].match_status != "pre") {
             playerList.clear()
-            playerList.addAll(squadX[0].players)
-            listAdapter.setData(playerList)
-            listAdapter2.setData(squadX[1].players)
-            listAdapter3.setData(squadX[0].bench_players)
-            listAdapter4.setData(squadX[1].bench_players)
+            if (squad.isNotEmpty()) {
+                squadX[0].players.let { playerList.addAll(it) }
+                listAdapter.setData(playerList)
+                listAdapter2.setData(squadX[1].players)
+                listAdapter3.setData(squadX[0].bench_players)
+                listAdapter4.setData(squadX[1].bench_players)
+            }
             /*setUpTeam1Adapter()*/
             /* setUpTeam2Adapter()
              setUpBenchTeam1Adapter()
