@@ -12,6 +12,7 @@ import com.example.cricdekho.data.model.getMatchDetails.InningTab
 import com.example.cricdekho.data.model.getMatchDetails.Innings
 import com.example.cricdekho.data.model.getMatchDetails.Squad
 import com.example.cricdekho.databinding.FragmentScoreCardBinding
+import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.matchdetails.MatchDetailsFragment
 import com.example.cricdekho.ui.matchdetails.scorecard.adapter.BowlersNewAdapter
 import com.example.cricdekho.ui.matchdetails.scorecard.adapter.ScoreCardNewAdapter
@@ -49,6 +50,7 @@ class ScoreCardFragment : Fragment(), ScoreCardNewAdapter.ScoreCardListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setUpAdapters()
+        initThemeChange()
         MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner){
             if (it.isNotEmpty()) {
                 squad = it
@@ -57,6 +59,31 @@ class ScoreCardFragment : Fragment(), ScoreCardNewAdapter.ScoreCardListener {
 
             }
         }
+    }
+
+    private fun initThemeChange() {
+        CurrentTheme.changeTextColor(binding.tvTotalScore,requireContext())
+        CurrentTheme.changeTextColor(binding.txtTotalScore,requireContext())
+        CurrentTheme.changeTextColor(binding.tvBatters,requireContext())
+        CurrentTheme.changeTextColor(binding.tvR,requireContext())
+        CurrentTheme.changeTextColor(binding.tvB,requireContext())
+        CurrentTheme.changeTextColor(binding.tv4s,requireContext())
+        CurrentTheme.changeTextColor(binding.tv6s,requireContext())
+        CurrentTheme.changeTextColor(binding.tvSR,requireContext())
+        CurrentTheme.changeTextColor(binding.tvExtras,requireContext())
+        CurrentTheme.changeTextColor(binding.tvExtrasTxt1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvExtrasTxt2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvBowler,requireContext())
+        CurrentTheme.changeTextColor(binding.tvBowlers,requireContext())
+        CurrentTheme.changeTextColor(binding.tvO,requireContext())
+        CurrentTheme.changeTextColor(binding.tvM,requireContext())
+        CurrentTheme.changeTextColor(binding.tvRBowler,requireContext())
+        CurrentTheme.changeTextColor(binding.tvW,requireContext())
+        CurrentTheme.changeTextColor(binding.tvEco,requireContext())
+        CurrentTheme.changeTextColor(binding.tvFallOfWickets,requireContext())
+        CurrentTheme.changeTextColor(binding.tvBattersWicket,requireContext())
+        CurrentTheme.changeTextColor(binding.tvScore,requireContext())
+        CurrentTheme.changeTextColor(binding.tvOver,requireContext())
     }
 
     private fun initView() {

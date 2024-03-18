@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cricdekho.data.model.getLatestNews.DataItem
 import com.example.cricdekho.databinding.ItemHomeNewsBinding
+import com.example.cricdekho.theme.CurrentTheme
 
 class HomeNewsAdapter(private var newsItem: List<DataItem?>?) :
     RecyclerView.Adapter<HomeNewsAdapter.ViewHolder>() {
@@ -34,12 +35,14 @@ class HomeNewsAdapter(private var newsItem: List<DataItem?>?) :
     private fun bind(holder: ViewHolder, position: Int) {
         val item = newsItem?.get(position)
         holder.binding.apply {
+            CurrentTheme.changeTextColor(this.tvNumber,holder.binding.root.context)
+            CurrentTheme.changeTextColor(this.tvNews,holder.binding.root.context)
+
             if (item != null) {
                 tvNumber.text = (position + 1).toString()
                 tvNews.text = item.p
             }
         }
-
         holder.binding.root.setOnClickListener {
             newsAdapterClickListener?.onNewsAdapterItemClick(item!!)
         }

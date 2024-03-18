@@ -9,6 +9,7 @@ import com.example.cricdekho.data.model.getMatchDetails.Batting
 import com.example.cricdekho.data.model.getMatchDetails.Bowling
 import com.example.cricdekho.databinding.ItemBowlersBinding
 import com.example.cricdekho.databinding.ItemTotalScoreBinding
+import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.matchdetails.scorecard.diffutil.BowlingDiffUtils
 import com.example.cricdekho.ui.matchdetails.scorecard.diffutil.TotalScoreDiffUtils
 
@@ -33,6 +34,11 @@ class BowlersNewAdapter : RecyclerView.Adapter<BowlersNewAdapter.TotalScoreVH>()
     private fun bindItem(holder: TotalScoreVH, position: Int) {
         val model = oldList[position]
         holder.binding.apply {
+            CurrentTheme.changeTextColor(tvO,holder.binding.root.context)
+            CurrentTheme.changeTextColor(tvM,holder.binding.root.context)
+            CurrentTheme.changeTextColor(tvW,holder.binding.root.context)
+            CurrentTheme.changeTextColor(tvEco,holder.binding.root.context)
+            CurrentTheme.changeTextColor(tvRBowler,holder.binding.root.context)
             tvBowlers.text = model.name
             tvO.text = model.overs
             tvM.text = model.maiden_overs

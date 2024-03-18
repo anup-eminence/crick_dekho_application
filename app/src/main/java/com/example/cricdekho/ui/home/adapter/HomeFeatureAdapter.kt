@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getCricketMainTabs.Data
 import com.example.cricdekho.databinding.ItemFantasyBinding
+import com.example.cricdekho.theme.CurrentTheme
 import easyadapter.dc.com.library.EasyAdapter
 
 
@@ -51,6 +52,7 @@ class HomeTabAdapter : RecyclerView.Adapter<HomeTabAdapter.ItemFantasyVH>(){
             holder.binding.tvText.setTextColor(ContextCompat.getColor(holder.binding.root.context,R.color.black))
             holder.binding.tvText.setBackgroundDrawable(ContextCompat.getDrawable(holder.binding.root.context,R.drawable.bg_rounded_shape))
         }
+
     }
 
     fun setOnTabItemClick(onFeatureItemClick : OnFeatureItemClick){
@@ -70,6 +72,10 @@ class HomeFeatureAdapter :
     override fun onBind(binding: ItemFantasyBinding, model: Data) {
         binding.apply {
             tvText.text = model.name
+            if (CurrentTheme.textColor != null){
+                println(">>>>>>>>>>>>>>lkfjlkdjfkjdlk ")
+                tvText.setTextColor(CurrentTheme.textColor!!)
+            }
         }
 
     }

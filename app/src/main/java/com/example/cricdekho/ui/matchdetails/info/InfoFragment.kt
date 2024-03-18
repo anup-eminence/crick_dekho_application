@@ -19,6 +19,7 @@ import com.example.cricdekho.data.model.getMatchDetails.Player
 import com.example.cricdekho.data.model.getMatchDetails.Squad
 import com.example.cricdekho.data.model.getMatchDetails.SquadX
 import com.example.cricdekho.databinding.FragmentInfoBinding
+import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.BenchPlayerListAdapter
 import com.example.cricdekho.ui.InfoAdapter
 import com.example.cricdekho.ui.matchdetails.MatchDetailsFragment
@@ -66,6 +67,7 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setUpadpater()
+        initThemeChange()
         MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 squad = it
@@ -74,6 +76,25 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
             }
         }
         setOnClickListener()
+    }
+
+    private fun initThemeChange() {
+        CurrentTheme.changeTextColor(binding.tvPlaying,requireContext())
+        CurrentTheme.changeTextColor(binding.tvTeam1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvTeam2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvBench,requireContext())
+        CurrentTheme.changeTextColor(binding.tvSquad,requireContext())
+        CurrentTheme.changeTextColor(binding.tvMatchDetail,requireContext())
+        CurrentTheme.changeTextColor(binding.tvToss,requireContext())
+        CurrentTheme.changeTextColor(binding.txtToss,requireContext())
+        CurrentTheme.changeTextColor(binding.tvMatch,requireContext())
+        CurrentTheme.changeTextColor(binding.txtMatch,requireContext())
+        CurrentTheme.changeTextColor(binding.tvDateTime,requireContext())
+        CurrentTheme.changeTextColor(binding.txtDateTime,requireContext())
+        CurrentTheme.changeTextColor(binding.tvVenue,requireContext())
+        CurrentTheme.changeTextColor(binding.txtVenue,requireContext())
+        CurrentTheme.changeTextColor(binding.tvUmpires,requireContext())
+        CurrentTheme.changeTextColor(binding.txtUmpires,requireContext())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

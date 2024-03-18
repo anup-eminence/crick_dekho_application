@@ -32,6 +32,7 @@
     <!-- Theme for night mode -->
     <style name="Dark.Theme.Cricdekho" parent="Base.Theme.Cricdekho">
         <item name="android:windowBackground">@color/black</item>
+        <item name="colorPrimary">@color/grey</item>
         <!-- Add specific night mode customizations here -->
     </style>
 </resources>

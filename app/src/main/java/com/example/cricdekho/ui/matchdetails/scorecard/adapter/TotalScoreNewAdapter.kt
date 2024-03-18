@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil.DiffResult
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cricdekho.data.model.getMatchDetails.Batting
 import com.example.cricdekho.databinding.ItemTotalScoreBinding
+import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.matchdetails.scorecard.diffutil.TotalScoreDiffUtils
 
 class TotalScoreNewAdapter : RecyclerView.Adapter<TotalScoreNewAdapter.TotalScoreVH>(){
@@ -30,6 +31,11 @@ class TotalScoreNewAdapter : RecyclerView.Adapter<TotalScoreNewAdapter.TotalScor
     private fun bindItem(holder: TotalScoreVH, position: Int) {
         val model = oldList[position]
         holder.binding.apply {
+            CurrentTheme.changeTextColor(tvR,holder.binding.root.context)
+            CurrentTheme.changeTextColor(tvB,holder.binding.root.context)
+            CurrentTheme.changeTextColor(tv4s,holder.binding.root.context)
+            CurrentTheme.changeTextColor(tv6s,holder.binding.root.context)
+            CurrentTheme.changeTextColor(tvSR,holder.binding.root.context)
             tvBatters.text = model.name
             tvText.text = model.out_str
             tvR.text = model.runs
