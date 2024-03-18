@@ -85,6 +85,9 @@
         <action
             android:id="@+id/action_teamInfoFragment_to_playerDetailsFragment"
             app:destination="@id/playerDetailsFragment" />
+        <action
+            android:id="@+id/action_teamInfoFragment_to_newsDetailFragment"
+            app:destination="@id/newsDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/newsDetailFragment"

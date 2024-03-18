@@ -14,8 +14,8 @@
             android:layout_height="wrap_content"
             android:text="1"
             android:textColor="@color/black"
-            android:textSize="18dp"
-            android:textStyle="bold"
+            android:textSize="18sp"
+            android:fontFamily="@font/poppins_bold"
             app:layout_constraintBottom_toBottomOf="@id/tvNews"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvNews" />
@@ -28,9 +28,10 @@
             android:layout_marginTop="12dp"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content."
+            android:text="@string/txt"
             android:textColor="@color/black"
             android:textSize="14sp"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvNumber"
             app:layout_constraintTop_toTopOf="parent" />

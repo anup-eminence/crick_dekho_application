@@ -17,7 +17,7 @@
             android:text="@string/match"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/poppins_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,6 +27,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:scaleType="centerCrop"
+            android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,7 +40,7 @@
             android:text="@string/teams"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/poppins_medium"
             app:layout_constraintBottom_toBottomOf="@id/ivImage1"
             app:layout_constraintEnd_toStartOf="@id/tvVS"
             app:layout_constraintStart_toEndOf="@id/ivImage1"
@@ -50,6 +51,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:scaleType="centerCrop"
+            android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -63,7 +65,7 @@
             android:text="@string/teams"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/poppins_medium"
             app:layout_constraintBottom_toBottomOf="@id/ivImage2"
             app:layout_constraintEnd_toStartOf="@id/ivImage2"
             app:layout_constraintStart_toEndOf="@id/tvVS"
@@ -76,6 +78,7 @@
             android:text="@string/vs"
             android:textColor="@color/grey"
             android:textSize="12sp"
+            android:fontFamily="@font/poppins_medium"
             app:layout_constraintBottom_toBottomOf="@id/ivImage1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -88,6 +91,7 @@
             android:text="@string/date_time"
             android:textColor="@color/grey"
             android:textSize="12sp"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

@@ -9,7 +9,7 @@ import com.example.cricdekho.data.model.getCricketMainTabs.ResponseHomeFeature
 import com.example.cricdekho.data.model.getCricketMatches.Data
 import com.example.cricdekho.data.model.getCricketMatches.ResponseHomeMatch
 import com.example.cricdekho.data.model.getCricketNews.ResponseCricketNews
-import com.example.cricdekho.data.model.getLatestNews.ResponseLatestNews
+import com.example.cricdekho.data.model.getHomeNews.ResponseHomeNews
 import com.example.cricdekho.data.remote.SocketManager
 import com.example.cricdekho.data.repository.HomeFeatureRepository
 import com.google.gson.Gson
@@ -30,8 +30,8 @@ class HomeFeatureViewModel : ViewModel() {
     private val _dataMatch = MutableLiveData<ResponseHomeMatch>()
     val dataMatch: LiveData<ResponseHomeMatch> get() = _dataMatch
 
-    private val _dataLatestNews = MutableLiveData<ResponseLatestNews>()
-    val dataLatestNews: LiveData<ResponseLatestNews> get() = _dataLatestNews
+    private val _dataHomeNews = MutableLiveData<ResponseHomeNews>()
+    val dataHomeNews: LiveData<ResponseHomeNews> get() = _dataHomeNews
 
     private val _dataCricketNews = MutableLiveData<ResponseCricketNews>()
     val dataCricketNews: LiveData<ResponseCricketNews> get() = _dataCricketNews
@@ -41,7 +41,7 @@ class HomeFeatureViewModel : ViewModel() {
             try {
                 _dataTab.value = homeFeatureRepository.getCricketTab()
                 _dataMatch.value = homeFeatureRepository.getCricketMatches(tournamentSlug)
-                _dataLatestNews.value = homeFeatureRepository.getLatestNews()
+                _dataHomeNews.value = homeFeatureRepository.getHomeNews()
             } catch (e: Exception) {
                 Log.e("Exception", "Exception ${e.message.toString()}")
             }

@@ -2,10 +2,10 @@ package com.example.cricdekho.ui.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.cricdekho.R
-import com.example.cricdekho.data.model.getLatestNews.DataItem
+import com.example.cricdekho.data.model.getHomeNews.DataItem
 import com.example.cricdekho.databinding.ItemExtraNewsBinding
 import com.example.cricdekho.databinding.ItemHomeNewsBinding
 import com.example.cricdekho.theme.CurrentTheme
@@ -43,9 +43,23 @@ class HomeExtraNewsAdapter(private var newsItem: List<DataItem?>?) :
             CurrentTheme.changeTextColor(this.tvTime1,root.context)
 
             if (item != null) {
-                Glide.with(root.context).load(item.img).into(ivPost1)
-                tvText1.text = item.p
-                tvTime1.text = item.time
+                if (item.type == "primary") {
+                    ivPost1.isVisible = true
+                    tvText1.isVisible = true
+                    tvTime1.isVisible = true
+
+                    Glide.with(root.context).load(item.img).into(ivPost1)
+                    tvText1.text = item.title
+                    tvTime1.text = item.time
+                } else {
+                    ivPost2.isVisible = true
+                    tvText2.isVisible = true
+                    tvTime2.isVisible = true
+
+                    Glide.with(root.context).load(item.img).into(ivPost2)
+                    tvText2.text = item.title
+                    tvTime2.text = item.time
+                }
             }
         }
 

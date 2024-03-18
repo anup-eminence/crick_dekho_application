@@ -1,14 +1,15 @@
-package com.example.cricdekho.ui.home.adapter
+package com.example.cricdekho.ui.teaminfo.news
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cricdekho.data.model.getHomeNews.DataItem
-import com.example.cricdekho.databinding.ItemHomeNewsBinding
-import com.example.cricdekho.theme.CurrentTheme
+import com.bumptech.glide.Glide
+import com.example.cricdekho.data.model.getSeriesNews.NewsItem
+import com.example.cricdekho.databinding.ItemExtraNewsBinding
 
-class HomeNewsAdapter(private var newsItem: List<DataItem?>?) :
-    RecyclerView.Adapter<HomeNewsAdapter.ViewHolder>() {
+class TeamNewsAdapter(private var newsItem: List<NewsItem?>?) :
+    RecyclerView.Adapter<TeamNewsAdapter.ViewHolder>() {
 
     private var newsAdapterClickListener: NewsAdapterClickListener? = null
 
@@ -16,11 +17,11 @@ class HomeNewsAdapter(private var newsItem: List<DataItem?>?) :
         this.newsAdapterClickListener = newsAdapterClickListener
     }
 
-    class ViewHolder(val binding: ItemHomeNewsBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ItemExtraNewsBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemHomeNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemExtraNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -35,20 +36,24 @@ class HomeNewsAdapter(private var newsItem: List<DataItem?>?) :
     private fun bind(holder: ViewHolder, position: Int) {
         val item = newsItem?.get(position)
         holder.binding.apply {
-            CurrentTheme.changeTextColor(this.tvNumber,holder.binding.root.context)
-            CurrentTheme.changeTextColor(this.tvNews,holder.binding.root.context)
-
             if (item != null) {
-                tvNumber.text = (position + 1).toString()
-                tvNews.text = item.title
+                ivPost1.isVisible = true
+                tvText1.isVisible = true
+                tvTime1.isVisible = true
+
+                Glide.with(root.context).load(item.img).into(ivPost1)
+                tvText1.text = item.title
+                tvTime1.text = item.time
+
             }
         }
+
         holder.binding.root.setOnClickListener {
-            newsAdapterClickListener?.onNewsAdapterItemClick(item!!)
+            newsAdapterClickListener?.onAdapterItemClick(item!!)
         }
     }
 
     interface NewsAdapterClickListener {
-        fun onNewsAdapterItemClick(item: DataItem)
+        fun onAdapterItemClick(item: NewsItem)
     }
 }
