@@ -2,124 +2,140 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clItem"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="260dp"
         android:layout_height="150dp"
-        android:layout_margin="3dp"
-        android:background="@drawable/bg_square_shape"
-        android:padding="12dp">
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="1dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivFlag1"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/app_logo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTitle1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="South Africa"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="@id/ivFlag1"
-            app:layout_constraintEnd_toStartOf="@id/tvRuns1"
-            app:layout_constraintStart_toEndOf="@id/ivFlag1"
-            app:layout_constraintTop_toTopOf="@id/ivFlag1" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivFlag2"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="12dp"
-            android:src="@drawable/app_logo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivFlag1" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTitle2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="New Zealand XI"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="@id/ivFlag2"
-            app:layout_constraintEnd_toStartOf="@id/tvRuns2"
-            app:layout_constraintStart_toEndOf="@id/ivFlag2"
-            app:layout_constraintTop_toTopOf="@id/ivFlag2" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTitle3"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clItem"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:singleLine="true"
-            android:ellipsize="marquee"
-            android:text="Match Delaye Due To Rain"
-            android:textColor="@color/blue_light"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivFlag2" />
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:padding="12dp">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvRuns1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Match Delaye Due To Rain"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="@id/ivFlag1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ivFlag1" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivFlag1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/app_logo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvRuns2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Match Delaye Due To Rain"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="@id/ivFlag2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ivFlag2" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="@string/match"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@id/ivFlag1"
+                app:layout_constraintEnd_toStartOf="@id/tvRuns1"
+                app:layout_constraintStart_toEndOf="@id/ivFlag1"
+                app:layout_constraintTop_toTopOf="@id/ivFlag1" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSchedule"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:text="@string/schedule"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/tvPoints"
-            app:layout_constraintEnd_toStartOf="@id/tvPoints"
-            app:layout_constraintTop_toTopOf="@id/tvPoints" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivFlag2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/app_logo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivFlag1" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvPoints"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="3dp"
-            android:text="@string/points_table"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle3" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="@string/match"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@id/ivFlag2"
+                app:layout_constraintEnd_toStartOf="@id/tvRuns2"
+                app:layout_constraintStart_toEndOf="@id/ivFlag2"
+                app:layout_constraintTop_toTopOf="@id/ivFlag2" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvLive"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/light_grey"
-            android:paddingHorizontal="4dp"
-            android:paddingVertical="2dp"
-            android:text="@string/live"
-            android:textColor="@color/green"
-            app:layout_constraintBottom_toBottomOf="@id/tvPoints"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvPoints" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/poppins_regular"
+                android:singleLine="true"
+                android:text="@string/match"
+                android:textColor="@color/blue_light"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivFlag2" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRuns1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium_numbers"
+                android:text="@string/match"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@id/ivFlag1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/ivFlag1" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvRuns2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium_numbers"
+                android:text="@string/match"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@id/ivFlag2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/ivFlag2" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSchedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/schedule"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@id/tvPoints"
+                app:layout_constraintEnd_toStartOf="@id/tvPoints"
+                app:layout_constraintTop_toTopOf="@id/tvPoints" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="3dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/points_table"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle3" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvLive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/light_grey"
+                android:fontFamily="@font/poppins_regular"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
+                android:text="@string/live"
+                android:textColor="@color/green"
+                app:layout_constraintBottom_toBottomOf="@id/tvPoints"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvPoints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

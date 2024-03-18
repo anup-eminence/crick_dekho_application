@@ -20,8 +20,8 @@ import com.example.cricdekho.R
 import com.example.cricdekho.data.model.HomeTrendingList
 import com.example.cricdekho.data.model.getCricketMatches.Data
 import com.example.cricdekho.data.model.getCricketMatches.ResponseHomeMatch
-import com.example.cricdekho.data.model.getLatestNews.DataItem
-import com.example.cricdekho.data.model.getLatestNews.ResponseLatestNews
+import com.example.cricdekho.data.model.getHomeNews.DataItem
+import com.example.cricdekho.data.model.getHomeNews.ResponseHomeNews
 import com.example.cricdekho.data.remote.SocketManager
 import com.example.cricdekho.databinding.FragmentHomeBinding
 import com.example.cricdekho.ui.home.adapter.HomeExtraNewsAdapter
@@ -53,7 +53,7 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
     private val responseHomeMatch = ArrayList<ResponseHomeMatch>()
     private val responseMatch = ArrayList<Data>()
     private var tournamentSlug = "featured"
-    private val responseLatestNews = ArrayList<ResponseLatestNews>()
+    private val responseHomeNews = ArrayList<ResponseHomeNews>()
 
     private lateinit var homeTabAdapter : HomeTabAdapter
 
@@ -114,9 +114,9 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
             fetchSocketData(tournamentSlug)
         })
 
-        homeFeatureViewModel.dataLatestNews.observe(viewLifecycleOwner, Observer {
-            responseLatestNews.clear()
-            responseLatestNews.addAll(listOf(it))
+        homeFeatureViewModel.dataHomeNews.observe(viewLifecycleOwner, Observer {
+            responseHomeNews.clear()
+            responseHomeNews.addAll(listOf(it))
             setData()
             setUpNewsAdapter()
             setUpExtraNewsAdapter()
@@ -140,12 +140,12 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
 
     private fun setData() {
         binding.apply {
-            Glide.with(requireContext()).load(responseLatestNews[0].data?.get(0)?.img).into(ivImage)
-            tvImage.text = responseLatestNews[0].data?.get(0)?.p
-            tvTime.text = responseLatestNews[0].data?.get(0)?.time
+            Glide.with(requireContext()).load(responseHomeNews[0].data?.get(0)?.img).into(ivImage)
+            tvImage.text = responseHomeNews[0].data?.get(0)?.title
+            tvTime.text = responseHomeNews[0].data?.get(0)?.time
 
             ivImage.setOnClickListener {
-                val bundle = bundleOf("link" to responseLatestNews[0].data?.get(0)?.link)
+                val bundle = bundleOf("link" to responseHomeNews[0].data?.get(0)?.link)
                 findNavController().navigate(
                     R.id.action_homeFragment_to_newsDetailFragment, bundle
                 )
@@ -240,7 +240,7 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
 
     private fun setUpNewsAdapter() {
         binding.recyclerViewNews.layoutManager = LinearLayoutManager(requireContext())
-        homeNewsAdapter = HomeNewsAdapter(responseLatestNews[0].data?.take(5))
+        homeNewsAdapter = HomeNewsAdapter(responseHomeNews[0].data?.take(5))
         homeNewsAdapter.setNewsAdapterListener(this@HomeFragment)
         binding.recyclerViewNews.adapter = homeNewsAdapter
     }
@@ -275,7 +275,7 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
 
     private fun setUpExtraNewsAdapter() {
         binding.recyclerViewExtraNews.layoutManager = LinearLayoutManager(requireContext())
-        homeExtraNewsAdapter = HomeExtraNewsAdapter(responseLatestNews[0].data)
+        homeExtraNewsAdapter = HomeExtraNewsAdapter(responseHomeNews[0].data)
         homeExtraNewsAdapter.setExtraNewsAdapterListener(this@HomeFragment)
         binding.recyclerViewExtraNews.adapter = homeExtraNewsAdapter
     }
