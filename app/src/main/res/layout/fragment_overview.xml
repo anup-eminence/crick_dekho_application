@@ -477,7 +477,7 @@
                         android:text="@string/match"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -490,7 +490,7 @@
                         android:text="@string/bf"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvMatch"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -504,7 +504,7 @@
                         android:text="@string/_4s"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvBF"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -518,7 +518,7 @@
                         android:text="@string/_6s"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tv4s"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -532,7 +532,7 @@
                         android:text="@string/s_r"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tv6s"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -546,7 +546,7 @@
                         android:text="@string/o"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvSR"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -560,7 +560,7 @@
                         android:text="@string/r"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvO"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -574,7 +574,7 @@
                         android:text="@string/w"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvR"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -588,7 +588,7 @@
                         android:text="@string/e_r"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvW"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -670,7 +670,7 @@
                         android:text="@string/game_type"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -683,7 +683,7 @@
                         android:text="@string/mat"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvGameType"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -697,7 +697,7 @@
                         android:text="@string/inn"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvMat"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -711,7 +711,7 @@
                         android:text="@string/r"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvInn"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -725,7 +725,7 @@
                         android:text="@string/bf"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvRBat"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -739,7 +739,7 @@
                         android:text="@string/no"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvBFBat"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -753,7 +753,7 @@
                         android:text="@string/avg"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvNO"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -767,7 +767,7 @@
                         android:text="@string/s_r"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvAvg"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -781,7 +781,7 @@
                         android:text="@string/_100s"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvSRBat"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -795,7 +795,7 @@
                         android:text="@string/_50s"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tv100s"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -809,7 +809,7 @@
                         android:text="@string/h"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tv50s"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -823,7 +823,7 @@
                         android:text="@string/_4s"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvH"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -837,7 +837,7 @@
                         android:text="@string/_6s"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tv4sBat"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -851,7 +851,7 @@
                         android:text="@string/ct"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tv6sBat"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -865,7 +865,7 @@
                         android:text="@string/st"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/tvCt"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -948,7 +948,7 @@
                         android:text="@string/game_type"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -961,7 +961,7 @@
                         android:text="@string/mat"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvGameTypeBowl"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -975,7 +975,7 @@
                         android:text="@string/inn"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvMatBowl"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -989,7 +989,7 @@
                         android:text="@string/o"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvInnBowl"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -1003,7 +1003,7 @@
                         android:text="@string/r"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvOBowl"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -1017,7 +1017,7 @@
                         android:text="@string/w"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvRBowl"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -1031,7 +1031,7 @@
                         android:text="@string/avg"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvWBowl"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -1045,7 +1045,7 @@
                         android:text="@string/e_r"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvAvgBowl"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -1059,7 +1059,7 @@
                         android:text="@string/best"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvERBowl"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -1073,7 +1073,7 @@
                         android:text="@string/_5w"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintStart_toEndOf="@id/tvBest"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -1087,7 +1087,7 @@
                         android:text="@string/_10w"
                         android:textColor="@color/grey"
                         android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/poppins_bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/tv5w"
                         app:layout_constraintTop_toTopOf="parent" />

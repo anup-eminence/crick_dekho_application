@@ -3,12 +3,12 @@ package com.example.cricdekho.ui.home.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cricdekho.data.model.getHomeNews.DataItem
+import com.example.cricdekho.data.model.getHomeSidebarNews.NewsItem
 import com.example.cricdekho.databinding.ItemHomeNewsBinding
 import com.example.cricdekho.theme.CurrentTheme
 
-class HomeNewsAdapter(private var newsItem: List<DataItem?>?) :
-    RecyclerView.Adapter<HomeNewsAdapter.ViewHolder>() {
+class HomeNewsAdapter : RecyclerView.Adapter<HomeNewsAdapter.ViewHolder>() {
+    var newsItem: List<NewsItem?>? = null
 
     private var newsAdapterClickListener: NewsAdapterClickListener? = null
 
@@ -35,8 +35,8 @@ class HomeNewsAdapter(private var newsItem: List<DataItem?>?) :
     private fun bind(holder: ViewHolder, position: Int) {
         val item = newsItem?.get(position)
         holder.binding.apply {
-            CurrentTheme.changeTextColor(this.tvNumber,holder.binding.root.context)
-            CurrentTheme.changeTextColor(this.tvNews,holder.binding.root.context)
+            CurrentTheme.changeTextColor(this.tvNumber, holder.binding.root.context)
+            CurrentTheme.changeTextColor(this.tvNews, holder.binding.root.context)
 
             if (item != null) {
                 tvNumber.text = (position + 1).toString()
@@ -49,6 +49,6 @@ class HomeNewsAdapter(private var newsItem: List<DataItem?>?) :
     }
 
     interface NewsAdapterClickListener {
-        fun onNewsAdapterItemClick(item: DataItem)
+        fun onNewsAdapterItemClick(item: NewsItem)
     }
 }

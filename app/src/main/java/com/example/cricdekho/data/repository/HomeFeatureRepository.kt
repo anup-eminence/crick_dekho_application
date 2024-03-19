@@ -4,7 +4,7 @@ import com.example.cricdekho.data.model.getCricketMainTabs.ResponseHomeFeature
 import com.example.cricdekho.data.model.getCricketMatches.ResponseHomeMatch
 import com.example.cricdekho.data.model.getCricketNews.ResponseCricketNews
 import com.example.cricdekho.data.model.getHomeNews.ResponseHomeNews
-import com.example.cricdekho.data.model.getSeriesNews.ResponseTeamNews
+import com.example.cricdekho.data.model.getHomeSidebarNews.ResponseLatestPopularNews
 import com.example.cricdekho.util.RetrofitClient
 
 class HomeFeatureRepository {
@@ -24,5 +24,9 @@ class HomeFeatureRepository {
 
     suspend fun getCricketNews(link: String): ResponseCricketNews {
         return apiService.getCricketNews(link)
+    }
+
+    suspend fun getLatestPopularNews(): ResponseLatestPopularNews {
+        return apiService.getHomeSidebarNews()
     }
 }
