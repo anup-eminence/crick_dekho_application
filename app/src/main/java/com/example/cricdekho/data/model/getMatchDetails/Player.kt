@@ -1,12 +1,12 @@
 package com.example.cricdekho.data.model.getMatchDetails
 
 data class Player(
-    val delta: Int,
-    val name: String,
-    val position: String,
-    val provider_id: String,
-    val role: String,
-    val sk_slug: String,
-    val slug: String,
+    var delta: Int,
+    var name: String,
+    var position: String,
+    var provider_id: String,
+    var role: String,
+    var sk_slug: String,
+    var slug: String,
     var playerImages: String
 )

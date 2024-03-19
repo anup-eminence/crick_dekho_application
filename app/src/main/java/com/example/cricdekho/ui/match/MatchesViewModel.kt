@@ -41,7 +41,16 @@ class MatchesViewModel : ViewModel() {
     private val _dataUpcomingTabs = MutableLiveData<MutableList<Tab>>()
     val dataUpcomingTabs: LiveData<MutableList<Tab>> get() = _dataUpcomingTabs
 
+    fun connectSocket(){
+        socketManager.connect()
+    }
+
+    fun disConnectSocket() {
+        socketManager.disconnect()
+    }
+
     fun emitSocketEvent(id: String) {
+        socketManager.connect()
         socketManager.emitEvent("Schedule", id)
         socketManager.setEventListener("Matches/$id") { args ->
             if (args != null) {

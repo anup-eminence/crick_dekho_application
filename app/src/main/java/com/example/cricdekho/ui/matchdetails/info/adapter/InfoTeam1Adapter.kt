@@ -10,7 +10,7 @@ import easyadapter.dc.com.library.EasyAdapter
 class InfoTeam1Adapter : EasyAdapter<Player, ItemInfoTeam1Binding>(R.layout.item_info_team1) {
     override fun onBind(binding: ItemInfoTeam1Binding, model: Player) {
         binding.apply {
-            Glide.with(root.context).load(model.playerImages).error(R.drawable.ic_player).into(ivPlayer)
+            Glide.with(root.context).load(model.playerImages).placeholder(R.drawable.ic_player).into(ivPlayer)
             tvName.text = model.name
             tvExpert.text = model.role
             if (model.position == "captain") {

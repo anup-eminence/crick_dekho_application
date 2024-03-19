@@ -5,24 +5,39 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getMatchDetails.Commentary
 import com.example.cricdekho.data.model.getMatchDetails.Squad
 import com.example.cricdekho.databinding.FragmentCommentaryBinding
+import com.example.cricdekho.theme.CurrentTheme
+import com.example.cricdekho.ui.home.BaseFragment
 import com.example.cricdekho.ui.matchdetails.MatchDetailViewModel
 import com.example.cricdekho.ui.matchdetails.MatchDetailsFragment
-import easyadapter.dc.com.library.EasyAdapter
 
-class CommentaryFragment : Fragment() {
+
+class CommentaryFragment : BaseFragment() {
     private lateinit var binding: FragmentCommentaryBinding
     private lateinit var commentaryAdapter: CommentaryAdapter
     private var squad = ArrayList<Squad>()
     private var commentary = ArrayList<Commentary>()
     private val matchDetailViewModel: MatchDetailViewModel by viewModels()
+    private lateinit var commentaryListAdapter: CommentaryListAdapter
+
+    private var apiCallInProgress = false
+
+    private lateinit var commentaryLayoutManager: LinearLayoutManager
+
+    private var updateList = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,72 +55,200 @@ class CommentaryFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setCommentaryAdapter()
+        initPaginationCommentary()
+        intiObserver()
+        initThemeChange()
+        //setUpAdapter()
+    }
 
-        MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner){
+    private fun initThemeChange() {
+        CurrentTheme.changeTextColor(binding.tvBatters,requireContext())
+        CurrentTheme.changeTextColor(binding.tvR,requireContext())
+        CurrentTheme.changeTextColor(binding.tvB,requireContext())
+        CurrentTheme.changeTextColor(binding.tv4s,requireContext())
+        CurrentTheme.changeTextColor(binding.tv6s,requireContext())
+        CurrentTheme.changeTextColor(binding.tvSR,requireContext())
+        CurrentTheme.changeTextColor(binding.tvR1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvB1,requireContext())
+        CurrentTheme.changeTextColor(binding.tv4s1,requireContext())
+        CurrentTheme.changeTextColor(binding.tv6s1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvSR1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvR2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvB2,requireContext())
+        CurrentTheme.changeTextColor(binding.tv4s2,requireContext())
+        CurrentTheme.changeTextColor(binding.tv6s2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvSR2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvBowlers,requireContext())
+        CurrentTheme.changeTextColor(binding.tvO,requireContext())
+        CurrentTheme.changeTextColor(binding.tvM,requireContext())
+        CurrentTheme.changeTextColor(binding.tvRBowler,requireContext())
+        CurrentTheme.changeTextColor(binding.tvW,requireContext())
+        CurrentTheme.changeTextColor(binding.tvEco,requireContext())
+        CurrentTheme.changeTextColor(binding.tvO1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvM1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvRBowler1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvW1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvEco1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvO2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvM2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvRBowler2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvW2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvEco2,requireContext())
+    }
+
+    private fun intiObserver() {
+
+        MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 squad = it
                 initView()
+                if (squad[0].commentary.isNotEmpty()) {
+                    if (updateList) {
+                        commentary.addAll(it[0].commentary)
+                        if (it[0].now_batting.team.name.isNotEmpty()) {
+                            setData()
+                        } else {
+                            hideViews()
+                        }
+                        println(">>>>>>>>>>>>>>>>>.....data ${it[0].commentary.lastIndex}")
+                        updateCommentry(it[0].commentary)
+                        updateList = false
+                    }
+                    if (commentaryListAdapter.oldList[0].timestamp < it[0].commentary[0].timestamp) {
+                        updateCommentry(it[0].commentary)
+                        if (it[0].now_batting.team.name.isNotEmpty()) {
+                            setData()
+                        } else {
+                            hideViews()
+                        }
+                    }
+                }
+
+            }
+        }
+
+        matchDetailViewModel.dataCommentary.observe(viewLifecycleOwner, Observer {
+            commentary.addAll(it)
+            commentaryListAdapter.updateData(it)
+            apiCallInProgress = false
+            progressBarListener.hideProgressBar()
+        })
+    }
+
+    private fun initPaginationCommentary() {
+        binding.nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+            if (v.getChildAt(v.childCount - 1) != null) {
+                if (scrollY >= v.getChildAt(v.childCount - 1)
+                        .measuredHeight - v.measuredHeight &&
+                    scrollY > oldScrollY
+                ) {
+                    //code to fetch more data for endless scrolling
+                    if (!apiCallInProgress) {
+                         progressBarListener.showProgressBar()
+                         apiCallInProgress = true
+                        callCommentaryApi(
+                            eventSlug = squad[0].topic_slug,
+                            timestampOfComment = commentaryListAdapter.oldList.last().timestamp.toString()
+                        )
+                    }
+
+                }
             }
         }
     }
 
+    private fun updateCommentry(list: List<Commentary>) {
+        commentaryListAdapter.setCommentaryData(list)
+
+    }
+
     private fun initView() {
         if (squad[0].commentary.isNotEmpty()) {
-            commentary.clear()
             commentary.addAll(squad[0].commentary)
-            setUpAdapter()
-            if (squad[0].now_batting.team.name.isNotEmpty()) {
-                setData()
-            } else {
-                hideViews()
-            }
+            // commentaryAdapter.addAll(commentary,true)
+            //  commentaryListAdapter.setCommentaryData(newlist)
         } else {
             hideViews()
         }
     }
 
-    private fun setUpAdapter() {
-        commentaryAdapter = CommentaryAdapter()
-        val recyclerViewState = binding.recyclerView.layoutManager?.onSaveInstanceState()
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        /*binding.recyclerView.layoutManager = LinearLayoutManager(requireContext()).apply {
-            reverseLayout = true
-            stackFromEnd = true
-        }*/
-        commentaryAdapter.addAll(commentary, true)
-        binding.recyclerView.adapter = commentaryAdapter
-        commentaryAdapter.notifyDataSetChanged()
-        binding.recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
-
-//        commentaryAdapter.setOnLoadMoreListener(
-//            binding.recyclerView,
-//            EasyAdapter.OnLoadMoreListener {
-//                val lastVisibleItemPosition =
-//                    (binding.recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-//                if (lastVisibleItemPosition == commentary.size - 1) {
-//                    val timestampOfComment =
-//                        commentary[lastVisibleItemPosition].timestamp.toString()
-//                    callCommentaryApi(squad[0].topic_slug, timestampOfComment) //Your Method
-//                    return@OnLoadMoreListener true // Returns True if you have more data
-//                }
-//                return@OnLoadMoreListener false // Return false if you don't have more data
-//            })
-
+    private fun setCommentaryAdapter() {
+        commentaryLayoutManager = LinearLayoutManager(requireContext())
+        commentaryListAdapter = CommentaryListAdapter()
+        //commentaryAdapter = CommentaryAdapter()
+        binding.recyclerView.apply {
+            layoutManager = commentaryLayoutManager
+            adapter = commentaryListAdapter
+            ViewCompat.setNestedScrollingEnabled(this, false);
+            isNestedScrollingEnabled = false
+            layoutManager?.isAutoMeasureEnabled = true;
+            hasFixedSize()
+        }
     }
+
 
     private fun callCommentaryApi(eventSlug: String, timestampOfComment: String) {
         matchDetailViewModel.getCommentary(eventSlug, timestampOfComment)
-
-        matchDetailViewModel.dataCommentary.observe(viewLifecycleOwner, Observer {
-            commentary.addAll(it)
-            setUpAdapter()
-        })
         Log.e("params", "$eventSlug,    $timestampOfComment")
+    }
+
+    private fun navigateToProfielDetails(sk_slug : String,name : String){
+        val bundle = bundleOf("sk_slug" to sk_slug, "name" to name)
+        findNavController().navigate(
+            R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
+        )
     }
 
     private fun setData() {
         binding.apply {
+
+            if (squad[0]?.now_batting?.b1?.slug?.isNullOrEmpty() == true) {
+                tvPlayer1.setTextColor(ContextCompat.getColor(
+                    requireContext(),
+                    R.color.black
+                ))
+            } else {
+                tvPlayer1.setOnClickListener {
+                    navigateToProfielDetails(squad[0]?.now_batting?.b1?.slug?:"",squad[0]?.now_batting?.b1?.name?:"")
+                }
+            }
+
+            if (squad[0]?.now_batting?.b2?.slug?.isNullOrEmpty() == true) {
+                tvPlayer2.setTextColor(ContextCompat.getColor(
+                    requireContext(),
+                    R.color.black
+                ))
+            }else {
+                tvPlayer2.setOnClickListener {
+                    navigateToProfielDetails(squad[0]?.now_batting?.b2?.slug?:"",squad[0]?.now_batting?.b2?.name?:"")
+
+                }
+            }
+
+            if (squad[0]?.now_bowling?.b1?.slug?.isNullOrEmpty() == true) {
+                tvBowlers1.setTextColor(ContextCompat.getColor(
+                    requireContext(),
+                    R.color.black
+                ))
+            }else {
+                tvBowlers1.setOnClickListener {
+                    navigateToProfielDetails(squad[0]?.now_bowling?.b1?.slug?:"",squad[0]?.now_bowling?.b1?.name?:"")
+
+                }
+            }
+
+            if (squad[0]?.now_bowling?.b2?.slug?.isNullOrEmpty() == true) {
+                tvBowlers2.setTextColor(ContextCompat.getColor(
+                    requireContext(),
+                    R.color.black
+                ))
+            }else {
+                tvBowlers2.setOnClickListener {
+                    navigateToProfielDetails(squad[0]?.now_bowling?.b2?.slug?:"",squad[0]?.now_bowling?.b2?.name?:"")
+                }
+            }
+
             tvPlayer1.text = squad[0].now_batting.b1.name
             tvR1.text = squad[0].now_batting.b1.stats.runs
             tvB1.text = squad[0].now_batting.b1.stats.balls

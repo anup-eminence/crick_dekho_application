@@ -10,16 +10,15 @@ import com.example.cricdekho.ui.matchdetails.commentary.CommentaryFragment
 import com.example.cricdekho.ui.matchdetails.fantasy.FantasyMatchFragment
 import com.example.cricdekho.ui.matchdetails.info.InfoFragment
 import com.example.cricdekho.ui.matchdetails.scorecard.ScoreCardFragment
+import com.example.cricdekho.ui.playerdetails.stat.PlayerStat
 
 class MatchDetailViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle,
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     private var squad : ArrayList<Squad> = arrayListOf()
 
-    @SuppressLint("NotifyDataSetChanged")
      fun setSquadList(squad: ArrayList<Squad>){
         this.squad = squad
-        notifyDataSetChanged()
     }
     override fun getItemCount(): Int {
         return 5

@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
 import com.example.cricdekho.R
 import com.example.cricdekho.databinding.ActivitySplashBinding
+import com.example.cricdekho.theme.CurrentTheme
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
@@ -17,6 +18,8 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+
+        CurrentTheme
 
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this, HomeActivity::class.java)

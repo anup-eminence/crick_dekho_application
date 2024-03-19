@@ -23,16 +23,16 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvName"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="14dp"
             android:layout_marginTop="10dp"
             android:maxLines="2"
             android:text="@string/player"
+            android:fontFamily="@font/poppins_regular"
             android:textColor="@color/blue"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivPlayer"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,21 +41,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/c"
+            android:layout_marginStart="5dp"
             android:textColor="@color/red"
             android:textSize="10sp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintTop_toTopOf="@id/tvName"
-            app:layout_constraintBottom_toTopOf="@id/tvName"
+            app:layout_constraintBottom_toBottomOf="@id/tvName"
             app:layout_constraintStart_toEndOf="@id/tvName"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvExpert"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:text="expert"
             android:textColor="@color/grey"
             android:textSize="12sp"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/tvName"
             app:layout_constraintStart_toStartOf="@id/tvName"

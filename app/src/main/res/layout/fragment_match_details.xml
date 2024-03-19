@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="8dp"
+        android:visibility="gone"
         android:paddingTop="5dp"
         tools:context=".ui.matchdetails.MatchDetailsFragment">
 
@@ -24,6 +26,7 @@
                 android:id="@+id/ivFlag1"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:layout_marginTop="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,8 +36,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:textColor="@color/blue"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:textSize="12sp"
+                android:maxLines="2"
+                android:fontFamily="@font/poppins_bold"
                 app:layout_constraintBottom_toBottomOf="@id/ivFlag1"
                 app:layout_constraintEnd_toStartOf="@id/tvRuns1"
                 app:layout_constraintStart_toEndOf="@id/ivFlag1"
@@ -54,8 +58,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:textColor="@color/blue"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:textSize="12sp"
+                android:maxLines="2"
+                android:fontFamily="@font/poppins_bold"
                 app:layout_constraintBottom_toBottomOf="@id/ivFlag2"
                 app:layout_constraintEnd_toStartOf="@id/tvRuns2"
                 app:layout_constraintStart_toEndOf="@id/ivFlag2"
@@ -67,8 +72,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:textSize="12sp"
+                android:fontFamily="@font/roboto_medium_numbers"
                 app:layout_constraintBottom_toBottomOf="@id/ivFlag1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tvTitle1"
@@ -80,8 +85,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:textSize="12sp"
+                android:fontFamily="@font/roboto_medium_numbers"
                 app:layout_constraintBottom_toBottomOf="@id/ivFlag2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tvTitle2"
@@ -95,6 +100,7 @@
                 android:maxLines="2"
                 android:textColor="@color/black"
                 android:textSize="12sp"
+                android:fontFamily="@font/poppins_regular"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivFlag2" />
 
@@ -106,6 +112,7 @@
                 android:maxLines="2"
                 android:textColor="@color/black"
                 android:textSize="12sp"
+                android:fontFamily="@font/poppins_regular"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvDecision" />
 
@@ -117,6 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_white_shape50"
+            app:tabTextAppearance="@style/TabLayoutTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clMatch"

@@ -1,6 +1,8 @@
 package com.example.cricdekho.util
 
 import com.example.cricdekho.data.remote.ApiService
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
@@ -12,5 +14,19 @@ object RetrofitClient {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(provideHttpClient())
             .build().create(ApiService::class.java)
+
+
+    private fun provideHttpLoggingInterceptor() : HttpLoggingInterceptor {
+        return  HttpLoggingInterceptor()
+            .setLevel(HttpLoggingInterceptor.Level.BODY)
+
+    }
+
+    private fun provideHttpClient() : OkHttpClient {
+        return OkHttpClient.Builder().addInterceptor(provideHttpLoggingInterceptor()).build()
+    }
+
+
 }

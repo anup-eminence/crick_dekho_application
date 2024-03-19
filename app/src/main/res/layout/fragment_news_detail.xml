@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.newsdetails.NewsDetailFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/poppins_bold"
+                app:layout_constraintEnd_toEndOf="@id/ivImage"
+                app:layout_constraintStart_toStartOf="@id/ivImage"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="In publishing and  a document or a typeface without relying on meaningful content." />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivImage"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="12dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                app:shapeAppearanceOverlay="@style/roundedImageView8"
+                tools:src="@drawable/ic_image" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/grey"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:fontFamily="@font/poppins_regular"
+                app:layout_constraintStart_toStartOf="@id/ivImage"
+                app:layout_constraintTop_toBottomOf="@id/ivImage"
+                tools:text="25 minutes ago" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_regular"
+                app:layout_constraintEnd_toEndOf="@id/ivImage"
+                app:layout_constraintStart_toStartOf="@id/ivImage"
+                app:layout_constraintTop_toBottomOf="@id/tvTime"
+                tools:text="@string/txt" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

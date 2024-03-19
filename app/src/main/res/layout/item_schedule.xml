@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clItem"
@@ -15,10 +16,10 @@
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
             android:text="1 Feb"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,15 +30,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="ACC Men's T20I Challenger Cup 2024 >"
+            android:ellipsize="end"
+            android:fontFamily="@font/poppins_medium"
+            android:maxLines="1"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDate" />
+            app:layout_constraintTop_toBottomOf="@id/tvDate"
+            tools:text="@string/match" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivFlag1"
@@ -52,13 +53,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="South Africa"
+            android:fontFamily="@font/poppins_regular"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/ivFlag1"
             app:layout_constraintEnd_toStartOf="@id/tvRuns1"
             app:layout_constraintStart_toEndOf="@id/ivFlag1"
-            app:layout_constraintTop_toTopOf="@id/ivFlag1" />
+            app:layout_constraintTop_toTopOf="@id/ivFlag1"
+            tools:text="@string/teams" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivFlag2"
@@ -73,37 +75,40 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="New Zealand XI"
+            android:fontFamily="@font/poppins_regular"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/ivFlag2"
             app:layout_constraintEnd_toStartOf="@id/tvRuns2"
             app:layout_constraintStart_toEndOf="@id/ivFlag2"
-            app:layout_constraintTop_toTopOf="@id/ivFlag2" />
+            app:layout_constraintTop_toTopOf="@id/ivFlag2"
+            tools:text="@string/teams" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRuns1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium_numbers"
             android:gravity="end"
-            android:text="192/6 (20 ov)"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/ivFlag1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvTitle1"
-            app:layout_constraintTop_toTopOf="@id/ivFlag1" />
+            app:layout_constraintTop_toTopOf="@id/ivFlag1"
+            tools:text="@string/score" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRuns2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium_numbers"
             android:gravity="end"
-            android:text="104/10 (19.3 ov)"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/ivFlag2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvTitle2"
-            app:layout_constraintTop_toTopOf="@id/ivFlag2" />
+            app:layout_constraintTop_toTopOf="@id/ivFlag2"
+            tools:text="@string/score" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDecision"
@@ -111,19 +116,21 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="12dp"
+            android:fontFamily="@font/poppins_regular"
             android:maxLines="2"
-            android:text="Saudi Arabia won by 88 runs"
             android:textColor="@color/blue"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvLive"
-            app:layout_constraintTop_toBottomOf="@id/ivFlag2" />
+            app:layout_constraintTop_toBottomOf="@id/ivFlag2"
+            tools:text="@string/match" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvLive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/light_grey"
+            android:fontFamily="@font/poppins_regular"
             android:paddingHorizontal="4dp"
             android:paddingVertical="2dp"
             android:text="@string/live"

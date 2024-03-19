@@ -95,7 +95,7 @@ class ResultFragment : BaseFragment() {
         resultAdapter.setRecyclerViewItemClick { itemView, model ->
             when (itemView.id) {
                 R.id.clItem -> {
-                    val bundle = bundleOf("id" to model.id)
+                    val bundle = bundleOf("id" to model.id, "status" to model.status)
                     findNavController().navigate(
                         R.id.action_matchesFragment_to_matchDetailsFragment, bundle)
                 }

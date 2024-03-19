@@ -4,21 +4,29 @@ import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getMatchDetails.Squad
 import com.example.cricdekho.data.remote.SocketManager
 import com.example.cricdekho.databinding.FragmentMatchDetailsBinding
+import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.activity.HomeActivity
 import com.example.cricdekho.ui.home.BaseFragment
+import com.example.cricdekho.util.MatchStatus
+import com.example.cricdekho.util.showToast
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
@@ -29,14 +37,15 @@ class MatchDetailsFragment : BaseFragment() {
     private lateinit var matchDetailViewPagerAdapter: MatchDetailViewPagerAdapter
     private lateinit var matchDetailViewModel: MatchDetailViewModel
     private lateinit var matchId: String
+    private lateinit var matchStatus: String
     private val responseSquad = ArrayList<Squad>()
     private var countDownTimer: CountDownTimer? = null
     private var currentViewPagerItem = 0
-    private var isDataLoaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         matchId = arguments?.getString("id").toString()
+        matchStatus = arguments?.getString("status").toString()
     }
 
     override fun onCreateView(
@@ -48,44 +57,99 @@ class MatchDetailsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
+
+        matchDetailViewModel.errorCaught.observe(viewLifecycleOwner){
+            if (it){
+                progressBarListener.hideProgressBar()
+                requireContext().showToast("Something Went Wrong!")
+            }
+        }
+
+        setOnClickListener()
+
     }
 
     private fun initView() {
         progressBarListener.showProgressBar()
-       if (isDataLoaded) setViewPagerAdapter()
+        binding.tabLayout.getTabAt(0)?.select()
+        setViewPagerAdapter()
         fetchMatchDetail()
+
 //        view?.postDelayed({
 //            selectFirstTab()
 //        }, 100)
     }
 
+    override fun onResume() {
+        setOnClickListener()
+        super.onResume()
+    }
+
+    private fun setOnClickListener() {
+        println(">>>>>>>>>>....dfklnlmf;ldkf")
+        if (responseSquad.isEmpty()) return
+        if (responseSquad[0].score_strip[0].slug.isNullOrEmpty().not()) {
+            binding.tvTitle1.setOnClickListener {
+                val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip[0].slug, "series_keeda_slug" to responseSquad[0].series_keeda_slug)
+                findNavController().navigate(
+                    R.id.action_matchDetailsFragment_to_teamInfoFragment, bundle
+                )
+            }
+        }
+
+        println(">>>>>>>>>..jnfkjn ${responseSquad[0].score_strip[1].slug}")
+
+        if (responseSquad[0].score_strip[1].slug.isNullOrEmpty().not()) {
+            binding.tvTitle2.setOnClickListener {
+                val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip[1].slug, "series_keeda_slug" to responseSquad[0].series_keeda_slug)
+                findNavController().navigate(
+                    R.id.action_matchDetailsFragment_to_teamInfoFragment, bundle
+                )
+            }
+        }
+    }
+
+    private fun fetchDataFromApi() {
+        matchDetailViewModel.liveMatchSore.observe(viewLifecycleOwner) {
+            setMatchData(it.data)
+            binding.clMain.isVisible = true
+            progressBarListener.hideProgressBar()
+        }
+        matchDetailViewModel.getLiveMatchScore(matchId)
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun fetchMatchDetail() {
         matchDetailViewModel = ViewModelProvider(this)[MatchDetailViewModel::class.java]
-        matchDetailViewModel.emitSocketEvent(matchId)
 
-        lifecycleScope.launch {
-            matchDetailViewModel.observeLiveData.observe(viewLifecycleOwner) { data ->
-                progressBarListener.hideProgressBar()
-                if (data is Squad) {
-                    responseSquad.clear()
-                    data.commentary[0].runs = Math.random().toString()
-                    responseSquad.addAll(listOf(data))
-                    setToolbar()
-                    setMatchData()
-                    if (!isDataLoaded){
-                        setViewPagerAdapter()
-                        isDataLoaded = true
+        if (matchStatus != null && matchId != null && (matchStatus == MatchStatus.PRE.status || matchStatus == MatchStatus.POST.status)) {
+            fetchDataFromApi()
+        } else {
+            fetchDataFromApi()
+            Handler(Looper.getMainLooper()).postDelayed({
+                matchDetailViewModel.emitSocketEvent(matchId)
+            },20000)
+
+            lifecycleScope.launch {
+                matchDetailViewModel.observeLiveData.observe(viewLifecycleOwner) { data ->
+                    binding.clMain.isVisible = true
+                    progressBarListener.hideProgressBar()
+                    if (data is Squad) {
+                        setMatchData(data)
                     }
-                    matchDetailsData.postValue(responseSquad)
-                    matchDetailViewPagerAdapter.setSquadList(responseSquad)
-                    binding.viewPager.adapter?.notifyDataSetChanged()
-/*
-                    setViewPagerAdapter()
-*/
                 }
             }
         }
+    }
+
+    private fun setMatchData(squad: Squad){
+        responseSquad.clear()
+        responseSquad.addAll(listOf(squad))
+        setMatchData()
+        setToolbar()
+        matchDetailsData.postValue(responseSquad)
+        matchDetailViewPagerAdapter.setSquadList(responseSquad)
+        setOnClickListener()
     }
 
     private fun setViewPagerAdapter() {
@@ -105,11 +169,18 @@ class MatchDetailsFragment : BaseFragment() {
             }
         }.attach()
 
+        binding.tabLayout.getTabAt(0)?.view?.background =
+            ContextCompat.getDrawable(
+                requireContext(), R.drawable.bg_grey_shape
+            )
+
+        binding.viewPager.offscreenPageLimit = 4
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.view?.background = ContextCompat.getDrawable(
                     requireContext(), R.drawable.bg_grey_shape
                 )
+                tab?.position?.let { binding.viewPager.currentItem = it }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -117,7 +188,10 @@ class MatchDetailsFragment : BaseFragment() {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
+                tab?.view?.background = ContextCompat.getDrawable(
+                    requireContext(), R.drawable.bg_grey_shape
+                )
+                tab?.position?.let { binding.viewPager.currentItem = it }
             }
         })
     }
@@ -135,16 +209,42 @@ class MatchDetailsFragment : BaseFragment() {
         )
     }
 
+    private fun removeToolBar() {
+        val yourActivity = activity as? HomeActivity
+        yourActivity?.showToolBarMethod(
+            title = "",
+            menu = true,
+            logo = true,
+            search = true,
+            setting = true,
+            back = false,
+            share = false
+        )
+    }
+
     private fun setMatchData() {
         binding.apply {
             tvTitle1.text = responseSquad[0].score_strip[0].name
+            tvTitle2.text = responseSquad[0].score_strip[1].name
+
+            if( responseSquad[0].score_strip[0].slug.isNullOrEmpty()){
+                CurrentTheme.changeTextColor(tvTitle1,requireContext())
+            }
+
+            if( responseSquad[0].score_strip[1].slug.isNullOrEmpty()){
+                CurrentTheme.changeTextColor(tvTitle2,requireContext())
+            }
+            CurrentTheme.changeTextColor(tvRuns1,requireContext())
+            CurrentTheme.changeTextColor(tvRuns2,requireContext())
+            CurrentTheme.changeTextColor(tvDecision,requireContext())
+            CurrentTheme.changeTextColor(tvPlayer,requireContext())
+
             tvRuns1.text = responseSquad[0].score_strip[0].score
             Glide.with(requireContext()).load(responseSquad[0].score_strip[0].team_flag)
-                .into(ivFlag1)
-            tvTitle2.text = responseSquad[0].score_strip[1].name
+                .placeholder(R.drawable.ic_team_default).into(ivFlag1)
             tvRuns2.text = responseSquad[0].score_strip[1].score
             Glide.with(requireContext()).load(responseSquad[0].score_strip[1].team_flag)
-                .into(ivFlag2)
+                .placeholder(R.drawable.ic_team_default).into(ivFlag2)
             if (responseSquad[0].match_status != "pre") {
                 tvDecision.text = responseSquad[0].info
                 if (responseSquad[0].player_of_match.player_name.isNotEmpty()) {
@@ -192,7 +292,16 @@ class MatchDetailsFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         countDownTimer?.cancel()
+        responseSquad.clear()
         SocketManager.removeEventListener(matchId)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        countDownTimer?.cancel()
+        responseSquad.clear()
+        SocketManager.removeEventListener(matchId)
+        removeToolBar()
     }
 
     companion object {

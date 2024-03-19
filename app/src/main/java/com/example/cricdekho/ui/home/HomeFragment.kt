@@ -7,26 +7,36 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.SnapHelper
+import com.bumptech.glide.Glide
 import com.example.cricdekho.R
-import com.example.cricdekho.data.model.HomeExtraNewsList
-import com.example.cricdekho.data.model.HomeNewsList
 import com.example.cricdekho.data.model.HomeTrendingList
 import com.example.cricdekho.data.model.getCricketMatches.Data
 import com.example.cricdekho.data.model.getCricketMatches.ResponseHomeMatch
+import com.example.cricdekho.data.model.getHomeNews.DataItem
+import com.example.cricdekho.data.model.getHomeNews.ResponseHomeNews
 import com.example.cricdekho.data.remote.SocketManager
 import com.example.cricdekho.databinding.FragmentHomeBinding
 import com.example.cricdekho.ui.home.adapter.HomeExtraNewsAdapter
 import com.example.cricdekho.ui.home.adapter.HomeFeatureAdapter
 import com.example.cricdekho.ui.home.adapter.HomeMatchAdapter
 import com.example.cricdekho.ui.home.adapter.HomeNewsAdapter
+import com.example.cricdekho.ui.home.adapter.HomeTabAdapter
 import com.example.cricdekho.ui.home.adapter.HomeTrendingAdapter
+import com.example.cricdekho.util.DotsIndicatorDecoration
+import com.example.cricdekho.util.hide
+import com.example.cricdekho.util.show
 
-class HomeFragment : BaseFragment() {
+
+class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, HomeExtraNewsAdapter.ExtraNewsAdapterClickListener,
+    HomeTabAdapter.OnFeatureItemClick {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeFeatureAdapter: HomeFeatureAdapter
     private lateinit var homeMatchAdapter: HomeMatchAdapter
@@ -42,7 +52,10 @@ class HomeFragment : BaseFragment() {
         ArrayList<com.example.cricdekho.data.model.getCricketMainTabs.Data>()
     private val responseHomeMatch = ArrayList<ResponseHomeMatch>()
     private val responseMatch = ArrayList<Data>()
-    private val tournamentSlug = "featured"
+    private var tournamentSlug = "featured"
+    private val responseHomeNews = ArrayList<ResponseHomeNews>()
+
+    private lateinit var homeTabAdapter : HomeTabAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,17 +71,17 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
         setOnClickListener()
+        initDotView()
+        initMatchAdapter()
+        setUpHomeTabAdapter()
     }
 
     private fun initView() {
         progressBarListener.showProgressBar()
-        SocketManager.connect()
         homeViewModel = ViewModelProvider(this)[HomeFeatureViewModel::class.java]
 
         callMatchApi()
-        setUpNewsAdapter()
         setUpTrendingAdapter()
-        setUpExtraNewsAdapter()
         selectTextView(binding.tvLatestNews)
     }
 
@@ -86,10 +99,12 @@ class HomeFragment : BaseFragment() {
         homeFeatureViewModel.dataTab.observe(viewLifecycleOwner, Observer {
             responseHomeFeature.clear()
             responseHomeFeature.addAll(it.data)
-            setUpFeatureAdapter()
+           // setUpFeatureAdapter()
+            homeTabAdapter.setData(it.data)
         })
 
         homeFeatureViewModel.dataMatch.observe(viewLifecycleOwner, Observer {
+            binding.clMain.isVisible = true
             progressBarListener.hideProgressBar()
             responseHomeMatch.clear()
             responseMatch.clear()
@@ -97,6 +112,14 @@ class HomeFragment : BaseFragment() {
             responseMatch.addAll(responseHomeMatch[0].data)
             setUpMatchAdapter()
             fetchSocketData(tournamentSlug)
+        })
+
+        homeFeatureViewModel.dataHomeNews.observe(viewLifecycleOwner, Observer {
+            responseHomeNews.clear()
+            responseHomeNews.addAll(listOf(it))
+            setData()
+            setUpNewsAdapter()
+            setUpExtraNewsAdapter()
         })
     }
 
@@ -115,15 +138,34 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    private fun setData() {
+        binding.apply {
+            Glide.with(requireContext()).load(responseHomeNews[0].data?.get(0)?.img).into(ivImage)
+            tvImage.text = responseHomeNews[0].data?.get(0)?.title
+            tvTime.text = responseHomeNews[0].data?.get(0)?.time
+
+            ivImage.setOnClickListener {
+                val bundle = bundleOf("link" to responseHomeNews[0].data?.get(0)?.link)
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_newsDetailFragment, bundle
+                )
+            }
+        }
+    }
+
+    private fun setUpHomeTabAdapter() {
+        homeTabAdapter = HomeTabAdapter()
+        homeTabAdapter.setOnTabItemClick(this@HomeFragment)
+        binding.recyclerViewFeatures.apply {
+            layoutManager =  LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = homeTabAdapter
+        }
+    }
+
     private fun setUpFeatureAdapter() {
         homeFeatureAdapter = HomeFeatureAdapter()
         binding.recyclerViewFeatures.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-//        homeFeatureAdapter.addAll(responseHomeFeature[0].data, false)
-//        binding.recyclerViewFeatures.adapter = homeFeatureAdapter
-//        homeFeatureAdapter.notifyDataSetChanged()
-
         homeFeatureAdapter.addAll(responseHomeFeature, true)
         binding.recyclerViewFeatures.adapter = homeFeatureAdapter
         homeFeatureAdapter.notifyDataSetChanged()
@@ -131,6 +173,10 @@ class HomeFragment : BaseFragment() {
         homeFeatureAdapter.setRecyclerViewItemClick { itemView, model ->
             when (itemView.id) {
                 R.id.tvText -> {
+                    println(">>>>>>>>slug $tournamentSlug")
+                    SocketManager.removeEventListener(tournamentSlug)
+                    tournamentSlug = model.slug
+                    println(">>>>>>>>>>>>newslug $tournamentSlug>>")
                     fetchSocketData(model.slug)
                     progressBarListener.showProgressBar()
                 }
@@ -138,15 +184,32 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun setUpMatchAdapter() {
+    private fun initMatchAdapter() {
+        val snapHelper: SnapHelper = PagerSnapHelper()
         homeMatchAdapter = HomeMatchAdapter()
-        val recyclerViewState = binding.recyclerView.layoutManager?.onSaveInstanceState()
         binding.recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        homeMatchAdapter.addAll(responseMatch, true)
         binding.recyclerView.adapter = homeMatchAdapter
+        binding.recyclerView.onFlingListener = null;
+        snapHelper.attachToRecyclerView(binding.recyclerView)
+        binding.recyclerView.addItemDecoration(
+            DotsIndicatorDecoration(
+                colorInactive = ContextCompat.getColor(requireContext(), R.color.light_grey),
+                colorActive = ContextCompat.getColor(requireContext(), R.color.black)
+            )
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        SocketManager.connect()
+    }
+
+    private fun setUpMatchAdapter() {
+        homeMatchAdapter.clear(true)
+        homeMatchAdapter.addAll(responseMatch, true)
+        binding.matchFeatureProgress.hide()
         homeMatchAdapter.notifyDataSetChanged()
-        binding.recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
 
         homeMatchAdapter.setRecyclerViewItemClick { itemView, model ->
             when (itemView.id) {
@@ -165,32 +228,28 @@ class HomeFragment : BaseFragment() {
                 }
 
                 R.id.clItem -> {
-                    val bundle = bundleOf("id" to model.id)
+                    val bundle = bundleOf("id" to model.id, "status" to model.status)
+                    SocketManager.removeEventListener(tournamentSlug)
                     findNavController().navigate(
                         R.id.action_homeFragment_to_matchDetailsFragment, bundle
                     )
-                    SocketManager.removeEventListener(tournamentSlug)
                 }
             }
-            fetchSocketData("featured")
         }
     }
 
     private fun setUpNewsAdapter() {
-        homeNewsAdapter = HomeNewsAdapter()
         binding.recyclerViewNews.layoutManager = LinearLayoutManager(requireContext())
-        val homeNewsList = ArrayList<HomeNewsList>()
-        for (i in 1..5) {
-            homeNewsList.add(
-                HomeNewsList(
-                    "$i",
-                    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content."
-                )
-            )
-        }
-        homeNewsAdapter.addAll(homeNewsList, true)
+        homeNewsAdapter = HomeNewsAdapter(responseHomeNews[0].data?.take(5))
+        homeNewsAdapter.setNewsAdapterListener(this@HomeFragment)
         binding.recyclerViewNews.adapter = homeNewsAdapter
-        homeNewsAdapter.notifyDataSetChanged()
+    }
+
+    override fun onNewsAdapterItemClick(item: DataItem) {
+        val bundle = bundleOf("link" to item.link)
+        findNavController().navigate(
+            R.id.action_homeFragment_to_newsDetailFragment, bundle
+        )
     }
 
     private fun setUpTrendingAdapter() {
@@ -215,27 +274,17 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setUpExtraNewsAdapter() {
-        homeExtraNewsAdapter = HomeExtraNewsAdapter()
         binding.recyclerViewExtraNews.layoutManager = LinearLayoutManager(requireContext())
-        val homeExtraNewsList = ArrayList<HomeExtraNewsList>()
-        for (i in 1..30) {
-            homeExtraNewsList.add(
-                HomeExtraNewsList(
-                    R.drawable.ic_image,
-                    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.",
-                    "35 minutes ago",
-                    R.drawable.ic_image,
-                    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.",
-                    "35 minutes ago",
-                    R.drawable.ic_image,
-                    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.",
-                    "35 minutes ago"
-                )
-            )
-        }
-        homeExtraNewsAdapter.addAll(homeExtraNewsList, false)
+        homeExtraNewsAdapter = HomeExtraNewsAdapter(responseHomeNews[0].data)
+        homeExtraNewsAdapter.setExtraNewsAdapterListener(this@HomeFragment)
         binding.recyclerViewExtraNews.adapter = homeExtraNewsAdapter
-        homeExtraNewsAdapter.notifyDataSetChanged()
+    }
+
+    override fun onAdapterItemClick(item: DataItem) {
+        val bundle = bundleOf("link" to item.link)
+        findNavController().navigate(
+            R.id.action_homeFragment_to_newsDetailFragment, bundle
+        )
     }
 
     private fun selectTextView(textView: TextView) {
@@ -250,9 +299,19 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+
+    override fun onPause() {
+        super.onPause()
+        SocketManager.disconnect()
+        println(">>>>>>>>>>>onpausecalled ")
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         SocketManager.disconnect()
+    }
+
+    private fun initDotView() {
     }
 
     companion object {
@@ -260,5 +319,15 @@ class HomeFragment : BaseFragment() {
         fun newInstance() = HomeFragment().apply {
             arguments = Bundle().apply {}
         }
+    }
+
+    override fun onTabItemClick(model: com.example.cricdekho.data.model.getCricketMainTabs.Data) {
+        println(">>>>>>>>slug $tournamentSlug")
+        binding.matchFeatureProgress.show()
+        SocketManager.removeEventListener(tournamentSlug)
+        tournamentSlug = model.slug
+        println(">>>>>>>>>>>>newslug $tournamentSlug>>")
+        fetchSocketData(model.slug)
+        progressBarListener.showProgressBar(progressColor = R.color.red)
     }
 }

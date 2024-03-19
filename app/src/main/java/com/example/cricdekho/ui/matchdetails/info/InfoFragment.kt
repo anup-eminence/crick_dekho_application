@@ -8,26 +8,35 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.cricdekho.R
+import com.example.cricdekho.data.model.getMatchDetails.BenchPlayer
+import com.example.cricdekho.data.model.getMatchDetails.Player
 import com.example.cricdekho.data.model.getMatchDetails.Squad
 import com.example.cricdekho.data.model.getMatchDetails.SquadX
 import com.example.cricdekho.databinding.FragmentInfoBinding
+import com.example.cricdekho.theme.CurrentTheme
+import com.example.cricdekho.ui.BenchPlayerListAdapter
+import com.example.cricdekho.ui.InfoAdapter
 import com.example.cricdekho.ui.matchdetails.MatchDetailsFragment
 import com.example.cricdekho.ui.matchdetails.info.adapter.BenchTeam1Adapter
 import com.example.cricdekho.ui.matchdetails.info.adapter.BenchTeam2Adapter
 import com.example.cricdekho.ui.matchdetails.info.adapter.InfoTeam1Adapter
 import com.example.cricdekho.ui.matchdetails.info.adapter.InfoTeam2Adapter
+import com.example.cricdekho.util.hide
+import com.example.cricdekho.util.show
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class InfoFragment : Fragment() {
+class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
+    BenchPlayerListAdapter.BenchPlayerAdapterListener {
     private lateinit var binding: FragmentInfoBinding
     private lateinit var infoTeam1Adapter: InfoTeam1Adapter
     private lateinit var infoTeam2Adapter: InfoTeam2Adapter
@@ -35,6 +44,16 @@ class InfoFragment : Fragment() {
     private lateinit var benchTeam2Adapter: BenchTeam2Adapter
     private var squad = ArrayList<Squad>()
     private var squadX = ArrayList<SquadX>()
+    private var playerList = ArrayList<Player>()
+    private var playerList2 = ArrayList<Player>()
+
+    private lateinit var listAdapter: InfoAdapter
+    private lateinit var listAdapter2: InfoAdapter
+    private lateinit var listAdapter3: BenchPlayerListAdapter
+    private lateinit var listAdapter4: BenchPlayerListAdapter
+
+    private var toggle = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,17 +71,56 @@ class InfoFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner){
+        setUpadpater()
+        initThemeChange()
+        changeTogel()
+        MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 squad = it
                 initView()
+                binding.clMain.isVisible = true
             }
         }
         setOnClickListener()
     }
 
+    private fun changeTogel() {
+        binding.playerLayout.setOnClickListener {
+            toggle = !toggle
+            if (toggle){
+                binding.playerData.show()
+                binding.toggleBtn.rotation = 180F
+            } else {
+                binding.playerData.hide()
+                binding.toggleBtn.rotation = 360F
+            }
+        }
+    }
+
+    private fun initThemeChange() {
+        CurrentTheme.changeTextColor(binding.tvPlaying,requireContext())
+        CurrentTheme.changeTextColor(binding.tvTeam1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvTeam2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvBench,requireContext())
+        CurrentTheme.changeTextColor(binding.tvSquad,requireContext())
+        CurrentTheme.changeTextColor(binding.tvMatchDetail,requireContext())
+        CurrentTheme.changeTextColor(binding.tvToss,requireContext())
+        CurrentTheme.changeTextColor(binding.txtToss,requireContext())
+        CurrentTheme.changeTextColor(binding.tvMatch,requireContext())
+        CurrentTheme.changeTextColor(binding.txtMatch,requireContext())
+        CurrentTheme.changeTextColor(binding.tvDateTime,requireContext())
+        CurrentTheme.changeTextColor(binding.txtDateTime,requireContext())
+        CurrentTheme.changeTextColor(binding.tvVenue,requireContext())
+        CurrentTheme.changeTextColor(binding.txtVenue,requireContext())
+        CurrentTheme.changeTextColor(binding.tvUmpires,requireContext())
+        CurrentTheme.changeTextColor(binding.txtUmpires,requireContext())
+        CurrentTheme.changeIconColor(binding.toggleBtn,requireContext())
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initView() {
+        if (squad[0].squad.isNullOrEmpty()) return
+        println(">>>>>>>>>>>>>>>.squadd ${squad[0]}")
         squadX.addAll(squad[0].squad)
         if (squadX.isNotEmpty()) {
             setPlayerImages(squadX[0])
@@ -82,10 +140,18 @@ class InfoFragment : Fragment() {
             tvTeam2.text = squadX[1].team_shortname
         }
         if (squad[0].match_status != "pre") {
-            setUpTeam1Adapter()
-            setUpTeam2Adapter()
-            setUpBenchTeam1Adapter()
-            setUpBenchTeam2Adapter()
+            playerList.clear()
+            if (squad.isNotEmpty()) {
+                squadX[0].players.let { playerList.addAll(it) }
+                listAdapter.setData(playerList)
+                listAdapter2.setData(squadX[1].players)
+                listAdapter3.setData(squadX[0].bench_players)
+                listAdapter4.setData(squadX[1].bench_players)
+            }
+            /*setUpTeam1Adapter()*/
+            /* setUpTeam2Adapter()
+             setUpBenchTeam1Adapter()
+             setUpBenchTeam2Adapter()*/
         } else {
             binding.apply {
                 if (!squadX[0].players.isNullOrEmpty() || !squadX[0].bench_players.isNullOrEmpty()) {
@@ -104,8 +170,10 @@ class InfoFragment : Fragment() {
                     tvLineup.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
                 }
             }
-            setUpBenchTeam1Adapter()
-            setUpBenchTeam2Adapter()
+            /*setUpBenchTeam1Adapter()
+            setUpBenchTeam2Adapter()*/
+            listAdapter3.setData(squadX[0].bench_players)
+            listAdapter4.setData(squadX[1].bench_players)
         }
     }
 
@@ -120,17 +188,43 @@ class InfoFragment : Fragment() {
     }
 
     private fun setPlayerImages(squad: SquadX) {
-        squad.players.forEach { player ->
-            val matchingPlayerImage =
-                squadX[0].playerImages.find { it.playerName == player.sk_slug }
-            player.playerImages = matchingPlayerImage?.playerImageURL.toString()
+        if (!squad.players.isNullOrEmpty()) {
+            squad.players.forEach { player ->
+                val matchingPlayerImage =
+                    squadX[0]?.playerImages?.find { it.playerName == player.sk_slug }
+                player.playerImages = matchingPlayerImage?.playerImageURL.toString()
+            }
         }
 
-        squad.bench_players.forEach { benchPlayer ->
-            val matchingPlayerImage =
-                squadX[0].playerImages.find { it.playerName == benchPlayer.sk_slug }
-            benchPlayer.playerImages = matchingPlayerImage?.playerImageURL.toString()
+        if (!squad.bench_players.isNullOrEmpty()) {
+            squad.bench_players.forEach { benchPlayer ->
+                val matchingPlayerImage =
+                    squadX[0]?.playerImages?.find { it.playerName == benchPlayer.sk_slug }
+                benchPlayer.playerImages = matchingPlayerImage?.playerImageURL.toString()
+            }
         }
+    }
+
+
+    private fun setUpadpater() {
+        listAdapter = InfoAdapter()
+        listAdapter.setInfoAdapterListener(this@InfoFragment)
+        listAdapter2 = InfoAdapter()
+        listAdapter2.setInfoAdapterListener(this@InfoFragment)
+        listAdapter3 = BenchPlayerListAdapter()
+        listAdapter3.setBenchAdapterListener(this@InfoFragment)
+        listAdapter4 = BenchPlayerListAdapter()
+        listAdapter4.setBenchAdapterListener(this@InfoFragment)
+
+        binding.recyclerViewTeam1.adapter = listAdapter
+        binding.recyclerViewTeam2.adapter = listAdapter2
+        binding.recyclerViewBenchTeam1.adapter = listAdapter3
+        binding.recyclerViewBenchTeam2.adapter = listAdapter4
+
+        binding.recyclerViewTeam1.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewTeam2.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewBenchTeam1.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewBenchTeam2.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun setUpTeam1Adapter() {
@@ -147,7 +241,7 @@ class InfoFragment : Fragment() {
                 R.id.clItem -> {
                     val bundle = bundleOf("sk_slug" to model.sk_slug, "name" to model.name)
                     findNavController().navigate(
-                        R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+                        R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
                     )
                 }
             }
@@ -168,7 +262,7 @@ class InfoFragment : Fragment() {
                 R.id.clItem -> {
                     val bundle = bundleOf("sk_slug" to model.sk_slug, "name" to model.name)
                     findNavController().navigate(
-                        R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+                        R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
                     )
                 }
             }
@@ -189,7 +283,7 @@ class InfoFragment : Fragment() {
                 R.id.clItem -> {
                     val bundle = bundleOf("sk_slug" to model.sk_slug, "name" to model.name)
                     findNavController().navigate(
-                        R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+                        R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
                     )
                 }
             }
@@ -210,7 +304,7 @@ class InfoFragment : Fragment() {
                 R.id.clItem -> {
                     val bundle = bundleOf("sk_slug" to model.sk_slug, "name" to model.name)
                     findNavController().navigate(
-                        R.id.action_matchDetailsFragment_to_overviewFragment, bundle
+                        R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
                     )
                 }
             }
@@ -226,6 +320,7 @@ class InfoFragment : Fragment() {
         return formatter.format(zonedDateTime)
     }
 
+
     companion object {
         @JvmStatic
         fun newInstance(squad: ArrayList<Squad>) = InfoFragment().apply {
@@ -233,5 +328,19 @@ class InfoFragment : Fragment() {
                 putParcelableArrayList("squad", ArrayList(squad))
             }
         }
+    }
+
+    override fun onAdapterItemClick(player: Player) {
+        val bundle = bundleOf("sk_slug" to player.sk_slug, "name" to player.name)
+        findNavController().navigate(
+            R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
+        )
+    }
+
+    override fun onBenchPlayerClick(player: BenchPlayer) {
+        val bundle = bundleOf("sk_slug" to player.sk_slug, "name" to player.name)
+        findNavController().navigate(
+            R.id.action_matchDetailsFragment_to_playerDetailsFragment, bundle
+        )
     }
 }

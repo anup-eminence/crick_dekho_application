@@ -92,7 +92,7 @@ class FantasyFragment : BaseFragment() {
         fantasyMatchesAdapter.setRecyclerViewItemClick { itemView, model ->
             when (itemView.id) {
                 R.id.clItem -> {
-                    val bundle = bundleOf("id" to model.id)
+                    val bundle = bundleOf("id" to model.id, "status" to model.status)
                     findNavController().navigate(
                         R.id.action_fantasyFragment_to_matchDetailsFragment, bundle
                     )

@@ -16,4 +16,23 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>
     </style>
+
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:tabStripEnabled">false</item>
+    </style>
+
+    <style name="Theme.BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/grey</item>
+    </style>
+
+
+    <!-- Theme for night mode -->
+    <style name="Dark.Theme.Cricdekho" parent="Base.Theme.Cricdekho">
+        <item name="android:windowBackground">@color/black</item>
+        <item name="colorPrimary">@color/grey</item>
+        <!-- Add specific night mode customizations here -->
+    </style>
 </resources>

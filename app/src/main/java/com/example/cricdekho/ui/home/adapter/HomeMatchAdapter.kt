@@ -1,10 +1,15 @@
 package com.example.cricdekho.ui.home.adapter
 
+import android.text.TextUtils
+import android.text.method.LinkMovementMethod
+import android.text.method.ScrollingMovementMethod
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getCricketMatches.Data
 import com.example.cricdekho.databinding.ItemHomeBinding
+import com.example.cricdekho.theme.CurrentTheme
 import easyadapter.dc.com.library.EasyAdapter
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -13,11 +18,19 @@ import java.util.Locale
 class HomeMatchAdapter : EasyAdapter<Data, ItemHomeBinding>(R.layout.item_home) {
     override fun onBind(binding: ItemHomeBinding, model: Data) {
         binding.apply {
-            Glide.with(root.context).load(model.t1_flag).into(ivFlag1)
-            Glide.with(root.context).load(model.t2_flag).into(ivFlag2)
+            Glide.with(root.context).load(model.t1_flag).placeholder(R.drawable.ic_team_default).into(ivFlag1)
+            Glide.with(root.context).load(model.t2_flag).placeholder(R.drawable.ic_team_default).into(ivFlag2)
             tvTitle1.text = model.t1_key
             tvTitle2.text = model.t2_key
             tvTitle3.text = model.result
+            tvTitle3.isSelected = true
+            tvTitle3.ellipsize = TextUtils.TruncateAt.MARQUEE;
+            tvTitle3.setSelected(true);
+            tvTitle3.setSingleLine(true);
+            tvTitle3.setHorizontallyScrolling(true);
+            tvTitle3.marqueeRepeatLimit = 100000;
+            tvTitle3.movementMethod = ScrollingMovementMethod.getInstance()
+
 
             if (model.status.lowercase() == "live") {
                 tvLive.visibility = View.VISIBLE
@@ -43,6 +56,15 @@ class HomeMatchAdapter : EasyAdapter<Data, ItemHomeBinding>(R.layout.item_home) 
             } else {
                 tvPoints.visibility = View.VISIBLE
             }
+
+            CurrentTheme.changeTextColor(tvTitle1,root.context)
+            CurrentTheme.changeTextColor(tvTitle2,root.context)
+            CurrentTheme.changeTextColor(tvSchedule,root.context)
+            CurrentTheme.changeTextColor(tvPoints,root.context)
+            CurrentTheme.changeTextColor(tvRuns2,root.context)
+            CurrentTheme.changeTextColor(tvRuns1,root.context)
+            CurrentTheme.changeCardViewBackgroundColor(cardView,root.context)
+
         }
     }
 
