@@ -41,6 +41,10 @@ class HomeExtraNewsAdapter(private var newsItem: List<DataItem?>?) :
         holder.binding.apply {
             CurrentTheme.changeTextColor(this.tvText1,root.context)
             CurrentTheme.changeTextColor(this.tvTime1,root.context)
+            CurrentTheme.changeTextColor(this.tvTime2,root.context)
+            CurrentTheme.changeTextColor(this.tvText2,root.context)
+            CurrentTheme.changeCardViewBackgroundColor(cardView,root.context)
+
 
             if (item != null) {
                 if (item.type == "primary") {

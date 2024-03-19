@@ -63,6 +63,7 @@ class HomeMatchAdapter : EasyAdapter<Data, ItemHomeBinding>(R.layout.item_home) 
             CurrentTheme.changeTextColor(tvPoints,root.context)
             CurrentTheme.changeTextColor(tvRuns2,root.context)
             CurrentTheme.changeTextColor(tvRuns1,root.context)
+            CurrentTheme.changeCardViewBackgroundColor(cardView,root.context)
 
         }
     }
