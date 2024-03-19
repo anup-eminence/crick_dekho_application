@@ -22,6 +22,8 @@ import com.example.cricdekho.data.model.getCricketMatches.Data
 import com.example.cricdekho.data.model.getCricketMatches.ResponseHomeMatch
 import com.example.cricdekho.data.model.getHomeNews.DataItem
 import com.example.cricdekho.data.model.getHomeNews.ResponseHomeNews
+import com.example.cricdekho.data.model.getHomeSidebarNews.NewsItem
+import com.example.cricdekho.data.model.getHomeSidebarNews.ResponseLatestPopularNews
 import com.example.cricdekho.data.remote.SocketManager
 import com.example.cricdekho.databinding.FragmentHomeBinding
 import com.example.cricdekho.ui.home.adapter.HomeExtraNewsAdapter
@@ -54,6 +56,7 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
     private val responseMatch = ArrayList<Data>()
     private var tournamentSlug = "featured"
     private val responseHomeNews = ArrayList<ResponseHomeNews>()
+    private val responseLatestPopularNews = ArrayList<ResponseLatestPopularNews>()
 
     private lateinit var homeTabAdapter : HomeTabAdapter
 
@@ -74,6 +77,7 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
         initDotView()
         initMatchAdapter()
         setUpHomeTabAdapter()
+        setUpNewsAdapter()
     }
 
     private fun initView() {
@@ -88,9 +92,11 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
     private fun setOnClickListener() {
         binding.tvLatestNews.setOnClickListener {
             selectTextView(binding.tvLatestNews)
+            updateNewsAdapter(responseLatestPopularNews[0].data?.latest)
         }
         binding.tvMostPopular.setOnClickListener {
             selectTextView(binding.tvMostPopular)
+            updateNewsAdapter(responseLatestPopularNews[0].data?.popular)
         }
     }
 
@@ -118,8 +124,13 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
             responseHomeNews.clear()
             responseHomeNews.addAll(listOf(it))
             setData()
-            setUpNewsAdapter()
             setUpExtraNewsAdapter()
+        })
+
+        homeFeatureViewModel.dataLatestPopularNews.observe(viewLifecycleOwner, Observer {
+            responseLatestPopularNews.clear()
+            responseLatestPopularNews.addAll(listOf(it))
+            updateNewsAdapter(responseLatestPopularNews[0].data?.latest)
         })
     }
 
@@ -240,12 +251,17 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
 
     private fun setUpNewsAdapter() {
         binding.recyclerViewNews.layoutManager = LinearLayoutManager(requireContext())
-        homeNewsAdapter = HomeNewsAdapter(responseHomeNews[0].data?.take(5))
+        homeNewsAdapter = HomeNewsAdapter()
         homeNewsAdapter.setNewsAdapterListener(this@HomeFragment)
         binding.recyclerViewNews.adapter = homeNewsAdapter
     }
 
-    override fun onNewsAdapterItemClick(item: DataItem) {
+    private fun updateNewsAdapter(list: List<NewsItem?>?) {
+        homeNewsAdapter.newsItem = list
+        homeNewsAdapter.notifyDataSetChanged()
+    }
+
+    override fun onNewsAdapterItemClick(item: NewsItem) {
         val bundle = bundleOf("link" to item.link)
         findNavController().navigate(
             R.id.action_homeFragment_to_newsDetailFragment, bundle

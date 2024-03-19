@@ -4,6 +4,7 @@ import com.example.cricdekho.data.model.getCricketMainTabs.ResponseHomeFeature
 import com.example.cricdekho.data.model.getCricketMatches.ResponseHomeMatch
 import com.example.cricdekho.data.model.getCricketNews.ResponseCricketNews
 import com.example.cricdekho.data.model.getHomeNews.ResponseHomeNews
+import com.example.cricdekho.data.model.getHomeSidebarNews.ResponseLatestPopularNews
 import com.example.cricdekho.data.model.getMatchDetails.LiveMatchScoreResponse
 import com.example.cricdekho.data.model.getPlayerInfo.ResponsePlayerInfo
 import com.example.cricdekho.data.model.getPlayerStats.ResponseStats
@@ -74,4 +75,7 @@ interface ApiService {
 
     @GET("getCricketNews")
     suspend fun getCricketNews(@Query("id") link: String): ResponseCricketNews
+
+    @GET("getHomeSidebarNews")
+    suspend fun getHomeSidebarNews(): ResponseLatestPopularNews
 }

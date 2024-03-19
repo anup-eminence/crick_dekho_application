@@ -5,7 +5,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="260dp"
-        android:layout_height="150dp"
+        android:layout_height="160dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="4dp"
         app:cardElevation="1dp"
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="3dp"
-            android:padding="12dp">
+            android:padding="8dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivFlag1"
@@ -101,7 +101,7 @@
                 android:id="@+id/tvSchedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
+                android:layout_marginEnd="8dp"
                 android:fontFamily="@font/poppins_medium"
                 android:text="@string/schedule"
                 android:textColor="@color/black"

@@ -10,6 +10,7 @@ import com.example.cricdekho.data.model.getCricketMatches.Data
 import com.example.cricdekho.data.model.getCricketMatches.ResponseHomeMatch
 import com.example.cricdekho.data.model.getCricketNews.ResponseCricketNews
 import com.example.cricdekho.data.model.getHomeNews.ResponseHomeNews
+import com.example.cricdekho.data.model.getHomeSidebarNews.ResponseLatestPopularNews
 import com.example.cricdekho.data.remote.SocketManager
 import com.example.cricdekho.data.repository.HomeFeatureRepository
 import com.google.gson.Gson
@@ -36,12 +37,16 @@ class HomeFeatureViewModel : ViewModel() {
     private val _dataCricketNews = MutableLiveData<ResponseCricketNews>()
     val dataCricketNews: LiveData<ResponseCricketNews> get() = _dataCricketNews
 
+    private val _dataLatestPopularNews = MutableLiveData<ResponseLatestPopularNews>()
+    val dataLatestPopularNews: LiveData<ResponseLatestPopularNews> get() = _dataLatestPopularNews
+
     fun loadDataMatch(tournamentSlug: String) {
         viewModelScope.launch {
             try {
                 _dataTab.value = homeFeatureRepository.getCricketTab()
                 _dataMatch.value = homeFeatureRepository.getCricketMatches(tournamentSlug)
                 _dataHomeNews.value = homeFeatureRepository.getHomeNews()
+                _dataLatestPopularNews.value = homeFeatureRepository.getLatestPopularNews()
             } catch (e: Exception) {
                 Log.e("Exception", "Exception ${e.message.toString()}")
             }
