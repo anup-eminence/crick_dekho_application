@@ -64,6 +64,10 @@ class CommentaryFragment : BaseFragment() {
 
     private fun initThemeChange() {
         CurrentTheme.changeTextColor(binding.tvBatters,requireContext())
+        CurrentTheme.changeTextColor(binding.tvPlayer2,requireContext())
+        CurrentTheme.changeTextColor(binding.tvPlayer1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvBowlers1,requireContext())
+        CurrentTheme.changeTextColor(binding.tvBowlers2,requireContext())
         CurrentTheme.changeTextColor(binding.tvR,requireContext())
         CurrentTheme.changeTextColor(binding.tvB,requireContext())
         CurrentTheme.changeTextColor(binding.tv4s,requireContext())
@@ -204,10 +208,8 @@ class CommentaryFragment : BaseFragment() {
         binding.apply {
 
             if (squad[0]?.now_batting?.b1?.slug?.isNullOrEmpty() == true) {
-                tvPlayer1.setTextColor(ContextCompat.getColor(
-                    requireContext(),
-                    R.color.black
-                ))
+                CurrentTheme.changeTextColor(binding.tvPlayer1,requireContext())
+
             } else {
                 tvPlayer1.setOnClickListener {
                     navigateToProfielDetails(squad[0]?.now_batting?.b1?.slug?:"",squad[0]?.now_batting?.b1?.name?:"")
@@ -215,10 +217,8 @@ class CommentaryFragment : BaseFragment() {
             }
 
             if (squad[0]?.now_batting?.b2?.slug?.isNullOrEmpty() == true) {
-                tvPlayer2.setTextColor(ContextCompat.getColor(
-                    requireContext(),
-                    R.color.black
-                ))
+                CurrentTheme.changeTextColor(binding.tvPlayer2,requireContext())
+
             }else {
                 tvPlayer2.setOnClickListener {
                     navigateToProfielDetails(squad[0]?.now_batting?.b2?.slug?:"",squad[0]?.now_batting?.b2?.name?:"")
@@ -227,10 +227,8 @@ class CommentaryFragment : BaseFragment() {
             }
 
             if (squad[0]?.now_bowling?.b1?.slug?.isNullOrEmpty() == true) {
-                tvBowlers1.setTextColor(ContextCompat.getColor(
-                    requireContext(),
-                    R.color.black
-                ))
+                CurrentTheme.changeTextColor(binding.tvBowlers1,requireContext())
+
             }else {
                 tvBowlers1.setOnClickListener {
                     navigateToProfielDetails(squad[0]?.now_bowling?.b1?.slug?:"",squad[0]?.now_bowling?.b1?.name?:"")
@@ -239,10 +237,8 @@ class CommentaryFragment : BaseFragment() {
             }
 
             if (squad[0]?.now_bowling?.b2?.slug?.isNullOrEmpty() == true) {
-                tvBowlers2.setTextColor(ContextCompat.getColor(
-                    requireContext(),
-                    R.color.black
-                ))
+                CurrentTheme.changeTextColor(binding.tvBowlers2,requireContext())
+
             }else {
                 tvBowlers2.setOnClickListener {
                     navigateToProfielDetails(squad[0]?.now_bowling?.b2?.slug?:"",squad[0]?.now_bowling?.b2?.name?:"")
