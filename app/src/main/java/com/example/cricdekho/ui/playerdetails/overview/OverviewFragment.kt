@@ -13,6 +13,8 @@ import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getPlayerInfo.ResponsePlayerInfo
 import com.example.cricdekho.databinding.FragmentOverviewBinding
 import com.example.cricdekho.ui.home.BaseFragment
+import com.example.cricdekho.ui.playerdetails.PlayerDetail
+import com.example.cricdekho.ui.playerdetails.PlayerDetailsFragment
 import com.example.cricdekho.ui.playerdetails.PlayerInfoViewModel
 import com.example.cricdekho.ui.playerdetails.overview.adapter.BattingStatsAdapter
 import com.example.cricdekho.ui.playerdetails.overview.adapter.BowlingStatsAdapter
@@ -55,9 +57,15 @@ class OverviewFragment : BaseFragment() {
 
     private fun setOnClickListener() {
         binding.apply {
-            viewAll1.setOnClickListener {  }
-            viewAll2.setOnClickListener {  }
-            viewAll3.setOnClickListener {  }
+            viewAll1.setOnClickListener {
+               PlayerDetail.playerDetailsFragment?.moveToNext()
+            }
+            viewAll2.setOnClickListener {
+                PlayerDetail.playerDetailsFragment?.moveToNext()
+            }
+            viewAll3.setOnClickListener {
+                PlayerDetail.playerDetailsFragment?.moveToNext()
+            }
         }
     }
 

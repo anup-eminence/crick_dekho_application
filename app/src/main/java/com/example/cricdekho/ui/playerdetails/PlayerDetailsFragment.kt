@@ -15,9 +15,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class PlayerDetailsFragment : BaseFragment() {
     private lateinit var binding: FragmentPlayerDetailsBinding
-    private lateinit var pdViewPagerAdapter: PDViewPagerAdapter
+    lateinit var pdViewPagerAdapter: PDViewPagerAdapter
     private lateinit var playerSlug: String
     private lateinit var playerName: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +42,7 @@ class PlayerDetailsFragment : BaseFragment() {
     }
 
     private fun initView() {
+        PlayerDetail.initFragment(this)
         binding.tabLayout.getTabAt(0)?.select()
         setToolBar()
         setViewPagerAdapter()
@@ -100,7 +102,6 @@ class PlayerDetailsFragment : BaseFragment() {
         })
     }
 
-
     companion object {
         @JvmStatic
         fun newInstance() =
@@ -108,5 +109,17 @@ class PlayerDetailsFragment : BaseFragment() {
                 arguments = Bundle().apply {
                 }
             }
+    }
+
+
+    fun moveToNext() {
+        binding.viewPager.currentItem = 1
+    }
+}
+
+object PlayerDetail {
+    var playerDetailsFragment : PlayerDetailsFragment?= null
+    fun initFragment(playerDetailsFragment: PlayerDetailsFragment)  {
+        this.playerDetailsFragment = playerDetailsFragment
     }
 }
