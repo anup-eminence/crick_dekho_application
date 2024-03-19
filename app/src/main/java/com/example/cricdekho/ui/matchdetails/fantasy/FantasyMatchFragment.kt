@@ -37,6 +37,8 @@ import com.example.cricdekho.ui.matchdetails.info.adapter.BenchTeam1Adapter
 import com.example.cricdekho.ui.matchdetails.info.adapter.BenchTeam2Adapter
 import com.example.cricdekho.ui.matchdetails.info.adapter.InfoTeam1Adapter
 import com.example.cricdekho.ui.matchdetails.info.adapter.InfoTeam2Adapter
+import com.example.cricdekho.util.hide
+import com.example.cricdekho.util.show
 
 class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerAdapterListener,
     InfoAdapter.InfoAdapterClickListener {
@@ -65,6 +67,8 @@ class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerA
     private lateinit var listAdapter3 : BenchPlayerListAdapter
     private lateinit var listAdapter4 : BenchPlayerListAdapter
 
+    private var toggle = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         /*arguments?.let {
@@ -83,10 +87,24 @@ class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerA
         setUpadpater()
         initTabAdapter()
         initTextColor()
+        changeTogel()
         MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner){
             if (it.isNotEmpty()) {
                 squad = it
                 initView()
+            }
+        }
+    }
+
+    private fun changeTogel() {
+        binding.playerLayout.setOnClickListener {
+            toggle = !toggle
+            if (toggle){
+                binding.playerData.show()
+                binding.toggleBtn.rotation = 180F
+            } else {
+                binding.playerData.hide()
+                binding.toggleBtn.rotation = 360F
             }
         }
     }
@@ -99,6 +117,7 @@ class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerA
         CurrentTheme.changeTextColor(binding.tvSuggestion,requireContext())
         CurrentTheme.changeTextColor(binding.tvSuggestionText,requireContext())
         CurrentTheme.changeTextColor(binding.tvPlayerStats,requireContext())
+        CurrentTheme.changeIconColor(binding.toggleBtn,requireContext())
 
     }
 

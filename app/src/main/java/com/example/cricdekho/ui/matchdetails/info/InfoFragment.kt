@@ -27,6 +27,8 @@ import com.example.cricdekho.ui.matchdetails.info.adapter.BenchTeam1Adapter
 import com.example.cricdekho.ui.matchdetails.info.adapter.BenchTeam2Adapter
 import com.example.cricdekho.ui.matchdetails.info.adapter.InfoTeam1Adapter
 import com.example.cricdekho.ui.matchdetails.info.adapter.InfoTeam2Adapter
+import com.example.cricdekho.util.hide
+import com.example.cricdekho.util.show
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -50,6 +52,9 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
     private lateinit var listAdapter3: BenchPlayerListAdapter
     private lateinit var listAdapter4: BenchPlayerListAdapter
 
+    private var toggle = false
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         /*arguments?.let {
@@ -68,6 +73,7 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setUpadpater()
         initThemeChange()
+        changeTogel()
         MatchDetailsFragment.matchDetailsData.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 squad = it
@@ -76,6 +82,19 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
             }
         }
         setOnClickListener()
+    }
+
+    private fun changeTogel() {
+        binding.playerLayout.setOnClickListener {
+            toggle = !toggle
+            if (toggle){
+                binding.playerData.show()
+                binding.toggleBtn.rotation = 180F
+            } else {
+                binding.playerData.hide()
+                binding.toggleBtn.rotation = 360F
+            }
+        }
     }
 
     private fun initThemeChange() {
@@ -95,6 +114,7 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
         CurrentTheme.changeTextColor(binding.txtVenue,requireContext())
         CurrentTheme.changeTextColor(binding.tvUmpires,requireContext())
         CurrentTheme.changeTextColor(binding.txtUmpires,requireContext())
+        CurrentTheme.changeIconColor(binding.toggleBtn,requireContext())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

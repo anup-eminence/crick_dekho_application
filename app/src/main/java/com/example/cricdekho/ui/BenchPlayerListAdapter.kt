@@ -13,6 +13,7 @@ import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getMatchDetails.BenchPlayer
 import com.example.cricdekho.data.model.getMatchDetails.Player
 import com.example.cricdekho.databinding.ItemInfoTeam1Binding
+import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.matchdetails.info.PlayerDiffUtils
 
 class BenchPlayerListAdapter : RecyclerView.Adapter<BenchPlayerListAdapter.InfoListViewHolder>() {
@@ -66,12 +67,7 @@ class BenchPlayerListAdapter : RecyclerView.Adapter<BenchPlayerListAdapter.InfoL
                 benchPlayerAdapterListener?.onBenchPlayerClick(item)
             }
         } else {
-            holder.binding.tvName.setTextColor(
-                ContextCompat.getColor(
-                    holder.binding.root.context,
-                    R.color.black
-                )
-            )
+            CurrentTheme.changeTextColor(holder.binding.tvName,holder.binding.root.context)
         }
     }
 
