@@ -16,7 +16,7 @@ import com.example.cricdekho.databinding.FragmentUpcomingBinding
 import com.example.cricdekho.ui.home.BaseFragment
 import com.example.cricdekho.ui.match.MatchesViewModel
 
-class UpcomingFragment : BaseFragment() {
+class UpcomingFragment : BaseFragment(), TabsAdapter.OnItemClick {
     private lateinit var binding: FragmentUpcomingBinding
     private lateinit var upcomingAdapter: UpcomingAdapter
     private lateinit var tabsAdapter: TabsAdapter
@@ -39,6 +39,7 @@ class UpcomingFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        setUpTabAdapter()
     }
 
     private fun initView() {
@@ -58,28 +59,21 @@ class UpcomingFragment : BaseFragment() {
         matchViewModel.dataUpcomingTabs.observe(viewLifecycleOwner, Observer { tabs ->
             tabsList.clear()
             tabsList.addAll(tabs)
-            setUpTabAdapter()
+            tabsAdapter.setData(tabs)
         })
     }
 
     private fun setUpTabAdapter() {
         tabsAdapter = TabsAdapter()
-        val recyclerViewState = binding.recyclerViewTabs.layoutManager?.onSaveInstanceState()
-        binding.recyclerViewTabs.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-        tabsAdapter.addAll(tabsList, false)
-        binding.recyclerViewTabs.adapter = tabsAdapter
-        tabsAdapter.notifyDataSetChanged()
-        binding.recyclerViewTabs.layoutManager?.onRestoreInstanceState(recyclerViewState)
-
-        tabsAdapter.setRecyclerViewItemClick { itemView, model ->
-            when (itemView.id) {
-                R.id.tvText -> {
-                    fetchUpcomingMatches(model.slug)
-                }
-            }
+        tabsAdapter.setOnTabItemClick(this@UpcomingFragment)
+        binding.recyclerViewTabs.apply {
+            layoutManager =  LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = tabsAdapter
         }
+    }
+
+    override fun onTabItemClick(tab: Tab) {
+        fetchUpcomingMatches(tab.slug)
     }
 
     private fun setUpAdapter() {

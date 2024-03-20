@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -12,18 +11,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getResultMatches.ResponseResultMatch
-import com.example.cricdekho.data.model.getResultMatches.Tab
+import com.example.cricdekho.data.model.getUpcomingMatches.Tab
 import com.example.cricdekho.databinding.FragmentResultBinding
 import com.example.cricdekho.ui.home.BaseFragment
 import com.example.cricdekho.ui.match.MatchesViewModel
+import com.example.cricdekho.ui.match.upcoming.TabsAdapter
 
-class ResultFragment : BaseFragment() {
+class ResultFragment : BaseFragment(), TabsAdapter.OnItemClick {
     private lateinit var binding: FragmentResultBinding
     private lateinit var resultAdapter: ResultAdapter
     private lateinit var tabsAdapter: TabsAdapter
     private val matchViewModel: MatchesViewModel by viewModels()
     private val responseResultMatch: MutableList<ResponseResultMatch> = mutableListOf()
-    private val tabsList: MutableList<Tab> = mutableListOf()
     private val tournamentSlug: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +40,7 @@ class ResultFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        setUpTabAdapter()
     }
 
     private fun initView() {
@@ -58,30 +58,22 @@ class ResultFragment : BaseFragment() {
             progressBarListener.hideProgressBar()
         })
         matchViewModel.dataResultTab.observe(viewLifecycleOwner, Observer { tabs ->
-            tabsList.clear()
-            tabsList.addAll(tabs)
-            setUpTabAdapter()
+            tabsAdapter.setData(tabs)
         })
     }
 
     private fun setUpTabAdapter() {
         tabsAdapter = TabsAdapter()
-        val recyclerViewState = binding.recyclerViewTabs.layoutManager?.onSaveInstanceState()
-        binding.recyclerViewTabs.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-        tabsAdapter.addAll(tabsList, true)
-        binding.recyclerViewTabs.adapter = tabsAdapter
-        tabsAdapter.notifyDataSetChanged()
-        binding.recyclerViewTabs.layoutManager?.onRestoreInstanceState(recyclerViewState)
-
-        tabsAdapter.setRecyclerViewItemClick { itemView, model ->
-            when (itemView.id) {
-                R.id.tvText -> {
-                    fetchResultMatches(model.slug)
-                }
-            }
+        tabsAdapter.setOnTabItemClick(this@ResultFragment)
+        binding.recyclerViewTabs.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = tabsAdapter
         }
+    }
+
+    override fun onTabItemClick(tab: Tab) {
+        fetchResultMatches(tab.slug)
     }
 
     private fun setUpResultMatchAdapter() {
@@ -97,7 +89,8 @@ class ResultFragment : BaseFragment() {
                 R.id.clItem -> {
                     val bundle = bundleOf("id" to model.id, "status" to model.status)
                     findNavController().navigate(
-                        R.id.action_matchesFragment_to_matchDetailsFragment, bundle)
+                        R.id.action_matchesFragment_to_matchDetailsFragment, bundle
+                    )
                 }
             }
         }

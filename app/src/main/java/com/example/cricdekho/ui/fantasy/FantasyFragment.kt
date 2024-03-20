@@ -18,7 +18,7 @@ import com.example.cricdekho.ui.home.BaseFragment
 import com.example.cricdekho.ui.match.MatchesViewModel
 import com.example.cricdekho.ui.match.upcoming.TabsAdapter
 
-class FantasyFragment : BaseFragment() {
+class FantasyFragment : BaseFragment(), TabsAdapter.OnItemClick {
     private lateinit var binding: FragmentFantasyBinding
     private lateinit var fantasyMatchesAdapter: FantasyMatchesAdapter
     private lateinit var tabsAdapter: TabsAdapter
@@ -40,6 +40,7 @@ class FantasyFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
+        setUpTabAdapter()
     }
 
     private fun initView() {
@@ -53,7 +54,7 @@ class FantasyFragment : BaseFragment() {
         matchViewModel.dataUpcomingTabs.observe(viewLifecycleOwner, Observer { tabs ->
             tabsList.clear()
             tabsList.addAll(tabs)
-            setUpTabAdapter()
+            tabsAdapter.setData(tabs)
         })
 
         matchViewModel.dataUpcomingMatch.observe(viewLifecycleOwner, Observer { matches ->
@@ -66,20 +67,17 @@ class FantasyFragment : BaseFragment() {
 
     private fun setUpTabAdapter() {
         tabsAdapter = TabsAdapter()
-        binding.recyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-        tabsAdapter.addAll(tabsList, false)
-        binding.recyclerView.adapter = tabsAdapter
-        tabsAdapter.notifyDataSetChanged()
-
-        tabsAdapter.setRecyclerViewItemClick { itemView, model ->
-            when (itemView.id) {
-                R.id.tvText -> {
-                    fetchUpcomingMatches(model.slug)
-                }
-            }
+        tabsAdapter.setOnTabItemClick(this@FantasyFragment)
+        binding.recyclerView.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = tabsAdapter
         }
+    }
+
+    override fun onTabItemClick(tab: Tab) {
+        fetchUpcomingMatches(tab.slug)
+        progressBarListener.showProgressBar(progressColor = R.color.red)
     }
 
     private fun setUpMatchAdapter() {

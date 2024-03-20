@@ -41,7 +41,7 @@ import com.example.cricdekho.util.hide
 import com.example.cricdekho.util.show
 
 class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerAdapterListener,
-    InfoAdapter.InfoAdapterClickListener {
+    InfoAdapter.InfoAdapterClickListener, TabsAdapter.OnItemClick {
     private lateinit var binding: FragmentFantasyMatchBinding
     private lateinit var infoTeam1Adapter: InfoTeam1Adapter
     private lateinit var infoTeam2Adapter: InfoTeam2Adapter
@@ -85,6 +85,7 @@ class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerA
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setUpadpater()
+        setUpTabAdapter()
         initTabAdapter()
         initTextColor()
         changeTogel()
@@ -186,7 +187,7 @@ class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerA
                Tab("Best Eco rate", "")
            )
        )
-       setUpTabAdapter()
+       tabsAdapter.setData(tabsList)
     }
 
     private fun setPlayerImages(squad: SquadX) {
@@ -249,20 +250,16 @@ class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerA
 
     private fun setUpTabAdapter() {
         tabsAdapter = TabsAdapter()
-        val recyclerViewState = binding.recyclerViewTabs.layoutManager?.onSaveInstanceState()
-        binding.recyclerViewTabs.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        tabsAdapter.setOnTabItemClick(this@FantasyMatchFragment)
+        binding.recyclerViewTabs.apply {
+            layoutManager =  LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = tabsAdapter
+        }
+    }
 
-        tabsAdapter.addAll(tabsList, true)
-        binding.recyclerViewTabs.adapter = tabsAdapter
-        binding.recyclerViewTabs.layoutManager?.onRestoreInstanceState(recyclerViewState)
-
-        tabsAdapter.setRecyclerViewItemClick { itemView, model ->
-            if (squad[0].match_status != "pre") {
-                when (itemView.id) {
-                    R.id.tvText -> handleTabSelection(model.name)
-                }
-            }
+    override fun onTabItemClick(tab: Tab) {
+        if (squad[0].match_status != "pre") {
+            handleTabSelection(tab.name)
         }
     }
 

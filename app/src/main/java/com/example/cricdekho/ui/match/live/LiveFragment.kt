@@ -18,7 +18,7 @@ import com.example.cricdekho.ui.home.BaseFragment
 import com.example.cricdekho.ui.match.MatchesViewModel
 import com.example.cricdekho.ui.match.upcoming.TabsAdapter
 
-class LiveFragment : BaseFragment() {
+class LiveFragment : BaseFragment(), TabsAdapter.OnItemClick {
     private lateinit var binding: FragmentLiveBinding
     private lateinit var liveAdapter: LiveAdapter
     private lateinit var tabsAdapter: TabsAdapter
@@ -41,6 +41,7 @@ class LiveFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
+        setUpTabAdapter()
     }
 
     override fun onResume() {
@@ -68,7 +69,7 @@ class LiveFragment : BaseFragment() {
         matchesViewModel.dataLiveTabs.observe(viewLifecycleOwner, Observer { tabs ->
             tabsList.clear()
             tabsList.addAll(tabs)
-            setUpTabAdapter()
+            tabsAdapter.setData(tabs)
         })
 
         matchesViewModel.observeLiveData.observe(viewLifecycleOwner) { data ->
@@ -83,22 +84,15 @@ class LiveFragment : BaseFragment() {
 
     private fun setUpTabAdapter() {
         tabsAdapter = TabsAdapter()
-        val recyclerViewState = binding.recyclerViewTabs.layoutManager?.onSaveInstanceState()
-        binding.recyclerViewTabs.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-        tabsAdapter.addAll(tabsList, false)
-        binding.recyclerViewTabs.adapter = tabsAdapter
-        tabsAdapter.notifyDataSetChanged()
-        binding.recyclerViewTabs.layoutManager?.onRestoreInstanceState(recyclerViewState)
-
-        tabsAdapter.setRecyclerViewItemClick { itemView, model ->
-            when (itemView.id) {
-                R.id.tvText -> {
-                    filterData(model.slug)
-                }
-            }
+        tabsAdapter.setOnTabItemClick(this@LiveFragment)
+        binding.recyclerViewTabs.apply {
+            layoutManager =  LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = tabsAdapter
         }
+    }
+
+    override fun onTabItemClick(tab: Tab) {
+        filterData(tab.slug)
     }
 
     private fun setUpLiveMatchAdapter() {
