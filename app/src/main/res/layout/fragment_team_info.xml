@@ -9,18 +9,19 @@
         tools:context=".ui.teaminfo.TeamInfoFragment">
 
         <com.google.android.material.tabs.TabLayout
+            style="@style/CustomTabLayoutStyle"
             android:id="@+id/tabLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:tabGravity="fill"
+            android:layout_marginHorizontal="40dp"
             android:background="@drawable/bg_white_shape50"
             app:tabTextAppearance="@style/TabLayoutTextStyle"
-            android:tabStripEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tabGravity="center"
-            app:tabIndicator="@null"
-            app:tabMode="scrollable"
+            app:tabMode="fixed"
             app:tabSelectedTextColor="@color/white"
             app:tabTextColor="@color/black" />
 

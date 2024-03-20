@@ -121,7 +121,7 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
     private fun initView() {
         if (squad[0].squad.isNullOrEmpty()) return
         println(">>>>>>>>>>>>>>>.squadd ${squad[0]}")
-        squadX.addAll(squad[0].squad)
+        squad[0].squad?.let { squadX.addAll(it) }
         if (squadX.isNotEmpty()) {
             setPlayerImages(squadX[0])
             setPlayerImages(squadX[1])
@@ -142,11 +142,15 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
         if (squad[0].match_status != "pre") {
             playerList.clear()
             if (squad.isNotEmpty()) {
-                squadX[0].players.let { playerList.addAll(it) }
+                squadX[0].players.let {
+                    if (it != null) {
+                        playerList.addAll(it)
+                    }
+                }
                 listAdapter.setData(playerList)
-                listAdapter2.setData(squadX[1].players)
-                listAdapter3.setData(squadX[0].bench_players)
-                listAdapter4.setData(squadX[1].bench_players)
+                squadX[1].players?.let { listAdapter2.setData(it) }
+                squadX[0].bench_players?.let { listAdapter3.setData(it) }
+                squadX[1].bench_players?.let { listAdapter4.setData(it) }
             }
             /*setUpTeam1Adapter()*/
             /* setUpTeam2Adapter()
@@ -172,8 +176,8 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
             }
             /*setUpBenchTeam1Adapter()
             setUpBenchTeam2Adapter()*/
-            listAdapter3.setData(squadX[0].bench_players)
-            listAdapter4.setData(squadX[1].bench_players)
+            squadX[0].bench_players?.let { listAdapter3.setData(it) }
+            squadX[1].bench_players?.let { listAdapter4.setData(it) }
         }
     }
 
@@ -321,14 +325,6 @@ class InfoFragment : Fragment(), InfoAdapter.InfoAdapterClickListener,
     }
 
 
-    companion object {
-        @JvmStatic
-        fun newInstance(squad: ArrayList<Squad>) = InfoFragment().apply {
-            arguments = Bundle().apply {
-                putParcelableArrayList("squad", ArrayList(squad))
-            }
-        }
-    }
 
     override fun onAdapterItemClick(player: Player) {
         val bundle = bundleOf("sk_slug" to player.sk_slug, "name" to player.name)

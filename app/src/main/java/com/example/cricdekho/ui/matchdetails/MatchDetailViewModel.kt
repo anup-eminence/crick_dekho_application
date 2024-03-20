@@ -33,8 +33,8 @@ class MatchDetailViewModel : ViewModel() {
 
     private val matchDetailsRepository = MatchDetailsRepository()
 
-    private val _dataCommentary = MutableLiveData<List<Commentary>>()
-    val dataCommentary: LiveData<List<Commentary>> get() = _dataCommentary
+    private val _dataCommentary = MutableLiveData<List<Commentary>?>()
+    val dataCommentary: MutableLiveData<List<Commentary>?> get() = _dataCommentary
 
     private val _mostRuns = MutableLiveData<ResponseMostRuns>()
     val mostRuns: LiveData<ResponseMostRuns> get() = _mostRuns
@@ -90,7 +90,7 @@ class MatchDetailViewModel : ViewModel() {
                                 }
                                 try {
                                     val squadResponse = Gson().fromJson(jsonData, Squad::class.java)
-                                    squadResponse.squad[0].playerImages = playerImages
+                                    squadResponse?.squad?.get(0)?.playerImages = playerImages
                                     _socketData.postValue(squadResponse)
 
                                 } catch (e: Exception) {
@@ -126,7 +126,7 @@ class MatchDetailViewModel : ViewModel() {
                 val gson = Gson()
                 val responseCommentary = gson.fromJson(responseBodyString, Squad::class.java)
                 Log.e("response", responseCommentary.toString())
-                _dataCommentary.postValue(responseCommentary.commentary)
+                _dataCommentary.postValue(responseCommentary?.commentary)
             } catch (e: Exception) {
                 Log.e("Exception_Commentary", e.message.toString())
             }
@@ -185,7 +185,7 @@ class MatchDetailViewModel : ViewModel() {
                     playerImages.add(PlayerImages(it.key,it.value))
                 }
                 if (data.data.squad.isNullOrEmpty().not()) {
-                    data.data.squad[0].playerImages = playerImages
+                    data.data?.squad?.get(0)?.playerImages = playerImages
                 }
                 _liveMatchScore.value = data
 

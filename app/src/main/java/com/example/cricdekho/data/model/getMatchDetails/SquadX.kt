@@ -6,9 +6,9 @@ import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class SquadX(
-    val bench_players: @RawValue List<BenchPlayer>,
+    val bench_players: @RawValue List<BenchPlayer>?,
     val impact_players: @RawValue Any,
-    val players: @RawValue List<Player>,
+    val players: @RawValue List<Player>?,
     val squad: List<String>,
     val substitute_players: @RawValue Any,
     val team: String,
@@ -16,5 +16,5 @@ data class SquadX(
     val team_id: Int,
     val team_shortname: String,
     val team_slug: String,
-    var playerImages: @RawValue List<PlayerImages>
+    var playerImages: @RawValue List<PlayerImages>?
 ) : Parcelable
