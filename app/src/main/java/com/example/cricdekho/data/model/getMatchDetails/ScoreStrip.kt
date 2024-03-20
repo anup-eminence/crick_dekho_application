@@ -1,5 +1,8 @@
 package com.example.cricdekho.data.model.getMatchDetails
 
+import android.os.Parcelable
+
+@kotlinx.parcelize.Parcelize
 data class ScoreStrip(
     val currently_batting: Boolean,
     val name: String,
@@ -11,4 +14,4 @@ data class ScoreStrip(
     val slug: String,
     val team_flag: String,
     val team_id: Int
-)
+) : Parcelable

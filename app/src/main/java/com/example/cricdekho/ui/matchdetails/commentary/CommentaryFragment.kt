@@ -107,21 +107,23 @@ class CommentaryFragment : BaseFragment() {
             if (it.isNotEmpty()) {
                 squad = it
                 initView()
-                if (squad[0].commentary.isNotEmpty()) {
+                if (squad[0].commentary?.isNotEmpty() == true) {
                     if (updateList) {
-                        commentary.addAll(it[0].commentary)
-                        if (it[0].now_batting.team.name.isNotEmpty()) {
+                        it[0].commentary?.let { it1 -> commentary.addAll(it1) }
+                        if (it[0].now_batting?.team?.name?.isNotEmpty() == true) {
                             setData()
                         } else {
                             hideViews()
                         }
-                        println(">>>>>>>>>>>>>>>>>.....data ${it[0].commentary.lastIndex}")
-                        updateCommentry(it[0].commentary)
+                        println(">>>>>>>>>>>>>>>>>.....data ${it[0].commentary?.lastIndex}")
+                        it[0].commentary?.let { it1 -> updateCommentry(it1) }
                         updateList = false
                     }
-                    if (commentaryListAdapter.oldList[0].timestamp < it[0].commentary[0].timestamp) {
-                        updateCommentry(it[0].commentary)
-                        if (it[0].now_batting.team.name.isNotEmpty()) {
+                    if (commentaryListAdapter.oldList[0].timestamp < (it[0].commentary?.get(0)?.timestamp
+                            ?: 0)
+                    ) {
+                        it[0].commentary?.let { it1 -> updateCommentry(it1) }
+                        if (it[0].now_batting?.team?.name?.isNotEmpty() == true) {
                             setData()
                         } else {
                             hideViews()
@@ -133,8 +135,10 @@ class CommentaryFragment : BaseFragment() {
         }
 
         matchDetailViewModel.dataCommentary.observe(viewLifecycleOwner, Observer {
-            commentary.addAll(it)
-            commentaryListAdapter.updateData(it)
+            if (it != null) {
+                commentary.addAll(it)
+                commentaryListAdapter.updateData(it)
+            }
             apiCallInProgress = false
             progressBarListener.hideProgressBar()
         })
@@ -168,8 +172,8 @@ class CommentaryFragment : BaseFragment() {
     }
 
     private fun initView() {
-        if (squad[0].commentary.isNotEmpty()) {
-            commentary.addAll(squad[0].commentary)
+        if (squad[0].commentary?.isNotEmpty() == true) {
+            squad[0].commentary?.let { commentary.addAll(it) }
             // commentaryAdapter.addAll(commentary,true)
             //  commentaryListAdapter.setCommentaryData(newlist)
         } else {
@@ -245,12 +249,12 @@ class CommentaryFragment : BaseFragment() {
                 }
             }
 
-            tvPlayer1.text = squad[0].now_batting.b1.name
-            tvR1.text = squad[0].now_batting.b1.stats.runs
-            tvB1.text = squad[0].now_batting.b1.stats.balls
-            tv4s1.text = squad[0].now_batting.b1.stats.fours
-            tv6s1.text = squad[0].now_batting.b1.stats.sixes
-            tvSR1.text = squad[0].now_batting.b1.stats.strike_rate.toString()
+            tvPlayer1.text = squad[0].now_batting?.b1?.name
+            tvR1.text = squad[0].now_batting?.b1?.stats?.runs
+            tvB1.text = squad[0].now_batting?.b1?.stats?.balls
+            tv4s1.text = squad[0].now_batting?.b1?.stats?.fours
+            tv6s1.text = squad[0].now_batting?.b1?.stats?.sixes
+            tvSR1.text = squad[0].now_batting?.b1?.stats?.strike_rate.toString()
 
             tvPlayer2.text = squad[0].now_batting.b2.name
             tvR2.text = squad[0].now_batting.b2.stats.runs
@@ -290,13 +294,4 @@ class CommentaryFragment : BaseFragment() {
         }
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(squad: ArrayList<Squad>) =
-            CommentaryFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelableArrayList("squad", ArrayList(squad))
-                }
-            }
-    }
 }

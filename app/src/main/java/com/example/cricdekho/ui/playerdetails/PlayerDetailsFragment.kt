@@ -83,9 +83,9 @@ class PlayerDetailsFragment : BaseFragment() {
         binding.viewPager.offscreenPageLimit = 3
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                tab?.view?.background = ContextCompat.getDrawable(
+               /* tab?.view?.background = ContextCompat.getDrawable(
                     requireContext(), R.drawable.bg_grey_shape
-                )
+                )*/
                 tab?.position?.let { binding.viewPager.currentItem = it }
             }
 
@@ -94,9 +94,9 @@ class PlayerDetailsFragment : BaseFragment() {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                tab?.view?.background = ContextCompat.getDrawable(
+               /* tab?.view?.background = ContextCompat.getDrawable(
                     requireContext(), R.drawable.bg_grey_shape
-                )
+                )*/
                 tab?.position?.let { binding.viewPager.currentItem = it }
             }
         })

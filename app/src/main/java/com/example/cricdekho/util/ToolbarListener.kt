@@ -1,5 +1,7 @@
 package com.example.cricdekho.util
 
+import com.example.cricdekho.data.model.getMatchDetails.Squad
+
 interface ToolbarListener {
     fun showToolBarMethod(
         title: String,
@@ -8,7 +10,8 @@ interface ToolbarListener {
         search: Boolean,
         setting: Boolean,
         back: Boolean,
-        share: Boolean
+        share: Boolean,
+        squad: Squad?=null
 
     )
 }

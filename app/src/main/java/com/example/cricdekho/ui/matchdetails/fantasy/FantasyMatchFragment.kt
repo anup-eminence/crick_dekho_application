@@ -146,7 +146,7 @@ class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerA
     private fun initView() {
         squadX.clear()
         if (squad[0].squad.isNullOrEmpty()) return
-        squadX.addAll(squad[0].squad)
+        squad[0].squad?.let { squadX.addAll(it) }
         if (squadX.isNotEmpty()) {
             setPlayerImages(squadX[0])
             setPlayerImages(squadX[1])
@@ -159,10 +159,10 @@ class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerA
             tvTeam2.text = squadX[1].team_shortname
         }
         if (squad[0].match_status != "pre") {
-            listAdapter.setData(squadX[0].players)
-            listAdapter2.setData(squadX[1].players)
-            listAdapter3.setData(squadX[0].bench_players)
-            listAdapter4.setData(squadX[1].bench_players)
+            squadX[0].players?.let { listAdapter.setData(it) }
+            squadX[1].players?.let { listAdapter2.setData(it) }
+            squadX[0].bench_players?.let { listAdapter3.setData(it) }
+            squadX[1].bench_players?.let { listAdapter4.setData(it) }
            /* setUpTeam1Adapter()
             setUpTeam2Adapter()
             setUpBenchTeam1Adapter()
@@ -343,14 +343,6 @@ class FantasyMatchFragment : BaseFragment(), BenchPlayerListAdapter.BenchPlayerA
         economyRateAdapter.notifyDataSetChanged()
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(squad: ArrayList<Squad>) = FantasyMatchFragment().apply {
-            arguments = Bundle().apply {
-                putParcelableArrayList("squad", ArrayList(squad))
-            }
-        }
-    }
 
     override fun onAdapterItemClick(player: Player) {
         val bundle = bundleOf("sk_slug" to player.sk_slug, "name" to player.name)

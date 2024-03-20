@@ -52,9 +52,9 @@ class MatchesFragment : Fragment() {
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                tab?.view?.background = ContextCompat.getDrawable(
+               /* tab?.view?.background = ContextCompat.getDrawable(
                     requireContext(), R.drawable.bg_grey_shape
-                )
+                )*/
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
