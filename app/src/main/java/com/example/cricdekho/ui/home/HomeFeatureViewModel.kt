@@ -8,9 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.cricdekho.data.model.getCricketMainTabs.ResponseHomeFeature
 import com.example.cricdekho.data.model.getCricketMatches.Data
 import com.example.cricdekho.data.model.getCricketMatches.ResponseHomeMatch
-import com.example.cricdekho.data.model.getCricketNews.ResponseCricketNews
 import com.example.cricdekho.data.model.getHomeNews.ResponseHomeNews
 import com.example.cricdekho.data.model.getHomeSidebarNews.ResponseLatestPopularNews
+import com.example.cricdekho.data.model.getSKNewsDetail.ResponseNewsDetails
 import com.example.cricdekho.data.remote.SocketManager
 import com.example.cricdekho.data.repository.HomeFeatureRepository
 import com.google.gson.Gson
@@ -34,8 +34,8 @@ class HomeFeatureViewModel : ViewModel() {
     private val _dataHomeNews = MutableLiveData<ResponseHomeNews>()
     val dataHomeNews: LiveData<ResponseHomeNews> get() = _dataHomeNews
 
-    private val _dataCricketNews = MutableLiveData<ResponseCricketNews>()
-    val dataCricketNews: LiveData<ResponseCricketNews> get() = _dataCricketNews
+    private val _dataNewsDetail = MutableLiveData<ResponseNewsDetails>()
+    val dataNewsDetail: LiveData<ResponseNewsDetails> get() = _dataNewsDetail
 
     private val _dataLatestPopularNews = MutableLiveData<ResponseLatestPopularNews>()
     val dataLatestPopularNews: LiveData<ResponseLatestPopularNews> get() = _dataLatestPopularNews
@@ -120,10 +120,10 @@ class HomeFeatureViewModel : ViewModel() {
 //        }
     }
 
-    fun getCricketNews(link: String) {
+    fun getSKNewsDetail(link: String) {
         viewModelScope.launch {
             try {
-                _dataCricketNews.value = homeFeatureRepository.getCricketNews(link)
+                _dataNewsDetail.postValue(homeFeatureRepository.getSKNewsDetail(link))
             } catch (e: Exception) {
                 e.printStackTrace()
             }

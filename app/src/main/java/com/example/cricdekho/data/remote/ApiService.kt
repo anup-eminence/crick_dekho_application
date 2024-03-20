@@ -2,13 +2,13 @@ package com.example.cricdekho.data.remote
 
 import com.example.cricdekho.data.model.getCricketMainTabs.ResponseHomeFeature
 import com.example.cricdekho.data.model.getCricketMatches.ResponseHomeMatch
-import com.example.cricdekho.data.model.getCricketNews.ResponseCricketNews
 import com.example.cricdekho.data.model.getHomeNews.ResponseHomeNews
 import com.example.cricdekho.data.model.getHomeSidebarNews.ResponseLatestPopularNews
 import com.example.cricdekho.data.model.getMatchDetails.LiveMatchScoreResponse
 import com.example.cricdekho.data.model.getPlayerInfo.ResponsePlayerInfo
 import com.example.cricdekho.data.model.getPlayerStats.ResponseStats
 import com.example.cricdekho.data.model.getPointsTable.ResponsePointsTable
+import com.example.cricdekho.data.model.getSKNewsDetail.ResponseNewsDetails
 import com.example.cricdekho.data.model.getSeriesBestEconomy.ResponseEconomyRate
 import com.example.cricdekho.data.model.getSeriesHighestStrikeRate.ResponseStrikeRate
 import com.example.cricdekho.data.model.getSeriesMostRuns.ResponseMostRuns
@@ -73,8 +73,8 @@ interface ApiService {
     @GET("getSeriesNews/{series_keeda_slug}")
     suspend fun getSeriesNews(@Path("series_keeda_slug") seriesKeedaSlug: String): ResponseTeamNews
 
-    @GET("getCricketNews")
-    suspend fun getCricketNews(@Query("id") link: String): ResponseCricketNews
+    @GET("getSKNewsDetail/{link}")
+    suspend fun getSKNewsDetail(@Path("link") link: String): ResponseNewsDetails
 
     @GET("getHomeSidebarNews")
     suspend fun getHomeSidebarNews(): ResponseLatestPopularNews

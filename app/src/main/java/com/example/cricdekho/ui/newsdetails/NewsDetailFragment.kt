@@ -1,14 +1,16 @@
 package com.example.cricdekho.ui.newsdetails
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.cricdekho.R
-import com.example.cricdekho.data.model.getCricketNews.ResponseCricketNews
+import com.example.cricdekho.data.model.getSKNewsDetail.ResponseNewsDetails
 import com.example.cricdekho.databinding.FragmentNewsDetailBinding
 import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.activity.HomeActivity
@@ -18,7 +20,7 @@ import com.example.cricdekho.ui.home.HomeFeatureViewModel
 class NewsDetailFragment : BaseFragment() {
     private lateinit var binding: FragmentNewsDetailBinding
     private val homeFeatureViewModel: HomeFeatureViewModel by viewModels()
-    private val responseCricketNews = ArrayList<ResponseCricketNews>()
+    private val responseNewsDetail = ResponseNewsDetails()
     private lateinit var link: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,26 +54,24 @@ class NewsDetailFragment : BaseFragment() {
     }
 
     private fun getCricketNews() {
-        homeFeatureViewModel.getCricketNews(link)
-        homeFeatureViewModel.dataCricketNews.observe(viewLifecycleOwner, Observer {
-            responseCricketNews.clear()
-            responseCricketNews.addAll(listOf(it))
-            progressBarListener.hideProgressBar()
-            setData()
-        })
-    }
+        val parts = link.split("/cricket/", limit = 2)
 
-    private fun setData() {
-        binding.apply {
-            Glide.with(requireContext()).load(responseCricketNews[0].data?.image).into(ivImage)
-            tvTitle.text = responseCricketNews[0].data?.title
-
-            var content: String = ""
-            responseCricketNews[0].data?.content?.forEach {
-                content += (it) + "\n\n\n"
+        homeFeatureViewModel.dataNewsDetail.observe(viewLifecycleOwner, Observer {
+            println(">>>>>>>>>>>>>>>>>>>>"+it)
+            binding.apply {
+                tvTitle.text = it?.data?.news?.title
+                Glide.with(requireContext()).load(it?.data?.news?.img).into(ivImage)
+                tvText.text =
+                    it.data?.news?.content?.let {
+                        HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                    }
             }
-            tvText.text = content
-        }
+
+            progressBarListener.hideProgressBar()
+        })
+
+        homeFeatureViewModel.getSKNewsDetail(parts.getOrNull(1).toString())
+
     }
 
     private fun setToolbar() {
