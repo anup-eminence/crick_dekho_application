@@ -26,10 +26,10 @@ class MatchDetailViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: L
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> InfoFragment.newInstance(squad)
-            1 -> FantasyMatchFragment.newInstance(squad)
-            2 -> CommentaryFragment.newInstance(squad)
-            3 -> ScoreCardFragment.newInstance(squad)
+            0 -> InfoFragment()
+            1 -> FantasyMatchFragment()
+            2 -> CommentaryFragment()
+            3 -> ScoreCardFragment()
             4 -> TrendingFragment()
             else -> throw IndexOutOfBoundsException("Invalid position $position")
         }

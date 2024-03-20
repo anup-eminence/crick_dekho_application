@@ -4,6 +4,7 @@ import MySharedPreferences
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.dolatkia.animatedThemeManager.AppTheme
 import com.dolatkia.animatedThemeManager.ThemeActivity
 import com.dolatkia.animatedThemeManager.ThemeManager
 import com.example.cricdekho.R
+import com.example.cricdekho.data.model.getMatchDetails.Squad
 import com.example.cricdekho.databinding.ActivityHomeBinding
 import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.theme.DarkTheme
@@ -145,7 +147,8 @@ class HomeActivity : ThemeActivity(), ToolbarListener, ProgressbarListener,
         search: Boolean,
         setting: Boolean,
         back: Boolean,
-        share: Boolean
+        share: Boolean,
+        squad: Squad?
     ) {
         val toolbarBinding = binding.layoutToolbar
         toolbarBinding.apply {
@@ -160,7 +163,7 @@ class HomeActivity : ThemeActivity(), ToolbarListener, ProgressbarListener,
             tvTitle.text = title
 
             ivBack.setOnClickListener {
-                navController.popBackStack(R.id.homeFragment, false)
+                navController.popBackStack()
                 showToolBarMethod(
                     title = "",
                     menu = true,
@@ -175,11 +178,16 @@ class HomeActivity : ThemeActivity(), ToolbarListener, ProgressbarListener,
                 navController.navigate(R.id.action_homeFragment_to_bottomSheet)
             }
             ivShare.setOnClickListener {
-                val intent = Intent(Intent.ACTION_SEND)
-                intent.setType("text/plain")
-                intent.putExtra(Intent.EXTRA_SUBJECT, "")
-                intent.putExtra(Intent.EXTRA_TEXT, "www.google.com")
-                startActivity(Intent.createChooser(intent, "Share Via"))
+                try {
+                    val intent = Intent(Intent.ACTION_SEND)
+                    intent.setType("text/plain")
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "")
+                    intent.putExtra(Intent.EXTRA_TEXT, "Watch ${squad?.title} Only At TejScore http://172.105.56.131/livecricket-score/${squad?.topic_slug}")
+                    startActivity(Intent.createChooser(intent, "Share Via"))
+                }catch (e : Exception){
+                    e.printStackTrace()
+                }
+
             }
         }
     }
@@ -196,7 +204,6 @@ class HomeActivity : ThemeActivity(), ToolbarListener, ProgressbarListener,
     }
 
     override fun changeTheme(theme: ThemeType) {
-        println(">>>>>>>>>>>>>>>>>fffffffff")
         when (theme) {
             ThemeType.LIGHT -> {
                 ThemeManager.instance.changeTheme(LightTheme(), binding.progressBar)

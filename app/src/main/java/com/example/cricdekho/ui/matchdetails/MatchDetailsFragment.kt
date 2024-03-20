@@ -86,22 +86,20 @@ class MatchDetailsFragment : BaseFragment() {
     }
 
     private fun setOnClickListener() {
-        println(">>>>>>>>>>....dfklnlmf;ldkf")
         if (responseSquad.isEmpty()) return
-        if (responseSquad[0].score_strip[0].slug.isNullOrEmpty().not()) {
+        if (responseSquad[0].score_strip?.get(0)?.slug.isNullOrEmpty().not()) {
             binding.tvTitle1.setOnClickListener {
-                val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip[0].slug, "series_keeda_slug" to responseSquad[0].series_keeda_slug)
+                val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip?.get(0)?.slug, "series_keeda_slug" to responseSquad[0].series_keeda_slug)
                 findNavController().navigate(
                     R.id.action_matchDetailsFragment_to_teamInfoFragment, bundle
                 )
             }
         }
 
-        println(">>>>>>>>>..jnfkjn ${responseSquad[0].score_strip[1].slug}")
 
-        if (responseSquad[0].score_strip[1].slug.isNullOrEmpty().not()) {
+        if (responseSquad[0].score_strip?.get(1)?.slug.isNullOrEmpty().not()) {
             binding.tvTitle2.setOnClickListener {
-                val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip[1].slug, "series_keeda_slug" to responseSquad[0].series_keeda_slug)
+                val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip?.get(1)?.slug, "series_keeda_slug" to responseSquad[0].series_keeda_slug)
                 findNavController().navigate(
                     R.id.action_matchDetailsFragment_to_teamInfoFragment, bundle
                 )
@@ -177,9 +175,9 @@ class MatchDetailsFragment : BaseFragment() {
         binding.viewPager.offscreenPageLimit = 4
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                tab?.view?.background = ContextCompat.getDrawable(
+              /*  tab?.view?.background = ContextCompat.getDrawable(
                     requireContext(), R.drawable.bg_grey_shape
-                )
+                )*/
                 tab?.position?.let { binding.viewPager.currentItem = it }
             }
 
@@ -188,9 +186,9 @@ class MatchDetailsFragment : BaseFragment() {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                tab?.view?.background = ContextCompat.getDrawable(
+                /*tab?.view?.background = ContextCompat.getDrawable(
                     requireContext(), R.drawable.bg_grey_shape
-                )
+                )*/
                 tab?.position?.let { binding.viewPager.currentItem = it }
             }
         })
@@ -205,7 +203,8 @@ class MatchDetailsFragment : BaseFragment() {
             search = false,
             setting = false,
             back = true,
-            share = true
+            share = true,
+            squad = responseSquad[0]
         )
     }
 
@@ -224,14 +223,14 @@ class MatchDetailsFragment : BaseFragment() {
 
     private fun setMatchData() {
         binding.apply {
-            tvTitle1.text = responseSquad[0].score_strip[0].name
-            tvTitle2.text = responseSquad[0].score_strip[1].name
+            tvTitle1.text = responseSquad[0].score_strip?.get(0)?.name
+            tvTitle2.text = responseSquad[0].score_strip?.get(1)?.name
 
-            if( responseSquad[0].score_strip[0].slug.isNullOrEmpty()){
+            if( responseSquad[0].score_strip?.get(0)?.slug.isNullOrEmpty()){
                 CurrentTheme.changeTextColor(tvTitle1,requireContext())
             }
 
-            if( responseSquad[0].score_strip[1].slug.isNullOrEmpty()){
+            if( responseSquad[0].score_strip?.get(1)?.slug.isNullOrEmpty()){
                 CurrentTheme.changeTextColor(tvTitle2,requireContext())
             }
             CurrentTheme.changeTextColor(tvRuns1,requireContext())
@@ -239,17 +238,17 @@ class MatchDetailsFragment : BaseFragment() {
             CurrentTheme.changeTextColor(tvDecision,requireContext())
             CurrentTheme.changeTextColor(tvPlayer,requireContext())
 
-            tvRuns1.text = responseSquad[0].score_strip[0].score
-            Glide.with(requireContext()).load(responseSquad[0].score_strip[0].team_flag)
+            tvRuns1.text = responseSquad[0].score_strip?.get(0)?.score
+            Glide.with(requireContext()).load(responseSquad[0].score_strip?.get(0)?.team_flag)
                 .placeholder(R.drawable.ic_team_default).into(ivFlag1)
-            tvRuns2.text = responseSquad[0].score_strip[1].score
-            Glide.with(requireContext()).load(responseSquad[0].score_strip[1].team_flag)
+            tvRuns2.text = responseSquad[0].score_strip?.get(1)?.score
+            Glide.with(requireContext()).load(responseSquad[0].score_strip?.get(1)?.team_flag)
                 .placeholder(R.drawable.ic_team_default).into(ivFlag2)
             if (responseSquad[0].match_status != "pre") {
                 tvDecision.text = responseSquad[0].info
-                if (responseSquad[0].player_of_match.player_name.isNotEmpty()) {
+                if (responseSquad[0].player_of_match?.player_name?.isNotEmpty() == true) {
                     tvPlayer.text =
-                        "Player of the Match: ${responseSquad[0].player_of_match.player_name}"
+                        "Player of the Match: ${responseSquad[0].player_of_match?.player_name}"
                 } else tvPlayer.visibility = View.GONE
             } else {
                 setCountDownTimer(responseSquad[0].datetime.toLong())

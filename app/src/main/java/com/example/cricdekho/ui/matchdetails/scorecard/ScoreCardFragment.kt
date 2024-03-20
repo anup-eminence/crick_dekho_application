@@ -87,10 +87,10 @@ class ScoreCardFragment : Fragment(), ScoreCardNewAdapter.ScoreCardListener {
     }
 
     private fun initView() {
-        if (squad[0].innings.isNotEmpty()) {
+        if (squad[0].innings?.isNotEmpty() == true) {
             innings.clear()
             inningTab.clear()
-            innings.addAll(squad[0].innings)
+            squad[0].innings?.let { innings.addAll(it) }
             for (i in innings) {
                 inningTab.add(InningTab(i.innings_no, i.name))
             }
@@ -141,27 +141,20 @@ class ScoreCardFragment : Fragment(), ScoreCardNewAdapter.ScoreCardListener {
 
     private fun updateDataInRecyclerView(it : List<Squad>,inningPos: Int) {
         val innings = it[0].innings
-        if (innings.isEmpty()) return
+        if (innings != null) {
+            if (innings.isEmpty()) return
+        }
         binding.apply {
             txtTotalScore.text =
-                "${innings[inningPos].runs}/${innings[inningPos].wickets} (${innings[inningPos].overs})"
-            tvExtrasTxt1.text = innings[inningPos].extras
+                "${innings?.get(inningPos)?.runs}/${innings?.get(inningPos)?.wickets} (${innings?.get(inningPos)?.overs})"
+            tvExtrasTxt1.text = innings?.get(inningPos)?.extras
             tvExtrasTxt2.text =
-                "(b ${innings[inningPos].bye}, lb ${innings[inningPos].legbye}, nb ${innings[inningPos].noball}, w ${innings[inningPos].wide})"
+                "(b ${innings?.get(inningPos)?.bye}, lb ${innings?.get(inningPos)?.legbye}, nb ${innings?.get(inningPos)?.noball}, w ${innings?.get(inningPos)?.wide})"
         }
-        totalScoreNewAdapter.setData(innings[inningPos].batting)
-        bowlersNewAdapter.setData(innings[inningPos].bowling)
-        wicketsNewAdapter.setData(innings[inningPos].fall_of_wickets_array)
+        innings?.get(inningPos)?.let { it1 -> totalScoreNewAdapter.setData(it1.batting) }
+        innings?.get(inningPos)?.let { it1 -> bowlersNewAdapter.setData(it1.bowling) }
+        innings?.get(inningPos)?.let { it1 -> wicketsNewAdapter.setData(it1.fall_of_wickets_array) }
 
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(squad: ArrayList<Squad>) = ScoreCardFragment().apply {
-            arguments = Bundle().apply {
-                putParcelableArrayList("squad", ArrayList(squad))
-            }
-        }
     }
 
     override fun onInningTabClick(inningTab: InningTab) {

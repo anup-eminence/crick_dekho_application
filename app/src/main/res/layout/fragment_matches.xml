@@ -9,17 +9,18 @@
         tools:context=".ui.match.MatchesFragment">
 
         <com.google.android.material.tabs.TabLayout
+            style="@style/CustomTabLayoutStyle"
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/bg_white_shape50"
+            app:tabTextAppearance="@style/TabLayoutTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tabGravity="fill"
-            app:tabIndicator="@null"
             app:tabMode="fixed"
+            android:layout_marginHorizontal="40dp"
             app:tabSelectedTextColor="@color/white"
             app:tabTextColor="@color/black" />
 

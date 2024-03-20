@@ -35,7 +35,7 @@ class HomeMatchAdapter : EasyAdapter<Data, ItemHomeBinding>(R.layout.item_home) 
             if (model.status.lowercase() == "live") {
                 tvLive.visibility = View.VISIBLE
             } else {
-                tvLive.visibility = View.GONE
+                tvLive.visibility = View.INVISIBLE
             }
 
             if (model.t1_score.isEmpty() || model.t1_score == "") {

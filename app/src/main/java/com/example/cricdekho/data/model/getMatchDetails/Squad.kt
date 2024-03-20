@@ -5,22 +5,21 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
-@Parcelize
 data class Squad(
     val datetime: Int,
-    val squad: List<SquadX>,
+    val squad: List<SquadX>?,
 
-    val score_strip: @RawValue List<ScoreStrip>,
-    val player_of_match: @RawValue PlayerOfMatch,
-    val innings: List<Innings>,
-    val commentary: @RawValue List<Commentary>,
-    val message: String,
+    val score_strip: @RawValue List<ScoreStrip>?,
+    val player_of_match: @RawValue PlayerOfMatch?,
+    val innings: List<Innings>?,
+    val commentary: @RawValue List<Commentary>?,
+    val message: String?,
 
     val now_batting: @RawValue NowBatting,
     val now_bowling: @RawValue NowBowling,
 
-    val away_team: String,
-    val day: String,
+    val away_team: String?,
+    val day: String?,
     val day_remaining_over: String,
     val description: String,
     val endtime: Int,
@@ -54,4 +53,4 @@ data class Squad(
     val win_type_id: String,
     val winner_team: String,
     val auto_commentary: Boolean
-) : Parcelable
+)

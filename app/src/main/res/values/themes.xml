@@ -24,6 +24,16 @@
         <item name="android:tabStripEnabled">false</item>
     </style>
 
+    <style name="CustomTabLayoutStyle" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorGravity">stretch</item>
+        <item name="tabIndicatorAnimationDuration">2500</item>
+        <item name="tabIndicatorAnimationMode">elastic</item>
+        <item name="tabUnboundedRipple">true</item>
+        <item name="tabIndicatorFullWidth">true</item>
+        <item name="tabIndicator">@drawable/bg_grey_shape</item>
+        <item name="tabIndicatorColor">@null</item>
+    </style>
+
     <style name="Theme.BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/grey</item>
     </style>
