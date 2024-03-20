@@ -32,8 +32,8 @@ class MatchesViewModel : ViewModel() {
     val dataResultMatch: LiveData<MutableList<ResponseResultMatch>> get() = _dataResultMatch
 
     private val _dataResultTabs =
-        MutableLiveData<MutableList<com.example.cricdekho.data.model.getResultMatches.Tab>>()
-    val dataResultTab: LiveData<MutableList<com.example.cricdekho.data.model.getResultMatches.Tab>> get() = _dataResultTabs
+        MutableLiveData<MutableList<Tab>>()
+    val dataResultTab: LiveData<MutableList<Tab>> get() = _dataResultTabs
 
     private val _dataUpcomingMatch = MutableLiveData<MutableList<ResponseUpcomingMatch>>()
     val dataUpcomingMatch: LiveData<MutableList<ResponseUpcomingMatch>> get() = _dataUpcomingMatch
@@ -166,11 +166,11 @@ class MatchesViewModel : ViewModel() {
 //                    Log.e("json_object", jsonObject.toString())
 
                     val matchesObjectTab = jsonObject?.getJSONObject("data")?.getJSONArray("tabs")
-                    val resultMatchesTabs: MutableList<com.example.cricdekho.data.model.getResultMatches.Tab> =
+                    val resultMatchesTabs: MutableList<Tab> =
                         gson.fromJson(
                             matchesObjectTab.toString(),
                             object :
-                                TypeToken<MutableList<com.example.cricdekho.data.model.getResultMatches.Tab>>() {}.type
+                                TypeToken<MutableList<Tab>>() {}.type
                         )
 
                     val dateKeys =
