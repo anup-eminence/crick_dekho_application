@@ -1,10 +1,10 @@
 package com.example.cricdekho.ui.home.adapter
 
+import android.os.Build
 import android.text.TextUtils
-import android.text.method.LinkMovementMethod
 import android.text.method.ScrollingMovementMethod
 import android.view.View
-import androidx.core.content.ContextCompat
+import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.example.cricdekho.R
 import com.example.cricdekho.data.model.getCricketMatches.Data
@@ -13,9 +13,12 @@ import com.example.cricdekho.theme.CurrentTheme
 import easyadapter.dc.com.library.EasyAdapter
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class HomeMatchAdapter : EasyAdapter<Data, ItemHomeBinding>(R.layout.item_home) {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBind(binding: ItemHomeBinding, model: Data) {
         binding.apply {
             Glide.with(root.context).load(model.t1_flag).placeholder(R.drawable.ic_team_default).into(ivFlag1)
@@ -39,7 +42,21 @@ class HomeMatchAdapter : EasyAdapter<Data, ItemHomeBinding>(R.layout.item_home) 
             }
 
             if (model.t1_score.isEmpty() || model.t1_score == "") {
-                tvRuns1.text = convertDateFormat(model.date)
+                val currentDate = LocalDate.now()
+                val dF = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                val nextDay = currentDate.plusDays(1)
+
+                when (model.date) {
+                    currentDate.format(dF) -> {
+                        tvRuns1.text = root.context.getString(R.string.today)
+                    }
+                    nextDay.format(dF) -> {
+                        tvRuns1.text = root.context.getString(R.string.tomorrow)
+                    }
+                    else -> {
+                        tvRuns1.text = convertDateFormat(model.date)
+                    }
+                }
             } else {
                 tvRuns1.text = model.t1_score
             }

@@ -13,8 +13,8 @@ import com.example.cricdekho.data.model.getSeriesBestEconomy.ResponseEconomyRate
 import com.example.cricdekho.data.model.getSeriesHighestStrikeRate.ResponseStrikeRate
 import com.example.cricdekho.data.model.getSeriesMostRuns.ResponseMostRuns
 import com.example.cricdekho.data.model.getSeriesMostWickets.ResponseMostWickets
-import com.example.cricdekho.data.model.getSeriesNews.ResponseTeamNews
 import com.example.cricdekho.data.model.getTeamInfo.ResponseTeamInfo
+import com.example.cricdekho.data.model.getTeamNews.ResponseTeamNews
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.GET
@@ -70,8 +70,8 @@ interface ApiService {
     @GET("getHomeNews")
     suspend fun getHomeNews(): ResponseHomeNews
 
-    @GET("getSeriesNews/{series_keeda_slug}")
-    suspend fun getSeriesNews(@Path("series_keeda_slug") seriesKeedaSlug: String): ResponseTeamNews
+    @GET("getteamNews/{team_slug}")
+    suspend fun getTeamNews(@Path("team_slug") tournamentSlug: String): ResponseTeamNews
 
     @GET("getSKNewsDetail/{link}")
     suspend fun getSKNewsDetail(@Path("link") link: String): ResponseNewsDetails

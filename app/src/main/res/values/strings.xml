@@ -125,5 +125,7 @@
     <string name="tournament_stats">Tournament Stats</string>
     <string name="batting_statistics">Batting Statistics</string>
     <string name="tournament">Tournament</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
 
 </resources>

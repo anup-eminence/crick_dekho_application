@@ -10,8 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cricdekho.R
-import com.example.cricdekho.data.model.getSeriesNews.NewsItem
-import com.example.cricdekho.data.model.getSeriesNews.ResponseTeamNews
+import com.example.cricdekho.data.model.getTeamNews.NewsItem
+import com.example.cricdekho.data.model.getTeamNews.ResponseTeamNews
 import com.example.cricdekho.databinding.FragmentTeamNewsBinding
 import com.example.cricdekho.ui.home.BaseFragment
 import com.example.cricdekho.ui.teaminfo.TeamInfoViewModel
@@ -21,12 +21,12 @@ class TeamNewsFragment : BaseFragment(), TeamNewsAdapter.NewsAdapterClickListene
     private val teamInfoViewModel: TeamInfoViewModel by viewModels()
     private lateinit var teamNewsAdapter: TeamNewsAdapter
     private var responseTeamNews: ArrayList<ResponseTeamNews>? = ArrayList()
-    private lateinit var seriesKeedaSlug: String
+    private lateinit var tournamentSlug: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            seriesKeedaSlug = it.getString("series_keeda_slug").toString()
+            tournamentSlug = it.getString("tournament_slug").toString()
         }
     }
 
@@ -44,11 +44,11 @@ class TeamNewsFragment : BaseFragment(), TeamNewsAdapter.NewsAdapterClickListene
 
     private fun initView() {
         progressBarListener.showProgressBar()
-        getSeriesNews()
+        getTeamNews()
     }
 
-    private fun getSeriesNews() {
-        teamInfoViewModel.getSeriesNews(seriesKeedaSlug)
+    private fun getTeamNews() {
+        teamInfoViewModel.getTeamNews(tournamentSlug)
         teamInfoViewModel.teamNews.observe(viewLifecycleOwner, Observer {
             responseTeamNews?.clear()
             responseTeamNews?.addAll(listOf(it))
@@ -73,9 +73,9 @@ class TeamNewsFragment : BaseFragment(), TeamNewsAdapter.NewsAdapterClickListene
 
     companion object {
         @JvmStatic
-        fun newInstance(seriesKeedaSlug: String) = TeamNewsFragment().apply {
+        fun newInstance(tournamentSlug: String) = TeamNewsFragment().apply {
             arguments = Bundle().apply {
-                putString("series_keeda_slug", seriesKeedaSlug)
+                putString("tournament_slug", tournamentSlug)
             }
         }
     }

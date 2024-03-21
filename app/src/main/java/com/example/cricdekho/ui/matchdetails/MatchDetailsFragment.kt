@@ -61,7 +61,7 @@ class MatchDetailsFragment : BaseFragment() {
         matchDetailViewModel.errorCaught.observe(viewLifecycleOwner){
             if (it){
                 progressBarListener.hideProgressBar()
-                requireContext().showToast("Something Went Wrong!")
+                //requireContext().showToast("Something Went Wrong!")
             }
         }
 
@@ -89,7 +89,7 @@ class MatchDetailsFragment : BaseFragment() {
         if (responseSquad.isEmpty()) return
         if (responseSquad[0].score_strip?.get(0)?.slug.isNullOrEmpty().not()) {
             binding.tvTitle1.setOnClickListener {
-                val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip?.get(0)?.slug, "series_keeda_slug" to responseSquad[0].series_keeda_slug)
+                val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip?.get(0)?.slug)
                 findNavController().navigate(
                     R.id.action_matchDetailsFragment_to_teamInfoFragment, bundle
                 )
@@ -99,7 +99,7 @@ class MatchDetailsFragment : BaseFragment() {
 
         if (responseSquad[0].score_strip?.get(1)?.slug.isNullOrEmpty().not()) {
             binding.tvTitle2.setOnClickListener {
-                val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip?.get(1)?.slug, "series_keeda_slug" to responseSquad[0].series_keeda_slug)
+                val bundle = bundleOf("tournament_slug" to responseSquad[0].score_strip?.get(1)?.slug)
                 findNavController().navigate(
                     R.id.action_matchDetailsFragment_to_teamInfoFragment, bundle
                 )

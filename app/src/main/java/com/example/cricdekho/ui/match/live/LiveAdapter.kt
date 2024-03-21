@@ -21,8 +21,8 @@ class LiveAdapter : EasyAdapter<CricketMatch, ItemScheduleBinding>(R.layout.item
             CurrentTheme.changeTextColor(tvRuns1,root.context)
             CurrentTheme.changeTextColor(tvRuns2,root.context)
 
-            tvTitle1.text = model.t1_key
-            tvTitle2.text = model.t2_key
+            tvTitle1.text = model.t1
+            tvTitle2.text = model.t2
             tvRuns1.text = model.t1_score
             tvRuns2.text = model.t2_score
             tvMatch.text = model.event

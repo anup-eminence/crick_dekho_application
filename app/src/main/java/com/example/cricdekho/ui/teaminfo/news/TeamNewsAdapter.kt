@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.cricdekho.data.model.getSeriesNews.NewsItem
+import com.example.cricdekho.data.model.getTeamNews.NewsItem
 import com.example.cricdekho.databinding.ItemExtraNewsBinding
 
 class TeamNewsAdapter(private var newsItem: List<NewsItem?>?) :

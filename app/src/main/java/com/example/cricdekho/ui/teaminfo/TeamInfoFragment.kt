@@ -16,13 +16,11 @@ class TeamInfoFragment : BaseFragment() {
     private lateinit var binding: FragmentTeamInfoBinding
     private lateinit var teamInfoViewPagerAdapter: TeamInfoViewPagerAdapter
     private lateinit var tournamentSlug: String
-    private lateinit var seriesKeedaSlug: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             tournamentSlug = it.getString("tournament_slug").toString()
-            seriesKeedaSlug = it.getString("series_keeda_slug").toString()
         }
     }
 
@@ -59,7 +57,7 @@ class TeamInfoFragment : BaseFragment() {
 
     private fun setViewPagerAdapter() {
         teamInfoViewPagerAdapter = TeamInfoViewPagerAdapter(
-            requireActivity().supportFragmentManager, lifecycle, tournamentSlug, seriesKeedaSlug
+            requireActivity().supportFragmentManager, lifecycle, tournamentSlug
         )
         binding.viewPager.adapter = teamInfoViewPagerAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cricdekho.data.model.getSeriesNews.ResponseTeamNews
+import com.example.cricdekho.data.model.getTeamNews.ResponseTeamNews
 import com.example.cricdekho.data.model.getTeamInfo.ResponseTeamInfo
 import com.example.cricdekho.data.repository.TeamInfoRepository
 import kotlinx.coroutines.launch
@@ -28,10 +28,10 @@ class TeamInfoViewModel : ViewModel() {
         }
     }
 
-    fun getSeriesNews(seriesKeedaSlug: String) {
+    fun getTeamNews(tournamentSlug: String) {
         viewModelScope.launch {
             try {
-                _teamNews.value = teamInfoRepository.getSeriesNews(seriesKeedaSlug)
+                _teamNews.value = teamInfoRepository.getTeamNews(tournamentSlug)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
