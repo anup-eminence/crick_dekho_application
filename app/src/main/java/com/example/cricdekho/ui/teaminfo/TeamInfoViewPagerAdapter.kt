@@ -10,7 +10,7 @@ import com.example.cricdekho.ui.teaminfo.news.TeamNewsFragment
 import com.example.cricdekho.ui.teaminfo.squad.SquadFragment
 
 class TeamInfoViewPagerAdapter(
-    fragmentManager: FragmentManager, lifecycle: Lifecycle, private val tournamentSlug: String, private val seriesKeedaSlug: String
+    fragmentManager: FragmentManager, lifecycle: Lifecycle, private val tournamentSlug: String
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     override fun getItemCount(): Int {
@@ -20,7 +20,7 @@ class TeamInfoViewPagerAdapter(
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> AboutTeamFragment.newInstance(tournamentSlug)
-            1 -> TeamNewsFragment.newInstance(seriesKeedaSlug)
+            1 -> TeamNewsFragment.newInstance(tournamentSlug)
             2 -> SquadFragment.newInstance(tournamentSlug)
             else -> throw IndexOutOfBoundsException("Invalid position $position")
         }
