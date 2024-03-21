@@ -47,6 +47,9 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
     private lateinit var homeExtraNewsAdapter: HomeExtraNewsAdapter
     private var selectedTextView: TextView? = null
 
+    var scrollX = 0
+    var scrollY = 0
+
     private lateinit var homeViewModel: HomeFeatureViewModel
     private val homeFeatureViewModel: HomeFeatureViewModel by viewModels()
 
@@ -214,6 +217,9 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
     override fun onResume() {
         super.onResume()
         SocketManager.connect()
+        binding.nestedScroll.post {
+            binding.nestedScroll.scrollTo(scrollX, scrollY)
+        }
     }
 
     private fun setUpMatchAdapter() {
@@ -319,7 +325,15 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
     override fun onPause() {
         super.onPause()
         SocketManager.disconnect()
+        scrollX = binding.nestedScroll.scrollX
+        scrollY = binding.nestedScroll.scrollY
         println(">>>>>>>>>>>onpausecalled ")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("scrollX", scrollX)
+        outState.putInt("scrollY", scrollY)
     }
 
     override fun onDestroy() {

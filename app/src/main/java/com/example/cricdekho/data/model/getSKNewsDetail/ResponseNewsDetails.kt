@@ -13,7 +13,7 @@ data class 	ResponseNewsDetails(
 
 data class Data(
 
-	@field:SerializedName("News")
+	@field:SerializedName("news")
 	val news: News? = null
 )
 
