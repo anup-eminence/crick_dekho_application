@@ -73,7 +73,11 @@
     <fragment
         android:id="@+id/playerDetailsFragment"
         android:name="com.example.cricdekho.ui.playerdetails.PlayerDetailsFragment"
-        android:label="PlayerDetailsFragment" />
+        android:label="PlayerDetailsFragment" >
+        <action
+            android:id="@+id/action_playerDetailsFragment_to_newsDetailFragment"
+            app:destination="@id/newsDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/statsFragment"
         android:name="com.example.cricdekho.ui.playerdetails.stats.StatsFragment"

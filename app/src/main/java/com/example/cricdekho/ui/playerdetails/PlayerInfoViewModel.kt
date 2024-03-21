@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cricdekho.data.model.getPlayerInfo.ResponsePlayerInfo
 import com.example.cricdekho.data.model.getPlayerStats.ResponseStats
+import com.example.cricdekho.data.model.getTeamNews.ResponseTeamNews
 import com.example.cricdekho.data.repository.PlayerInfoRepository
 import kotlinx.coroutines.launch
 
@@ -17,6 +18,9 @@ class PlayerInfoViewModel : ViewModel() {
 
     private val _playerStats = MutableLiveData<ResponseStats>()
     val playerStats: LiveData<ResponseStats> get() = _playerStats
+
+    private val _playerNews = MutableLiveData<ResponseTeamNews>()
+    val playerNews: LiveData<ResponseTeamNews> get() = _playerNews
 
     fun getPlayerInfo(playerSlug: String) {
         viewModelScope.launch {
@@ -32,6 +36,16 @@ class PlayerInfoViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 _playerStats.value = playerInfoRepository.getPlayerStats(playerSlug)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun getPlayerNews(playerSlug: String) {
+        viewModelScope.launch {
+            try {
+                _playerNews.value = playerInfoRepository.getPlayerNews(playerSlug)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

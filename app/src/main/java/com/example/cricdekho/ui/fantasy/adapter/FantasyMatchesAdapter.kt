@@ -42,10 +42,10 @@ class FantasyMatchesAdapter :
             val hours = TimeUnit.SECONDS.toHours(differenceInSeconds)
             val minutes =
                 TimeUnit.SECONDS.toMinutes(differenceInSeconds % TimeUnit.HOURS.toSeconds(1))
-            if (hours.toInt() != 0 && minutes.toInt() != 0) {
-                "Lineups ${hours}h : ${minutes}m left"
+            if (hours == 0L && minutes <= 0L) {
+               ""
             } else {
-                ""
+                "Lineups ${hours}h : ${minutes}m left"
             }
         } else {
             "$daysLeft days left"

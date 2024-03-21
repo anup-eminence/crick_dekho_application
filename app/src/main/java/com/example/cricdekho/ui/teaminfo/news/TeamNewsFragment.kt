@@ -14,19 +14,23 @@ import com.example.cricdekho.data.model.getTeamNews.NewsItem
 import com.example.cricdekho.data.model.getTeamNews.ResponseTeamNews
 import com.example.cricdekho.databinding.FragmentTeamNewsBinding
 import com.example.cricdekho.ui.home.BaseFragment
+import com.example.cricdekho.ui.playerdetails.PlayerInfoViewModel
 import com.example.cricdekho.ui.teaminfo.TeamInfoViewModel
 
 class TeamNewsFragment : BaseFragment(), TeamNewsAdapter.NewsAdapterClickListener {
     private lateinit var binding: FragmentTeamNewsBinding
     private val teamInfoViewModel: TeamInfoViewModel by viewModels()
+    private val playerInfoViewModel: PlayerInfoViewModel by viewModels()
     private lateinit var teamNewsAdapter: TeamNewsAdapter
     private var responseTeamNews: ArrayList<ResponseTeamNews>? = ArrayList()
     private lateinit var tournamentSlug: String
+    private lateinit var type: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             tournamentSlug = it.getString("tournament_slug").toString()
+            type = it.getString("type").toString()
         }
     }
 
@@ -44,12 +48,26 @@ class TeamNewsFragment : BaseFragment(), TeamNewsAdapter.NewsAdapterClickListene
 
     private fun initView() {
         progressBarListener.showProgressBar()
-        getTeamNews()
+        if (type == "team") {
+            getTeamNews()
+        } else {
+            getPlayerNews()
+        }
     }
 
     private fun getTeamNews() {
         teamInfoViewModel.getTeamNews(tournamentSlug)
         teamInfoViewModel.teamNews.observe(viewLifecycleOwner, Observer {
+            responseTeamNews?.clear()
+            responseTeamNews?.addAll(listOf(it))
+            progressBarListener.hideProgressBar()
+            setUpNewsAdapter()
+        })
+    }
+
+    private fun getPlayerNews() {
+        playerInfoViewModel.getPlayerNews(tournamentSlug)
+        playerInfoViewModel.playerNews.observe(viewLifecycleOwner, Observer {
             responseTeamNews?.clear()
             responseTeamNews?.addAll(listOf(it))
             progressBarListener.hideProgressBar()
@@ -66,16 +84,23 @@ class TeamNewsFragment : BaseFragment(), TeamNewsAdapter.NewsAdapterClickListene
 
     override fun onAdapterItemClick(item: NewsItem) {
         val bundle = bundleOf("link" to item.link)
-        findNavController().navigate(
-            R.id.action_teamInfoFragment_to_newsDetailFragment, bundle
-        )
+        if (type == "team") {
+            findNavController().navigate(
+                R.id.action_teamInfoFragment_to_newsDetailFragment, bundle
+            )
+        } else {
+            findNavController().navigate(
+                R.id.action_playerDetailsFragment_to_newsDetailFragment, bundle
+            )
+        }
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(tournamentSlug: String) = TeamNewsFragment().apply {
+        fun newInstance(tournamentSlug: String, type: String) = TeamNewsFragment().apply {
             arguments = Bundle().apply {
                 putString("tournament_slug", tournamentSlug)
+                putString("type", type)
             }
         }
     }

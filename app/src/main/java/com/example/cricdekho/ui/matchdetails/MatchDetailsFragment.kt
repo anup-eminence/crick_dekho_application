@@ -277,8 +277,13 @@ class MatchDetailsFragment : BaseFragment() {
                 val hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
                 val minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) % 60
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60
-                binding.tvPlayer.text =
-                    String.format("Starts in %02d hr %02d m %02d s", hours, minutes, seconds)
+
+                if (hours <= 24) {
+                    binding.tvPlayer.text =
+                        String.format("Starts in %02d hr %02d m %02d s", hours, minutes, seconds)
+                } else {
+                    binding.tvPlayer.isVisible = false
+                }
             }
 
             override fun onFinish() {

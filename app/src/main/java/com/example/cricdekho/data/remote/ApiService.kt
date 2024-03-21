@@ -73,6 +73,9 @@ interface ApiService {
     @GET("getteamNews/{team_slug}")
     suspend fun getTeamNews(@Path("team_slug") tournamentSlug: String): ResponseTeamNews
 
+    @GET("getPlayerNews/{player_slug}")
+    suspend fun getPlayerNews(@Path("player_slug") playerSlug: String): ResponseTeamNews
+
     @GET("getSKNewsDetail/{link}")
     suspend fun getSKNewsDetail(@Path("link") link: String): ResponseNewsDetails
 

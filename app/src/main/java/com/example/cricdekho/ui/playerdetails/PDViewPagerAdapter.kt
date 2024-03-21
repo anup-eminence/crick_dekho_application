@@ -1,13 +1,13 @@
 package com.example.cricdekho.ui.playerdetails
 
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.cricdekho.ui.matchdetails.TrendingFragment
 import com.example.cricdekho.ui.playerdetails.overview.OverviewFragment
 import com.example.cricdekho.ui.playerdetails.stat.PlayerStat
-import com.example.cricdekho.ui.playerdetails.stats.StatsFragment
+import com.example.cricdekho.ui.teaminfo.news.TeamNewsFragment
 
 class PDViewPagerAdapter(
     fragmentManager: FragmentManager, lifecycle: Lifecycle,
@@ -23,7 +23,7 @@ class PDViewPagerAdapter(
         return when (position) {
             0 -> OverviewFragment.newInstance(playerSlug)
             1 -> PlayerStat.newInstance(playerSlug,playerName)
-            2 -> TrendingFragment()
+            2 -> TeamNewsFragment.newInstance(playerSlug,"player")
             else -> throw IndexOutOfBoundsException("Invalid position $position")
         }
     }
