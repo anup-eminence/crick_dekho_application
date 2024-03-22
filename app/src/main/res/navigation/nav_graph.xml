@@ -35,11 +35,18 @@
         <action
             android:id="@+id/action_fantasyFragment_to_matchDetailsFragment"
             app:destination="@id/matchDetailsFragment" />
+        <action
+            android:id="@+id/action_fantasyFragment_to_bottomSheet"
+            app:destination="@id/bottomSheet" />
     </fragment>
     <fragment
         android:id="@+id/videosFragment"
         android:name="com.example.cricdekho.ui.video.VideosFragment"
-        android:label="VideosFragment" />
+        android:label="VideosFragment" >
+        <action
+            android:id="@+id/action_videosFragment_to_bottomSheet"
+            app:destination="@id/bottomSheet" />
+    </fragment>
     <fragment
         android:id="@+id/matchDetailsFragment"
         android:name="com.example.cricdekho.ui.matchdetails.MatchDetailsFragment"
@@ -61,6 +68,9 @@
         <action
             android:id="@+id/action_matchesFragment_to_matchDetailsFragment"
             app:destination="@id/matchDetailsFragment" />
+        <action
+            android:id="@+id/action_matchesFragment_to_bottomSheet"
+            app:destination="@id/bottomSheet" />
     </fragment>
     <dialog
         android:id="@+id/bottomSheet"

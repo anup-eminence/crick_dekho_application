@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cricdekho.data.model.getHomeNews.DataItem
 import com.example.cricdekho.databinding.ItemExtraNewsBinding
-import com.example.cricdekho.databinding.ItemHomeNewsBinding
 import com.example.cricdekho.theme.CurrentTheme
+import com.example.cricdekho.util.showToast
 import easyadapter.dc.com.library.EasyAdapter
 
 class HomeExtraNewsAdapter(private var newsItem: List<DataItem?>?) :
@@ -68,7 +68,11 @@ class HomeExtraNewsAdapter(private var newsItem: List<DataItem?>?) :
         }
 
         holder.binding.root.setOnClickListener {
-            extraNewsAdapterClickListener?.onAdapterItemClick(item!!)
+            if (item?.isLiveNews != true) {
+                extraNewsAdapterClickListener?.onAdapterItemClick(item!!)
+            } else {
+                holder.binding.root.context?.showToast("Not Clickable")
+            }
         }
     }
 

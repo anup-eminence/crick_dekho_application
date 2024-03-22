@@ -32,5 +32,8 @@ data class DataItem(
 	val title: String? = null,
 
 	@field:SerializedName("type")
-	val type: String? = null
+	val type: String? = null,
+
+	@field:SerializedName("isLiveNews")
+	val isLiveNews: Boolean? = null
 )

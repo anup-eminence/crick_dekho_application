@@ -64,6 +64,7 @@ class HomeActivity : ThemeActivity(), ToolbarListener, ProgressbarListener,
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setBottomNavigation()
+        setToolbar()
         showSideDrawer()
         settingDialog = SettingUI()
         settingDialog.setLister(this@HomeActivity)
@@ -140,6 +141,19 @@ class HomeActivity : ThemeActivity(), ToolbarListener, ProgressbarListener,
         }
     }
 
+    private fun setToolbar() {
+        val yourActivity = this as? HomeActivity
+        yourActivity?.showToolBarMethod(
+            title = "",
+            menu = true,
+            logo = true,
+            search = true,
+            setting = true,
+            back = false,
+            share = false
+        )
+    }
+
     override fun showToolBarMethod(
         title: String,
         menu: Boolean,
@@ -175,7 +189,12 @@ class HomeActivity : ThemeActivity(), ToolbarListener, ProgressbarListener,
                 )
             }
             ivSearch.setOnClickListener {
-                navController.navigate(R.id.action_homeFragment_to_bottomSheet)
+                when (binding.bottomNav.selectedItemId) {
+                    R.id.nav_home -> { navController.navigate(R.id.action_homeFragment_to_bottomSheet) }
+                    R.id.nav_video -> { navController.navigate(R.id.action_videosFragment_to_bottomSheet) }
+                    R.id.nav_fantasy -> { navController.navigate(R.id.action_fantasyFragment_to_bottomSheet) }
+                    R.id.nav_match -> { navController.navigate(R.id.action_matchesFragment_to_bottomSheet) }
+                }
             }
             ivShare.setOnClickListener {
                 try {

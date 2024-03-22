@@ -1,7 +1,6 @@
 package com.example.cricdekho.ui.newsdetails
 
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.cricdekho.R
-import com.example.cricdekho.data.model.getSKNewsDetail.ResponseNewsDetails
 import com.example.cricdekho.databinding.FragmentNewsDetailBinding
 import com.example.cricdekho.theme.CurrentTheme
 import com.example.cricdekho.ui.activity.HomeActivity
@@ -20,7 +18,6 @@ import com.example.cricdekho.ui.home.HomeFeatureViewModel
 class NewsDetailFragment : BaseFragment() {
     private lateinit var binding: FragmentNewsDetailBinding
     private val homeFeatureViewModel: HomeFeatureViewModel by viewModels()
-    private val responseNewsDetail = ResponseNewsDetails()
     private lateinit var link: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +41,6 @@ class NewsDetailFragment : BaseFragment() {
         CurrentTheme.changeTextColor(binding.tvTitle,requireContext())
         CurrentTheme.changeTextColor(binding.tvTime,requireContext())
         CurrentTheme.changeTextColor(binding.tvText,requireContext())
-
     }
 
     private fun initView() {
@@ -54,10 +50,7 @@ class NewsDetailFragment : BaseFragment() {
     }
 
     private fun getCricketNews() {
-        val parts = link.split("/cricket/", limit = 2)
-
         homeFeatureViewModel.dataNewsDetail.observe(viewLifecycleOwner, Observer {
-            println(">>>>>>>>>>>>>>>>>>>>"+it)
             binding.apply {
                 tvTitle.text = it?.data?.news?.title
                 Glide.with(requireContext()).load(it?.data?.news?.img).into(ivImage)
@@ -66,12 +59,9 @@ class NewsDetailFragment : BaseFragment() {
                         HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
                     }
             }
-
             progressBarListener.hideProgressBar()
         })
-
-        homeFeatureViewModel.getSKNewsDetail(parts.getOrNull(1).toString())
-
+        homeFeatureViewModel.getSKNewsDetail(link)
     }
 
     private fun setToolbar() {
@@ -103,14 +93,5 @@ class NewsDetailFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         removeToolBar()
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            NewsDetailFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
     }
 }

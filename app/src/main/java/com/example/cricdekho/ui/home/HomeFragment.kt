@@ -35,6 +35,7 @@ import com.example.cricdekho.ui.home.adapter.HomeTrendingAdapter
 import com.example.cricdekho.util.DotsIndicatorDecoration
 import com.example.cricdekho.util.hide
 import com.example.cricdekho.util.show
+import com.example.cricdekho.util.showToast
 
 
 class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, HomeExtraNewsAdapter.ExtraNewsAdapterClickListener,
@@ -159,10 +160,14 @@ class HomeFragment : BaseFragment(), HomeNewsAdapter.NewsAdapterClickListener, H
             tvTime.text = responseHomeNews[0].data?.get(0)?.time
 
             ivImage.setOnClickListener {
-                val bundle = bundleOf("link" to responseHomeNews[0].data?.get(0)?.link)
-                findNavController().navigate(
-                    R.id.action_homeFragment_to_newsDetailFragment, bundle
-                )
+                if(responseHomeNews[0].data?.get(0)?.isLiveNews != true) {
+                    val bundle = bundleOf("link" to responseHomeNews[0].data?.get(0)?.link)
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_newsDetailFragment, bundle
+                    )
+                } else {
+                    context?.showToast("Not Clickable")
+                }
             }
         }
     }
